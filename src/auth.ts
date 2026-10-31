@@ -3,6 +3,7 @@ import { z } from "zod";
 import { db } from "./db.js";
 import { config } from "./config.js";
 import { digest, token, equal, fail } from "./common.js";
+import { verifyPassword, dummyHash } from "./password.js";
 export type Actor = { workspaceId: string; email: string; sessionId: string };
 export function checkOrigin(req: Request) {
   if (req.get("origin") !== config.PANEL_ORIGIN)
@@ -36,6 +37,46 @@ export async function login(req: Request, res: Response) {
         expiresAt: new Date(Date.now() + 7 * 86400000),
       },
     });
+  });
+  res.cookie("unsta_session", secret, {
+    httpOnly: true,
+    secure: config.COOKIE_SECURE === "true",
+    sameSite: "lax",
+    path: "/",
+    maxAge: 7 * 86400000,
+  });
+  res.json({
+    workspace_id: session.workspaceId,
+    email: session.email,
+    csrf_token: csrf,
+  });
+}
+export async function credentialLogin(req: Request, res: Response) {
+  checkOrigin(req);
+  const body = z
+    .object({
+      email: z.string().trim().toLowerCase().email().max(254),
+      password: z.string().min(1).max(128),
+    })
+    .strict()
+    .parse(req.body);
+  const account = await db.account.findUnique({ where: { email: body.email } });
+  const valid = await verifyPassword(
+    body.password,
+    account?.passwordHash ?? dummyHash,
+  );
+  if (!account || !valid)
+    fail(401, "CREDENTIALS", "Email o contraseña incorrectos");
+  const secret = token(),
+    csrf = token();
+  const session = await db.session.create({
+    data: {
+      tokenHash: digest(secret),
+      csrfHash: digest(csrf),
+      workspaceId: account.workspaceId,
+      email: account.email,
+      expiresAt: new Date(Date.now() + 7 * 86400000),
+    },
   });
   res.cookie("unsta_session", secret, {
     httpOnly: true,

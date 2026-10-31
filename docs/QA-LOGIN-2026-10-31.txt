@@ -1,0 +1,11 @@
+Login permanente — 31/10/2026
+
+Backend: tabla Account mediante migración aditiva; email normalizado y hash scrypt con sal aleatoria. POST /v1/auth/login conserva sesiones HttpOnly, origen exacto, CSRF y vencimiento de siete días. Límite de diez intentos por minuto; error genérico para usuario desconocido y contraseña incorrecta. Invitaciones antiguas se conservan por compatibilidad, fuera de la interfaz.
+
+Creación de cuenta: npm run account:create -- email, una sola vez. Genera contraseña aleatoria y archivo privado 0600 en .local; sin mostrar contraseña en logs ni sobrescribir cuentas existentes. Cuenta inicial solicitada creada en la base local. Producción requiere aplicar la migración y migrar la base o crear la cuenta allí.
+
+Verificación: typecheck y build backend aprobados; 34 pruebas de contrato y 35 de API aprobadas. Nueva prueba cubre sal por contraseña, verificación válida/inválida, email desconocido, normalización, origen, sesión, CSRF al cerrar sesión, reingreso y rate limit. Se corrigió expectativa del test de logout para usar el HTTP 204 existente.
+
+Frontend: build y 7 pruebas aprobadas. Chrome: logo y nombre institucional, password oculto inicialmente, mostrar/ocultar, error genérico, navegación a Solicitar acceso, contacto mailto correcto, regreso al ingreso, login real y cierre de sesión. No se envió correo. Evidencias privadas en frontend/.local/qa-login.
+
+Alcance: sin registro público, roles diferenciados ni cambio/recuperación de contraseña autoservicio. Solicitar acceso muestra contacto de Koi para revisión manual.

@@ -9,10 +9,7 @@ import { token, digest } from "../src/common.js";
 import { config } from "../src/config.js";
 import { importKnowledge, knowledge } from "../src/knowledge.js";
 import { recoverExpired, dispatchOnce } from "../src/worker.js";
-import {
-  prepareContext,
-  prepareResponse,
-} from "../agent-contract/runtime.mjs";
+import { prepareContext, prepareResponse } from "../agent-contract/runtime.mjs";
 const app = createApp();
 let a: any, b: any;
 const metadata = () => ({
@@ -1263,20 +1260,99 @@ test("demanda y detalle incluyen más de 200 contactos sin truncar ni desalinear
   );
 });
 
-
 test("el resumen se solicita desde el primer turno y puede llegar después de tomar el lead", async () => {
   const who = a;
-  const x = await create(who), c = await claim(x.turn.id);
-  const context = (await service("get", `/turns/${x.turn.id}/context`, undefined, c).expect(200)).body;
+  const x = await create(who),
+    c = await claim(x.turn.id);
+  const context = (
+    await service("get", `/turns/${x.turn.id}/context`, undefined, c).expect(
+      200,
+    )
+  ).body;
   assert.equal(context.summary_due, true);
-  await service("post", `/turns/${x.turn.id}/complete`, completion(x,c), c).expect(200);
-  await mutation(who,"post", `/conversations/${x.conversation.id}/control`, {action:"take"}).expect(200);
-  const result = await service("put", `/turns/${x.turn.id}/summary`, {
-    attempt_id:c.attempt_id, control_version:1, through_sequence:1,
-    resumen:{intereses:["Psicología"], proximo_paso:"El equipo debe responder las dudas pendientes"}
-  },c).expect(200);
-  assert.equal(result.body.saved,true);
-  const detail = (await who.agent.get(`/v1/demo/conversations/${x.conversation.id}`).expect(200)).body;
-  assert.equal(detail.conversation.mode,"humano");
-  assert.deepEqual(detail.conversation.summary.intereses,["Psicología"]);
+  await service(
+    "post",
+    `/turns/${x.turn.id}/complete`,
+    completion(x, c),
+    c,
+  ).expect(200);
+  await mutation(who, "post", `/conversations/${x.conversation.id}/control`, {
+    action: "take",
+  }).expect(200);
+  const result = await service(
+    "put",
+    `/turns/${x.turn.id}/summary`,
+    {
+      attempt_id: c.attempt_id,
+      control_version: 1,
+      through_sequence: 1,
+      resumen: {
+        intereses: ["Psicología"],
+        proximo_paso: "El equipo debe responder las dudas pendientes",
+      },
+    },
+    c,
+  ).expect(200);
+  assert.equal(result.body.saved, true);
+  const detail = (
+    await who.agent
+      .get(`/v1/demo/conversations/${x.conversation.id}`)
+      .expect(200)
+  ).body;
+  assert.equal(detail.conversation.mode, "humano");
+  assert.deepEqual(detail.conversation.summary.intereses, ["Psicología"]);
+});
+
+test("login de credenciales reutilizable, errores genéricos, origen, sesión y límite de intentos", async () => {
+  const { hashPassword, verifyPassword } = await import("../src/password.js");
+  const password = "Prueba-unicamente-credenciales-2026";
+  const hash = await hashPassword(password);
+  assert.notEqual(hash, await hashPassword(password));
+  assert.equal(await verifyPassword(password, hash), true);
+  assert.equal(await verifyPassword("incorrecta", hash), false);
+  await db.account.create({
+    data: {
+      email: "login@example.test",
+      passwordHash: hash,
+      workspaceId: a.workspaceId,
+    },
+  });
+  const server = createApp();
+  const client = request.agent(server);
+  const signIn = (
+    email: string,
+    pass = password,
+    origin = config.PANEL_ORIGIN,
+  ) =>
+    client
+      .post("/v1/auth/login")
+      .set("Origin", origin)
+      .send({ email, password: pass });
+  await signIn(
+    "login@example.test",
+    password,
+    "https://otro.example.test",
+  ).expect(403);
+  const wrong = await signIn("login@example.test", "incorrecta").expect(401);
+  const unknown = await signIn("noexiste@example.test").expect(401);
+  assert.deepEqual(wrong.body, unknown.body);
+  const accepted = await signIn(" LOGIN@EXAMPLE.TEST ").expect(200);
+  assert.equal(accepted.body.workspace_id, a.workspaceId);
+  assert.equal(accepted.body.passwordHash, undefined);
+  assert.match(accepted.headers["set-cookie"][0], /HttpOnly/);
+  await client.get("/v1/demo/me").expect(200);
+  await client
+    .post("/v1/demo/logout")
+    .set("Origin", config.PANEL_ORIGIN)
+    .expect(403);
+  await client
+    .post("/v1/demo/logout")
+    .set("Origin", config.PANEL_ORIGIN)
+    .set("X-CSRF-Token", accepted.body.csrf_token)
+    .expect(204);
+  await client.get("/v1/demo/me").expect(401);
+  await signIn("login@example.test").expect(200);
+  for (let i = 0; i < 5; i++)
+    await signIn("login@example.test", "incorrecta").expect(401);
+  await signIn("login@example.test", "incorrecta").expect(429);
 });

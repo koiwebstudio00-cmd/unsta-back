@@ -11,7 +11,8 @@
     "scripts/migrate.ts",
     "scripts/share-workspace.ts",
     "agent-contract/runtime.mjs",
-    "agent-contract/knowledge.mjs"
+    "agent-contract/knowledge.mjs",
+    "scripts/account-create.ts"
   ],
   "exclude": [
     "test",

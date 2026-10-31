@@ -225,3 +225,11 @@ model Incident {
  code String
  createdAt DateTime @default(now())
 }
+
+model Account {
+ id String @id @default(uuid()) @db.Uuid
+ email String @unique
+ passwordHash String
+ workspaceId String @db.Uuid
+ createdAt DateTime @default(now())
+}

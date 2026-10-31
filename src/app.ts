@@ -13,7 +13,13 @@ import { randomUUID } from "node:crypto";
 import { db, scoped } from "./db.js";
 import { config } from "./config.js";
 import { HttpError, digest, canonical } from "./common.js";
-import { login, sessionAuth, serviceAuth, type Actor } from "./auth.js";
+import {
+  login,
+  credentialLogin,
+  sessionAuth,
+  serviceAuth,
+  type Actor,
+} from "./auth.js";
 import * as crm from "./crm.js";
 import * as agent from "./agent.js";
 import * as events from "./events.js";
@@ -55,6 +61,21 @@ export function createApp() {
       legacyHeaders: false,
     }),
     login,
+  );
+  app.post(
+    "/v1/auth/login",
+    rateLimit({
+      windowMs: 60000,
+      limit: 10,
+      standardHeaders: "draft-8",
+      legacyHeaders: false,
+      message: {
+        error: {
+          message: "Demasiados intentos. Esperá un minuto y volvé a intentar.",
+        },
+      },
+    }),
+    credentialLogin,
   );
   const panel = express.Router();
   panel.use(sessionAuth);

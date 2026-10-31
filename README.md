@@ -13,11 +13,11 @@ npm run db:generate
 docker compose --env-file .env.local up -d
 npm run db:migrate
 npm run build
-npm run invite
+npm run account:create -- tu-correo@tu-dominio.com
 npm start
 ```
 
-En la instalación trasladada, `.env.local`, base e invitaciones ya existen: conservarlos. `demo:setup` no sobrescribe configuración existente. `invite` guarda un código de acceso privado en `.local`; no lo envía por correo.
+En la instalación trasladada, `.env.local`, base e invitaciones ya existen: conservarlos. `demo:setup` no sobrescribe configuración existente. `account:create` crea una cuenta persistente y guarda sus credenciales iniciales en un archivo privado de `.local`; no las envía por correo.
 
 El frontend se configura desde su propio repositorio. Localmente usa esta API en http://127.0.0.1:4100 y se abre en http://localhost:3000.
 
@@ -35,7 +35,8 @@ El frontend se configura desde su propio repositorio. Localmente usa esta API en
 | `npm run workflows:build` | Regenerar JSON locales de n8n. No publica ni contacta n8n. |
 | `npm run workflows:check` | Verificar generación reproducible y estructura. |
 | `npm run db:migrate:prod` | Ejecutar migraciones desde el build, con rol de migración. |
-| `npm run invite` | Crear invitación en la base configurada, tras compilar. |
+| `npm run account:create -- email` | Crear una cuenta persistente con contraseña inicial aleatoria. |
+| `npm run invite` | Mecanismo anterior de invitaciones; mantenido por compatibilidad, fuera del login del panel. |
 
 Las pruebas de API exigen PostgreSQL local y nunca vacían `unsta_demo`. Para CI se debe crear ese servicio y sus variables aisladas.
 
@@ -87,22 +88,23 @@ Guías de n8n en `docs/importar-n8n.md`. Estado de la separación y validación 
 
 ## Ingresar al panel desplegado
 
-El acceso actual es por invitación privada, no por contraseña ni registro público.
+El panel usa email y contraseña. Las cuentas se guardan en PostgreSQL con un hash scrypt y sal aleatoria; la contraseña nunca se entrega al navegador como parte de una respuesta de sesión.
 
-1. Configurar el dominio HTTPS del frontend: `APP_ORIGIN` en frontend y `PANEL_ORIGIN` en backend deben ser idénticos; `COOKIE_SECURE=true` en ambos. Configurar `API_URL` en frontend con el origen accesible del backend.
-2. Con la base migrada, abrir la terminal del contenedor del BACKEND en Dokploy (directorio `/app`) y ejecutar:
+1. Configurar `APP_ORIGIN` del frontend igual a `PANEL_ORIGIN` del backend, y `COOKIE_SECURE=true` en ambos. Configurar `API_URL` del frontend con la URL accesible del backend.
+2. Aplicar las migraciones con `npm run db:migrate:prod` antes de iniciar esta versión. La migración de cuentas es aditiva y conserva los leads y sesiones existentes.
+3. Una sola vez por persona, abrir la terminal del contenedor backend en Dokploy, desde `/app`, y ejecutar:
 
    ```sh
-   npm run invite -- tu-correo@tu-dominio.com
+   npm run account:create -- tu-correo@tu-dominio.com
    ```
 
-3. El comando indica un archivo `.local/invite-….local.json`. Abrir exactamente ese archivo en la terminal privada y copiar únicamente el valor `token`, sin comillas.
-4. Abrir el dominio del FRONTEND y pegar el token en «Código de invitación».
+4. Abrir el archivo privado `.local/account-….local.json` que indica el comando y guardar el email y la contraseña en un gestor de contraseñas. El comando no sobrescribe cuentas existentes. El archivo no se incluye en Git ni en imágenes; copiarlo antes de reemplazar el contenedor.
+5. Entrar al dominio del frontend y usar esas credenciales. Se pueden reutilizar desde otro navegador y después de cerrar sesión; ya no se requieren códigos de invitación. La sesión dura siete días.
 
-No se envía correo automáticamente y el email no se verifica: es una identificación del evaluador. Cada código permite un ingreso, vence a las 24 horas y crea una sesión de siete días en ese navegador. Para entrar desde otro navegador, cerrar sesión o volver a ingresar tras vencer la sesión, generar otro código. No hay un código universal compartido.
+«Solicitar acceso» lleva a `/solicitar-acceso`, con contacto de Koi y enlace de correo a koi.webstudio00@gmail.com. No envía emails automáticamente ni habilita registro público. Las nuevas cuentas se crean con el comando anterior, después de revisar la solicitud.
 
-Todas las invitaciones acceden a los mismos datos de UNSTA mediante `UNSTA_WORKSPACE_ID`; mantener ese UUID al trasladar la base. Una base nueva comienza sin los leads locales: desplegar código no copia los datos. Las invitaciones deben crearse en la base del despliegue; las locales solo sirven allí si se migra también esa base y siguen válidas.
+Todas las cuentas creadas acceden al espacio institucional `UNSTA_WORKSPACE_ID`. Conservar ese UUID al trasladar la base. Desplegar código no copia los datos locales: migrar PostgreSQL si se quieren conservar leads y cuentas.
 
-Los archivos de invitación son privados, no van a Git ni se publican. Copiar el token antes de reemplazar el contenedor: `.local` no tiene persistencia garantizada en producción. El registro de invitación y la sesión sí se guardan en PostgreSQL.
+Las sesiones conservan cookies HttpOnly, comprobación de origen y CSRF. El endpoint de login limita los intentos y devuelve un error genérico para email inexistente o contraseña incorrecta. El endpoint anterior de invitaciones permanece por compatibilidad, pero el frontend ya no lo utiliza.
 
-Este mecanismo sirve para una demo privada desplegada. El producto operativo aún no implementa cuentas individuales con contraseña/SSO, recuperación ni permisos diferenciados de administrador y operador: todos los evaluadores tienen acceso compartido al CRM.
+Alcance actual: cuentas con acceso compartido al CRM; no hay roles diferenciados, SSO ni recuperación/cambio de contraseña autoservicio. La página de solicitud también sirve como contacto de ayuda.

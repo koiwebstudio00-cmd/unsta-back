@@ -19,7 +19,8 @@
     "check": "npm run typecheck && npm run workflows:check && npm test",
     "demo:setup": "node scripts/setup-local.mjs",
     "db:migrate:prod": "node dist/scripts/migrate.js",
-    "format": "prettier --write \"{src,scripts,test}/**/*.{ts,mjs}\""
+    "format": "prettier --write \"{src,scripts,test}/**/*.{ts,mjs}\"",
+    "account:create": "node dist/scripts/account-create.js"
   },
   "dependencies": {
     "@prisma/client": "6.10.1",
