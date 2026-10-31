@@ -84,3 +84,25 @@ Versiones de conocimiento y hash deben coincidir entre backend y workflows. Move
 `deploy/evolution-dokploy/` contiene configuración de otro servicio, Evolution; no forma parte de la API ni se inicia con ella. Su instalación en VPS sigue siendo una tarea aparte.
 
 Guías de n8n en `docs/importar-n8n.md`. Estado de la separación y validación en `docs/SEPARACION-2026-10-31.txt`.
+
+## Ingresar al panel desplegado
+
+El acceso actual es por invitación privada, no por contraseña ni registro público.
+
+1. Configurar el dominio HTTPS del frontend: `APP_ORIGIN` en frontend y `PANEL_ORIGIN` en backend deben ser idénticos; `COOKIE_SECURE=true` en ambos. Configurar `API_URL` en frontend con el origen accesible del backend.
+2. Con la base migrada, abrir la terminal del contenedor del BACKEND en Dokploy (directorio `/app`) y ejecutar:
+
+   ```sh
+   npm run invite -- tu-correo@tu-dominio.com
+   ```
+
+3. El comando indica un archivo `.local/invite-….local.json`. Abrir exactamente ese archivo en la terminal privada y copiar únicamente el valor `token`, sin comillas.
+4. Abrir el dominio del FRONTEND y pegar el token en «Código de invitación».
+
+No se envía correo automáticamente y el email no se verifica: es una identificación del evaluador. Cada código permite un ingreso, vence a las 24 horas y crea una sesión de siete días en ese navegador. Para entrar desde otro navegador, cerrar sesión o volver a ingresar tras vencer la sesión, generar otro código. No hay un código universal compartido.
+
+Todas las invitaciones acceden a los mismos datos de UNSTA mediante `UNSTA_WORKSPACE_ID`; mantener ese UUID al trasladar la base. Una base nueva comienza sin los leads locales: desplegar código no copia los datos. Las invitaciones deben crearse en la base del despliegue; las locales solo sirven allí si se migra también esa base y siguen válidas.
+
+Los archivos de invitación son privados, no van a Git ni se publican. Copiar el token antes de reemplazar el contenedor: `.local` no tiene persistencia garantizada en producción. El registro de invitación y la sesión sí se guardan en PostgreSQL.
+
+Este mecanismo sirve para una demo privada desplegada. El producto operativo aún no implementa cuentas individuales con contraseña/SSO, recuperación ni permisos diferenciados de administrador y operador: todos los evaluadores tienen acceso compartido al CRM.

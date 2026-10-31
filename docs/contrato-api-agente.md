@@ -55,7 +55,7 @@ Respuesta completa: `fixtures/contexto-turno.json`. Campos obligatorios:
 | `interests` | Intereses persistidos: propuesta, sede, modalidad, período y etapa. |
 | `catalog` | IDs, títulos y sección de las 11 propuestas concretas. |
 | `summary` | Resumen anterior con las claves permitidas en `prompt-summary.md`. |
-| `summary_due` | Booleano calculado por backend: inicialmente cada 6 mensajes nuevos desde el resumen válido. |
+| `summary_due` | Booleano calculado por backend: verdadero cuando el mensaje actual es posterior al último resumen válido; se solicita después de cada respuesta publicada, incluidas derivaciones. |
 
 No incluir mensajes de usuario de turnos posteriores ni notas internas. Incluir respuestas ya publicadas de turnos previos, incluso si su secuencia es posterior al mensaje actual. Entregar mensajes ordenados y sin duplicados. El workflow genera la fecha real y la zona horaria; no recibe una fecha elegida por el usuario. Se rechaza una versión/hash de conocimiento distinta a la compilada.
 

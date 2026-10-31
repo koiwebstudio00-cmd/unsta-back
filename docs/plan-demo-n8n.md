@@ -176,7 +176,7 @@ Nombre propuesto: `unsta-demo-conversacion`.
 6. **AI Agent:** modelo con herramientas HTTP. Configurar un límite inicial de 6 iteraciones, tamaño máximo de entrada y tiempo máximo total; ajustar con mediciones.
 7. **Preparar salida:** texto y referencias. Si hubo derivación, utilizar la confirmación del backend y producir un único aviso de transición, identificado como pase al equipo de la demo.
 8. **Finalizar turno:** el backend valida el intento y publica como máximo una respuesta. Las referencias utilizadas quedan registradas para inspección.
-9. **Resumen periódico:** después de un número configurable de mensajes —inicialmente 6 desde el último resumen— extraer y normalizar contexto. Guardar con secuencia de origen y control de versión. Un fallo de resumen no elimina ni duplica la respuesta ya publicada.
+9. **Resumen automático por turno (implementado 31/10/2026):** después de cada respuesta publicada del asistente, incluidas derivaciones, extraer y normalizar contexto. Guardar con secuencia de origen y autenticación del intento original; una toma humana posterior no invalida el resumen ya generado y nunca se sobrescribe un horizonte más reciente. La atención exclusivamente humana no dispara nuevos resúmenes. Un fallo de resumen no elimina ni duplica la respuesta ya publicada.
 
 Se parte del modelo configurado en los artefactos de Lamelas como referencia de comparación, sin asumir que es la elección óptima. Antes de implementarlo se comprueba compatibilidad con los nodos de la instancia y se fija la versión elegida. El modelo y sus límites serán configuración; las pruebas decidirán cambios.
 
