@@ -1,0 +1,1157 @@
+{
+  "schema_version": "1.0",
+  "id": "unsta-demo-v1",
+  "titulo": "Base de conocimiento UNSTA para demo",
+  "version": "1.0.0",
+  "fecha_corte": "2026-10-31",
+  "idioma": "es-AR",
+  "zona_horaria": "America/Argentina/Tucuman",
+  "sedes_en_foco": {
+    "central": "Sede Central",
+    "yerba_buena": "Campus Yerba Buena"
+  },
+  "uso": "Demostración; requiere validación institucional antes de atención real.",
+  "valores_ficticios": false,
+  "fuentes": [
+    {
+      "id": "institucional",
+      "titulo": "Historia institucional",
+      "url": "https://www.unsta.edu.ar/institucional-unsta/",
+      "consultada_el": "2026-10-31"
+    },
+    {
+      "id": "principal",
+      "titulo": "Sitio institucional y contactos",
+      "url": "https://www.unsta.edu.ar/",
+      "consultada_el": "2026-10-31"
+    },
+    {
+      "id": "ingreso",
+      "titulo": "Ingreso y sedes de las carreras",
+      "url": "https://ingreso.unsta.edu.ar/",
+      "consultada_el": "2026-10-31"
+    },
+    {
+      "id": "documentacion",
+      "titulo": "Documentación de ingreso",
+      "url": "https://ingreso.unsta.edu.ar/documentacion-de-ingreso-unsta/",
+      "consultada_el": "2026-10-31"
+    },
+    {
+      "id": "alumnos",
+      "titulo": "Servicio de atención a alumnos",
+      "url": "https://www.unsta.edu.ar/alumnos-unsta/",
+      "consultada_el": "2026-10-31"
+    },
+    {
+      "id": "sove",
+      "titulo": "Orientación y reorientación vocacional",
+      "url": "https://www.unsta.edu.ar/sove/orientacionvocacional/",
+      "consultada_el": "2026-10-31"
+    },
+    {
+      "id": "beneficios",
+      "titulo": "Beneficios arancelarios",
+      "url": "https://www.unsta.edu.ar/beneficios-arancelarios-unsta/",
+      "consultada_el": "2026-10-31"
+    },
+    {
+      "id": "medicina",
+      "titulo": "Medicina",
+      "url": "https://www.unsta.edu.ar/salud/medicina/",
+      "consultada_el": "2026-10-31"
+    },
+    {
+      "id": "psicologia",
+      "titulo": "Licenciatura en Psicología",
+      "url": "https://www.unsta.edu.ar/salud/psicologia/",
+      "consultada_el": "2026-10-31"
+    },
+    {
+      "id": "abogacia",
+      "titulo": "Abogacía",
+      "url": "https://www.unsta.edu.ar/juridicas/abogacia/",
+      "consultada_el": "2026-10-31"
+    },
+    {
+      "id": "contador",
+      "titulo": "Contador Público",
+      "url": "https://www.unsta.edu.ar/economia/contador-publico/",
+      "consultada_el": "2026-10-31"
+    },
+    {
+      "id": "marketing",
+      "titulo": "Licenciatura en Marketing",
+      "url": "https://www.unsta.edu.ar/economia/licenciatura-en-marketing/",
+      "consultada_el": "2026-10-31"
+    },
+    {
+      "id": "informatica",
+      "titulo": "Ingeniería en Informática",
+      "url": "https://www.unsta.edu.ar/ingenieria/ingenieria-informatica/",
+      "consultada_el": "2026-10-31"
+    },
+    {
+      "id": "idiomas",
+      "titulo": "Centro de Idiomas y aranceles 2026",
+      "url": "https://www.unsta.edu.ar/cicm/",
+      "consultada_el": "2026-10-31"
+    },
+    {
+      "id": "horarios_idiomas",
+      "titulo": "Horarios publicados de idiomas",
+      "url": "https://www.unsta.edu.ar/cicm/horarios-cicm/",
+      "consultada_el": "2026-10-31"
+    },
+    {
+      "id": "social_media",
+      "titulo": "Social Media Marketing y Automatización con IA",
+      "url": "https://eadistancia.unsta.edu.ar/social-media-marketing-y-automatizacion-con-ia/",
+      "consultada_el": "2026-10-31"
+    },
+    {
+      "id": "nutricion_deportiva",
+      "titulo": "Diplomatura en Nutrición Deportiva sexta cohorte",
+      "url": "https://eadistancia.unsta.edu.ar/nutricion-deportiva/",
+      "consultada_el": "2026-10-31"
+    },
+    {
+      "id": "calendario",
+      "titulo": "Calendario académico administrativo 2026 RR 029-2026",
+      "url": "https://www.unsta.edu.ar/wp-content/uploads/2026/04/RR-Rect20260029-1.pdf",
+      "consultada_el": "2026-10-31",
+      "paginas_verificadas_visualmente": [
+        2,
+        3,
+        7
+      ],
+      "archivo_local": "fuentes/calendario-unsta-2026.pdf"
+    }
+  ],
+  "registros": [
+    {
+      "id": "institucion",
+      "seccion": "institucion",
+      "titulo": "Universidad del Norte Santo Tomás de Aquino",
+      "sedes_en_demo": [],
+      "periodo_publicado": null,
+      "estado": "publicado",
+      "validacion_institucional": false,
+      "datos": {
+        "sigla": "UNSTA",
+        "descripcion": "Universidad de tradición dominicana, con origen en Tucumán. Ofrece formación universitaria y actividades de extensión.",
+        "reconocimiento_institucional_publicado": "6 de agosto de 1965",
+        "web": "https://www.unsta.edu.ar/",
+        "alcance_demo": "Selección de información para Sede Central y Campus Yerba Buena, más dos propuestas virtuales. No representa toda la oferta ni todas las sedes."
+      },
+      "condiciones_de_uso": [],
+      "fuentes": [
+        "institucional",
+        "principal"
+      ],
+      "revisado_el": "2026-10-31"
+    },
+    {
+      "id": "sede-central",
+      "seccion": "institucion",
+      "titulo": "Sede Central",
+      "sedes_en_demo": [
+        "central"
+      ],
+      "periodo_publicado": null,
+      "estado": "publicado",
+      "validacion_institucional": false,
+      "datos": {
+        "direccion": "9 de Julio 165, San Miguel de Tucumán",
+        "telefono": "0381 410 1141",
+        "correo": "informes@unsta.edu.ar"
+      },
+      "condiciones_de_uso": [],
+      "fuentes": [
+        "principal"
+      ],
+      "revisado_el": "2026-10-31"
+    },
+    {
+      "id": "sede-yerba-buena",
+      "seccion": "institucion",
+      "titulo": "Campus Yerba Buena",
+      "sedes_en_demo": [
+        "yerba_buena"
+      ],
+      "periodo_publicado": null,
+      "estado": "publicado",
+      "validacion_institucional": false,
+      "datos": {
+        "direccion": "Av. Presidente Perón 2085, Yerba Buena",
+        "telefono": "0381 410 1198",
+        "correo": "informes@unsta.edu.ar"
+      },
+      "condiciones_de_uso": [],
+      "fuentes": [
+        "principal"
+      ],
+      "revisado_el": "2026-10-31"
+    },
+    {
+      "id": "contacto-general",
+      "seccion": "contactos",
+      "titulo": "Información general e ingreso",
+      "sedes_en_demo": [],
+      "periodo_publicado": null,
+      "estado": "publicado",
+      "validacion_institucional": false,
+      "datos": {
+        "whatsapp": "https://wa.me/5493816201120",
+        "correo": "informes@unsta.edu.ar",
+        "preinscripcion": "https://preinscripcion.unsta.edu.ar/",
+        "portal_ingreso": "https://ingreso.unsta.edu.ar/"
+      },
+      "condiciones_de_uso": [
+        "Contactos publicados; no se probaron llamadas ni mensajes."
+      ],
+      "fuentes": [
+        "principal",
+        "ingreso"
+      ],
+      "revisado_el": "2026-10-31"
+    },
+    {
+      "id": "atencion-alumnos",
+      "seccion": "contactos",
+      "titulo": "Atención a alumnos",
+      "sedes_en_demo": [
+        "central",
+        "yerba_buena"
+      ],
+      "periodo_publicado": null,
+      "estado": "publicado",
+      "validacion_institucional": false,
+      "datos": {
+        "correo": "infoalumnos@unsta.edu.ar",
+        "whatsapp_numero": "+54 9 381 416 3816",
+        "telefono_publicado": "4101130",
+        "horario_publicado": "Lunes a viernes de 08:00 a 20:00, en las sedes.",
+        "temas": "Documentación, inscripciones, equivalencias, cambios de carrera o sede, becas, claves de autogestión y seguimiento de trámites."
+      },
+      "condiciones_de_uso": [
+        "Es horario de atención del servicio, no horario de clases ni garantía de atención en feriados."
+      ],
+      "fuentes": [
+        "alumnos"
+      ],
+      "revisado_el": "2026-10-31"
+    },
+    {
+      "id": "sove",
+      "seccion": "servicios",
+      "titulo": "Orientación vocacional",
+      "sedes_en_demo": [
+        "central",
+        "yerba_buena"
+      ],
+      "periodo_publicado": null,
+      "estado": "publicado",
+      "validacion_institucional": false,
+      "datos": {
+        "servicio": "Servicio de Orientación Vocacional y Educativa (SOVE)",
+        "descripcion": "Acompañamiento para explorar estudios y proyectos profesionales, incluida la reorientación vocacional.",
+        "destinatarios": "Estudiantes de los últimos años de secundaria, ingresantes, estudiantes UNSTA y personas que buscan orientación.",
+        "correo": "orientacionvocacional@unsta.edu.ar",
+        "whatsapp_publicado": "https://wa.me/5493812067003",
+        "informacion": "https://www.unsta.edu.ar/sove/orientacionvocacional/",
+        "cantidad_encuentros": null,
+        "arancel": null,
+        "proxima_apertura": null
+      },
+      "condiciones_de_uso": [
+        "No confirmar cinco encuentros, diagnóstico, costo ni fecha sin validación del área. Los importes cero o mensajes de éxito del HTML del formulario no acreditan gratuidad ni una inscripción."
+      ],
+      "fuentes": [
+        "sove"
+      ],
+      "revisado_el": "2026-10-31"
+    },
+    {
+      "id": "ingreso-general",
+      "seccion": "ingreso",
+      "titulo": "Proceso general de ingreso",
+      "sedes_en_demo": [],
+      "periodo_publicado": "2027",
+      "estado": "publicado",
+      "validacion_institucional": false,
+      "datos": {
+        "convocatoria_portal": "Ingreso 2027",
+        "pasos": [
+          "Elegir sede y completar la preinscripción en el portal oficial.",
+          "Abonar la matrícula correspondiente mediante las opciones habilitadas en el sistema.",
+          "Completar la presentación de documentación indicada por admisiones."
+        ],
+        "preinscripcion": "https://preinscripcion.unsta.edu.ar/",
+        "documentacion": "https://ingreso.unsta.edu.ar/documentacion-de-ingreso-unsta/"
+      },
+      "condiciones_de_uso": [
+        "Preinscripción no equivale a inscripción confirmada. El portal anuncia ingreso, pero no confirma vacantes individuales."
+      ],
+      "fuentes": [
+        "ingreso",
+        "documentacion"
+      ],
+      "revisado_el": "2026-10-31"
+    },
+    {
+      "id": "documentacion-general",
+      "seccion": "ingreso",
+      "titulo": "Documentación de ingreso",
+      "sedes_en_demo": [],
+      "periodo_publicado": null,
+      "estado": "requiere_confirmacion",
+      "validacion_institucional": false,
+      "datos": {
+        "requisitos_basicos_publicados": [
+          "Preinscripción y ficha de inscripción.",
+          "Título secundario o constancia de título en trámite.",
+          "DNI."
+        ],
+        "otros_requisitos_publicados": "La página también enumera fotografías y acta de nacimiento.",
+        "forma_de_entrega": "El sitio combina referencias a originales y copias, presentación en sede y formulario con turno."
+      },
+      "condiciones_de_uso": [
+        "Confirmar lista y entrega según carrera y cohorte. No existe en esta base una guía validada de carga documental en la app. Casos de extranjeros y equivalencias requieren atención específica."
+      ],
+      "fuentes": [
+        "documentacion"
+      ],
+      "revisado_el": "2026-10-31"
+    },
+    {
+      "id": "beneficios",
+      "seccion": "servicios",
+      "titulo": "Becas y beneficios arancelarios",
+      "sedes_en_demo": [],
+      "periodo_publicado": "2026",
+      "estado": "publicado",
+      "validacion_institucional": false,
+      "datos": {
+        "canal_solicitud": "Autogestión Alumnos, sección Beneficios Arancelarios.",
+        "correo": "beneficiosarancelarios@unsta.edu.ar",
+        "periodos_2026": [
+          "2026-02-02 a 2026-03-06",
+          "2026-08-03 a 2026-08-28"
+        ]
+      },
+      "condiciones_de_uso": [
+        "Ambos períodos ya finalizaron al corte de esta base. No prometer porcentajes, elegibilidad, concesión ni fechas 2027."
+      ],
+      "fuentes": [
+        "beneficios"
+      ],
+      "revisado_el": "2026-10-31"
+    },
+    {
+      "id": "carrera-medicina",
+      "seccion": "carreras",
+      "titulo": "Medicina",
+      "sedes_en_demo": [
+        "yerba_buena"
+      ],
+      "periodo_publicado": "Inicio marzo 2027",
+      "estado": "publicado",
+      "validacion_institucional": false,
+      "datos": {
+        "duracion_anios": 6,
+        "modalidades_publicadas": [
+          "Presencial"
+        ],
+        "perfil": "Formación médica general con orientación familiar y comunitaria.",
+        "inicio_publicado": "2027-03",
+        "web_carrera": "https://www.unsta.edu.ar/salud/medicina/",
+        "preinscripcion": "https://preinscripcion.unsta.edu.ar/",
+        "arancel_cuota": null,
+        "arancel_matricula": null,
+        "horario_clases": null
+      },
+      "condiciones_de_uso": [
+        "Incluye nivelación y examen de ingreso. El cronograma específico y el derecho de examen deben confirmarse.",
+        "Sedes limitadas al recorte de la demo. Aranceles, horarios y vacantes no confirmados."
+      ],
+      "fuentes": [
+        "medicina",
+        "ingreso"
+      ],
+      "revisado_el": "2026-10-31"
+    },
+    {
+      "id": "carrera-psicologia",
+      "seccion": "carreras",
+      "titulo": "Licenciatura en Psicología",
+      "sedes_en_demo": [
+        "yerba_buena"
+      ],
+      "periodo_publicado": "Inicio marzo 2027",
+      "estado": "publicado",
+      "validacion_institucional": false,
+      "datos": {
+        "duracion_anios": 5,
+        "modalidades_publicadas": [
+          "Presencial"
+        ],
+        "perfil": "Formación para el trabajo psicológico en ámbitos clínicos, educativos, comunitarios y organizacionales.",
+        "inicio_publicado": "2027-03",
+        "web_carrera": "https://www.unsta.edu.ar/salud/psicologia/",
+        "preinscripcion": "https://preinscripcion.unsta.edu.ar/",
+        "arancel_cuota": null,
+        "arancel_matricula": null,
+        "horario_clases": null
+      },
+      "condiciones_de_uso": [
+        "Sedes limitadas al recorte de la demo. Aranceles, horarios y vacantes no confirmados."
+      ],
+      "fuentes": [
+        "psicologia",
+        "ingreso"
+      ],
+      "revisado_el": "2026-10-31"
+    },
+    {
+      "id": "carrera-abogacia",
+      "seccion": "carreras",
+      "titulo": "Abogacía",
+      "sedes_en_demo": [
+        "central"
+      ],
+      "periodo_publicado": null,
+      "estado": "publicado",
+      "validacion_institucional": false,
+      "datos": {
+        "duracion_anios": 5,
+        "modalidades_publicadas": [
+          "Presencial"
+        ],
+        "perfil": "Formación jurídica para asesoramiento, defensa y resolución de conflictos.",
+        "inicio_publicado": null,
+        "web_carrera": "https://www.unsta.edu.ar/juridicas/abogacia/",
+        "preinscripcion": "https://preinscripcion.unsta.edu.ar/",
+        "arancel_cuota": null,
+        "arancel_matricula": null,
+        "horario_clases": null
+      },
+      "condiciones_de_uso": [
+        "La ficha individual menciona Yerba Buena, pero el portal de ingreso no la lista para esta carrera. No ofrecer Yerba Buena sin confirmación.",
+        "Sedes limitadas al recorte de la demo. Aranceles, horarios y vacantes no confirmados."
+      ],
+      "fuentes": [
+        "abogacia",
+        "ingreso"
+      ],
+      "revisado_el": "2026-10-31"
+    },
+    {
+      "id": "carrera-contador",
+      "seccion": "carreras",
+      "titulo": "Contador Público",
+      "sedes_en_demo": [
+        "central",
+        "yerba_buena"
+      ],
+      "periodo_publicado": null,
+      "estado": "publicado",
+      "validacion_institucional": false,
+      "datos": {
+        "duracion_anios": 4,
+        "modalidades_publicadas": [
+          "Presencial"
+        ],
+        "perfil": "Formación en contabilidad, información económica y asesoramiento administrativo contable.",
+        "inicio_publicado": null,
+        "web_carrera": "https://www.unsta.edu.ar/economia/contador-publico/",
+        "preinscripcion": "https://preinscripcion.unsta.edu.ar/",
+        "arancel_cuota": null,
+        "arancel_matricula": null,
+        "horario_clases": null
+      },
+      "condiciones_de_uso": [
+        "Sedes limitadas al recorte de la demo. Aranceles, horarios y vacantes no confirmados."
+      ],
+      "fuentes": [
+        "contador",
+        "ingreso"
+      ],
+      "revisado_el": "2026-10-31"
+    },
+    {
+      "id": "carrera-marketing",
+      "seccion": "carreras",
+      "titulo": "Licenciatura en Marketing",
+      "sedes_en_demo": [
+        "central"
+      ],
+      "periodo_publicado": null,
+      "estado": "publicado",
+      "validacion_institucional": false,
+      "datos": {
+        "duracion_anios": 4,
+        "modalidades_publicadas": [
+          "Presencial",
+          "A distancia"
+        ],
+        "perfil": "Formación en estrategias comerciales, marketing y relación con los públicos.",
+        "inicio_publicado": null,
+        "web_carrera": "https://www.unsta.edu.ar/economia/licenciatura-en-marketing/",
+        "preinscripcion": "https://preinscripcion.unsta.edu.ar/",
+        "arancel_cuota": null,
+        "arancel_matricula": null,
+        "horario_clases": null
+      },
+      "condiciones_de_uso": [
+        "La opción a distancia está publicada; no asignarla automáticamente a una sede física ni prometer condiciones de cursado.",
+        "Sedes limitadas al recorte de la demo. Aranceles, horarios y vacantes no confirmados."
+      ],
+      "fuentes": [
+        "marketing",
+        "ingreso"
+      ],
+      "revisado_el": "2026-10-31"
+    },
+    {
+      "id": "carrera-informatica",
+      "seccion": "carreras",
+      "titulo": "Ingeniería en Informática",
+      "sedes_en_demo": [
+        "yerba_buena"
+      ],
+      "periodo_publicado": null,
+      "estado": "publicado",
+      "validacion_institucional": false,
+      "datos": {
+        "duracion_anios": 5,
+        "modalidades_publicadas": [
+          "Presencial"
+        ],
+        "perfil": "Formación para desarrollar software y conducir proyectos tecnológicos.",
+        "inicio_publicado": null,
+        "web_carrera": "https://www.unsta.edu.ar/ingenieria/ingenieria-informatica/",
+        "preinscripcion": "https://preinscripcion.unsta.edu.ar/",
+        "arancel_cuota": null,
+        "arancel_matricula": null,
+        "horario_clases": null
+      },
+      "condiciones_de_uso": [
+        "Sedes limitadas al recorte de la demo. Aranceles, horarios y vacantes no confirmados."
+      ],
+      "fuentes": [
+        "informatica",
+        "ingreso"
+      ],
+      "revisado_el": "2026-10-31"
+    },
+    {
+      "id": "idiomas-general",
+      "seccion": "cursos",
+      "titulo": "Cursos del Centro de Idiomas",
+      "sedes_en_demo": [],
+      "periodo_publicado": null,
+      "estado": "publicado",
+      "validacion_institucional": false,
+      "datos": {
+        "descripcion": "Cursos para comunidad universitaria y público general. A1 corresponde a nivel principiante.",
+        "duracion_general_publicada": "En su mayoría anuales, de marzo a noviembre, con 120 horas cátedra.",
+        "correo": "idiomas@unsta.edu.ar",
+        "inscripcion_general": "Preinscripción y selección de idioma y comisión en Autogestión.",
+        "idioma_curricular": "Si integra el plan de la carrera, el sitio indica que su cursada está incluida en la cuota universitaria."
+      },
+      "condiciones_de_uso": [
+        "Distinguir idioma curricular de curso de extensión. Confirmar próxima edición y entrega de documentación. La página contiene instrucciones digitales y referencias a fotocopias."
+      ],
+      "fuentes": [
+        "idiomas"
+      ],
+      "revisado_el": "2026-10-31"
+    },
+    {
+      "id": "curso-ingles-a1",
+      "seccion": "cursos",
+      "titulo": "Inglés A1",
+      "sedes_en_demo": [
+        "central"
+      ],
+      "periodo_publicado": null,
+      "estado": "publicado",
+      "validacion_institucional": false,
+      "datos": {
+        "nivel": "Principiante",
+        "web": "https://www.unsta.edu.ar/cicm/",
+        "arancel_ref": "aranceles-idiomas",
+        "horario_ref": "horario-ingles-a1",
+        "proxima_apertura": null
+      },
+      "condiciones_de_uso": [
+        "Oferta publicada; apertura y vacantes actuales requieren confirmación."
+      ],
+      "fuentes": [
+        "idiomas",
+        "horarios_idiomas"
+      ],
+      "revisado_el": "2026-10-31"
+    },
+    {
+      "id": "curso-portugues-a1",
+      "seccion": "cursos",
+      "titulo": "Portugués A1",
+      "sedes_en_demo": [
+        "central"
+      ],
+      "periodo_publicado": null,
+      "estado": "publicado",
+      "validacion_institucional": false,
+      "datos": {
+        "nivel": "Principiante",
+        "web": "https://www.unsta.edu.ar/cicm/",
+        "arancel_ref": "aranceles-idiomas",
+        "horario_ref": "horario-portugues-a1",
+        "proxima_apertura": null
+      },
+      "condiciones_de_uso": [
+        "Oferta publicada; apertura y vacantes actuales requieren confirmación."
+      ],
+      "fuentes": [
+        "idiomas",
+        "horarios_idiomas"
+      ],
+      "revisado_el": "2026-10-31"
+    },
+    {
+      "id": "curso-italiano-a1",
+      "seccion": "cursos",
+      "titulo": "Italiano A1",
+      "sedes_en_demo": [
+        "central"
+      ],
+      "periodo_publicado": null,
+      "estado": "publicado",
+      "validacion_institucional": false,
+      "datos": {
+        "nivel": "Principiante",
+        "web": "https://www.unsta.edu.ar/cicm/",
+        "arancel_ref": "aranceles-idiomas",
+        "horario_ref": "horario-italiano-a1",
+        "proxima_apertura": null
+      },
+      "condiciones_de_uso": [
+        "Oferta publicada; apertura y vacantes actuales requieren confirmación."
+      ],
+      "fuentes": [
+        "idiomas",
+        "horarios_idiomas"
+      ],
+      "revisado_el": "2026-10-31"
+    },
+    {
+      "id": "curso-social-media",
+      "seccion": "cursos",
+      "titulo": "Social Media Marketing y Automatización con IA",
+      "sedes_en_demo": [],
+      "periodo_publicado": "Edición con inicio publicado 22/10/2026",
+      "estado": "inicio_publicado_pasado",
+      "validacion_institucional": false,
+      "datos": {
+        "modalidad": "Virtual",
+        "inicio_publicado": "2026-10-22",
+        "contenidos": "Redes sociales, contenidos, publicidad, métricas y gestión de comunidades.",
+        "web": "https://eadistancia.unsta.edu.ar/social-media-marketing-y-automatizacion-con-ia/",
+        "arancel_ref": "arancel-social-media",
+        "horario_clases": null,
+        "proxima_apertura": null
+      },
+      "condiciones_de_uso": [
+        "La fecha ya pasó. No afirmar que admite nuevas inscripciones ni prometer próxima edición. Propuesta virtual, sin atribuirle sede de cursado física."
+      ],
+      "fuentes": [
+        "social_media"
+      ],
+      "revisado_el": "2026-10-31"
+    },
+    {
+      "id": "diplomatura-nutricion-deportiva",
+      "seccion": "cursos",
+      "titulo": "Diplomatura en Nutrición Deportiva sexta cohorte",
+      "sedes_en_demo": [],
+      "periodo_publicado": "Sexta cohorte 2026-2027",
+      "estado": "inicio_publicado_pasado",
+      "validacion_institucional": false,
+      "datos": {
+        "modalidad": "100% virtual",
+        "inicio_publicado": "2026-10-02",
+        "carga_horaria_publicada": 150,
+        "duracion_publicada": "6 meses",
+        "destinatarios": "Licenciados en Nutrición o equivalentes con carreras de al menos 4 años; alumnos del último año; técnicos en Nutrición o equivalentes de al menos 3 años.",
+        "cursado": "Material asincrónico y encuentros sincrónicos mensuales.",
+        "correo": "diplomatura.deporte@unsta.edu.ar",
+        "web": "https://eadistancia.unsta.edu.ar/nutricion-deportiva/",
+        "arancel_ref": "arancel-nutricion-deportiva",
+        "horario_clases": null,
+        "proxima_apertura": null
+      },
+      "condiciones_de_uso": [
+        "La fuente declara 6 meses, pero fecha el cierre el 02/05/2027 desde el 02/10/2026. Su desglose horario tampoco suma las 150 horas declaradas. Confirmar duración y cierre. Fecha inicial pasada; vacantes no verificadas."
+      ],
+      "fuentes": [
+        "nutricion_deportiva"
+      ],
+      "revisado_el": "2026-10-31"
+    },
+    {
+      "id": "aranceles-idiomas",
+      "seccion": "aranceles",
+      "titulo": "Idiomas de extensión en Sede Central",
+      "sedes_en_demo": [
+        "central"
+      ],
+      "periodo_publicado": "2026",
+      "estado": "referencia_publicada",
+      "validacion_institucional": false,
+      "datos": {
+        "moneda": "ARS",
+        "concepto": "Valor publicado de cada cuota",
+        "cantidad_cuotas": 8,
+        "importes_por_categoria": {
+          "publico_general": 90251,
+          "alumno_UNSTA_u_otra_universidad": 84756,
+          "egresado_UNSTA": 68397,
+          "docente_UNSTA": 30500,
+          "empleado_UNSTA": 30500,
+          "jubilado_o_pensionado": 44212
+        },
+        "matricula_publicada": 0,
+        "seguro_obligatorio": "Adicional; importe no publicado en esta base.",
+        "derecho_examen": "Incluido según la página."
+      },
+      "condiciones_de_uso": [
+        "Informar como valores publicados para 2026, sujetos a confirmación. No proyectar a 2027 ni a otros programas. No calcular un total final sin seguro."
+      ],
+      "fuentes": [
+        "idiomas"
+      ],
+      "revisado_el": "2026-10-31"
+    },
+    {
+      "id": "arancel-social-media",
+      "seccion": "aranceles",
+      "titulo": "Arancel del curso de Social Media Marketing",
+      "sedes_en_demo": [],
+      "periodo_publicado": "Edición con inicio publicado 22/10/2026",
+      "estado": "referencia_publicada",
+      "validacion_institucional": false,
+      "datos": {
+        "moneda": "ARS",
+        "categoria": "Público general",
+        "importe_pago_unico": 130000,
+        "matricula": null,
+        "plan_cuotas": null
+      },
+      "condiciones_de_uso": [
+        "Precio de la edición publicada, no de una próxima apertura. La ausencia de matrícula informada no significa matrícula gratuita."
+      ],
+      "fuentes": [
+        "social_media"
+      ],
+      "revisado_el": "2026-10-31"
+    },
+    {
+      "id": "arancel-nutricion-deportiva",
+      "seccion": "aranceles",
+      "titulo": "Arancel de Nutrición Deportiva sexta cohorte",
+      "sedes_en_demo": [],
+      "periodo_publicado": "Sexta cohorte 2026-2027",
+      "estado": "referencia_publicada",
+      "validacion_institucional": false,
+      "datos": {
+        "moneda": "ARS",
+        "pago_unico_publico_general": 1116000,
+        "pago_unico_alumnos_egresados_docentes_UNSTA": 1004400,
+        "alternativa_publicada": "6 cuotas; sin importe individual explícito.",
+        "matricula_publicada": 0
+      },
+      "condiciones_de_uso": [
+        "Confirmar condiciones actuales con el área. No dividir el pago único para afirmar el valor de cada cuota. Estas condiciones no aplican a otras propuestas."
+      ],
+      "fuentes": [
+        "nutricion_deportiva"
+      ],
+      "revisado_el": "2026-10-31"
+    },
+    {
+      "id": "aranceles-carreras",
+      "seccion": "aranceles",
+      "titulo": "Cuotas y matrícula de carreras de grado",
+      "sedes_en_demo": [],
+      "periodo_publicado": null,
+      "estado": "sin_dato_confirmado",
+      "validacion_institucional": false,
+      "datos": {
+        "importes_verificados": null,
+        "periodicidad_matricula": null,
+        "cantidad_cuotas": null,
+        "mora_intereses_generales": null,
+        "contacto_confirmacion": "Información general: informes@unsta.edu.ar / WhatsApp +54 9 381 620 1120."
+      },
+      "condiciones_de_uso": [
+        "No inventar importes ni asegurar que la matrícula se paga una sola vez. El contacto general no es un número directo verificado de Tesorería."
+      ],
+      "fuentes": [
+        "ingreso"
+      ],
+      "revisado_el": "2026-10-31"
+    },
+    {
+      "id": "horario-ingles-a1",
+      "seccion": "horarios",
+      "titulo": "Horario publicado de Inglés A1",
+      "sedes_en_demo": [
+        "central"
+      ],
+      "periodo_publicado": null,
+      "estado": "sin_periodo_confirmado",
+      "validacion_institucional": false,
+      "datos": {
+        "comision": "Comisión a cargo de Eugenia Lobo de Lobo",
+        "bloques": [
+          {
+            "dias": [
+              "lunes"
+            ],
+            "desde": "09:30",
+            "hasta": "12:30"
+          }
+        ],
+        "aula": null,
+        "zona_horaria": "America/Argentina/Tucuman"
+      },
+      "condiciones_de_uso": [
+        "La página no identifica el ciclo lectivo. Es un ejemplo publicado de comisión, no un horario vigente confirmado ni la lista completa. Confirmar antes de asistir."
+      ],
+      "fuentes": [
+        "horarios_idiomas"
+      ],
+      "revisado_el": "2026-10-31"
+    },
+    {
+      "id": "horario-portugues-a1",
+      "seccion": "horarios",
+      "titulo": "Horario publicado de Portugués A1",
+      "sedes_en_demo": [
+        "central"
+      ],
+      "periodo_publicado": null,
+      "estado": "sin_periodo_confirmado",
+      "validacion_institucional": false,
+      "datos": {
+        "comision": "Mussi 1",
+        "bloques": [
+          {
+            "dias": [
+              "miércoles"
+            ],
+            "desde": "18:20",
+            "hasta": "21:30"
+          }
+        ],
+        "aula": null,
+        "zona_horaria": "America/Argentina/Tucuman"
+      },
+      "condiciones_de_uso": [
+        "La página no identifica el ciclo lectivo. Es un ejemplo publicado de comisión, no un horario vigente confirmado ni la lista completa. Confirmar antes de asistir."
+      ],
+      "fuentes": [
+        "horarios_idiomas"
+      ],
+      "revisado_el": "2026-10-31"
+    },
+    {
+      "id": "horario-italiano-a1",
+      "seccion": "horarios",
+      "titulo": "Horario publicado de Italiano A1",
+      "sedes_en_demo": [
+        "central"
+      ],
+      "periodo_publicado": null,
+      "estado": "sin_periodo_confirmado",
+      "validacion_institucional": false,
+      "datos": {
+        "comision": "Pinna",
+        "bloques": [
+          {
+            "dias": [
+              "lunes",
+              "miércoles"
+            ],
+            "desde": "16:00",
+            "hasta": "17:30"
+          }
+        ],
+        "aula": null,
+        "zona_horaria": "America/Argentina/Tucuman"
+      },
+      "condiciones_de_uso": [
+        "La página no identifica el ciclo lectivo. Es un ejemplo publicado de comisión, no un horario vigente confirmado ni la lista completa. Confirmar antes de asistir."
+      ],
+      "fuentes": [
+        "horarios_idiomas"
+      ],
+      "revisado_el": "2026-10-31"
+    },
+    {
+      "id": "horarios-carreras",
+      "seccion": "horarios",
+      "titulo": "Horarios de carreras y aulas",
+      "sedes_en_demo": [],
+      "periodo_publicado": null,
+      "estado": "sin_dato_confirmado",
+      "validacion_institucional": false,
+      "datos": {
+        "horarios_por_comision": null,
+        "aulas": null,
+        "datos_para_consultar": [
+          "Carrera",
+          "Sede",
+          "Año o materia",
+          "Comisión",
+          "Fecha de la clase"
+        ]
+      },
+      "condiciones_de_uso": [
+        "Las fichas enlazan novedades y horarios externos, pero sus contenidos actuales no forman parte de esta base. Derivar a la facultad o atención a alumnos."
+      ],
+      "fuentes": [
+        "contador",
+        "abogacia",
+        "alumnos"
+      ],
+      "revisado_el": "2026-10-31"
+    },
+    {
+      "id": "calendario-marco",
+      "seccion": "calendario",
+      "titulo": "Alcance del calendario 2026",
+      "sedes_en_demo": [],
+      "periodo_publicado": "2026",
+      "estado": "publicado",
+      "validacion_institucional": false,
+      "datos": {
+        "resolucion": "RR 029-2026",
+        "paginas_referencia": [
+          2,
+          3,
+          7
+        ],
+        "alcance": "Marco académico administrativo general. Las facultades organizan sus cronogramas dentro de ese marco.",
+        "calendario_2027": null
+      },
+      "condiciones_de_uso": [
+        "No extrapolar fechas a 2027, ni usar este calendario como horario de una materia. Revisar modificaciones posteriores antes de uso operativo."
+      ],
+      "fuentes": [
+        "calendario"
+      ],
+      "revisado_el": "2026-10-31"
+    },
+    {
+      "id": "cal-primer-cuatrimestre",
+      "seccion": "calendario",
+      "titulo": "Primer cuatrimestre",
+      "sedes_en_demo": [],
+      "periodo_publicado": "2026",
+      "estado": "publicado",
+      "validacion_institucional": false,
+      "datos": {
+        "fecha_desde": "2026-03-16",
+        "fecha_hasta": "2026-06-19",
+        "pagina_pdf": 2
+      },
+      "condiciones_de_uso": [
+        "Referencia del calendario general 2026; no confirma una mesa individual ni la atención de cada servicio."
+      ],
+      "fuentes": [
+        "calendario"
+      ],
+      "revisado_el": "2026-10-31"
+    },
+    {
+      "id": "cal-finales-junio-julio",
+      "seccion": "calendario",
+      "titulo": "Turno de finales junio y julio",
+      "sedes_en_demo": [],
+      "periodo_publicado": "2026",
+      "estado": "publicado",
+      "validacion_institucional": false,
+      "datos": {
+        "fecha_desde": "2026-06-22",
+        "fecha_hasta": "2026-07-03",
+        "pagina_pdf": 3
+      },
+      "condiciones_de_uso": [
+        "Referencia del calendario general 2026; no confirma una mesa individual ni la atención de cada servicio."
+      ],
+      "fuentes": [
+        "calendario"
+      ],
+      "revisado_el": "2026-10-31"
+    },
+    {
+      "id": "cal-receso-julio",
+      "seccion": "calendario",
+      "titulo": "Receso académico administrativo de julio",
+      "sedes_en_demo": [],
+      "periodo_publicado": "2026",
+      "estado": "publicado",
+      "validacion_institucional": false,
+      "datos": {
+        "fecha_desde": "2026-07-13",
+        "fecha_hasta": "2026-07-24",
+        "pagina_pdf": 3
+      },
+      "condiciones_de_uso": [
+        "Referencia del calendario general 2026; no confirma una mesa individual ni la atención de cada servicio."
+      ],
+      "fuentes": [
+        "calendario"
+      ],
+      "revisado_el": "2026-10-31"
+    },
+    {
+      "id": "cal-finales-julio-agosto",
+      "seccion": "calendario",
+      "titulo": "Turno de finales julio y agosto",
+      "sedes_en_demo": [],
+      "periodo_publicado": "2026",
+      "estado": "publicado",
+      "validacion_institucional": false,
+      "datos": {
+        "fecha_desde": "2026-07-27",
+        "fecha_hasta": "2026-08-14",
+        "pagina_pdf": 3
+      },
+      "condiciones_de_uso": [
+        "Referencia del calendario general 2026; no confirma una mesa individual ni la atención de cada servicio."
+      ],
+      "fuentes": [
+        "calendario"
+      ],
+      "revisado_el": "2026-10-31"
+    },
+    {
+      "id": "cal-segundo-cuatrimestre",
+      "seccion": "calendario",
+      "titulo": "Segundo cuatrimestre",
+      "sedes_en_demo": [],
+      "periodo_publicado": "2026",
+      "estado": "publicado",
+      "validacion_institucional": false,
+      "datos": {
+        "fecha_desde": "2026-08-18",
+        "fecha_hasta": "2026-11-20",
+        "pagina_pdf": 3
+      },
+      "condiciones_de_uso": [
+        "Referencia del calendario general 2026; no confirma una mesa individual ni la atención de cada servicio."
+      ],
+      "fuentes": [
+        "calendario"
+      ],
+      "revisado_el": "2026-10-31"
+    },
+    {
+      "id": "cal-finales-noviembre-diciembre",
+      "seccion": "calendario",
+      "titulo": "Turno de finales noviembre y diciembre",
+      "sedes_en_demo": [],
+      "periodo_publicado": "2026",
+      "estado": "publicado",
+      "validacion_institucional": false,
+      "datos": {
+        "fecha_desde": "2026-11-24",
+        "fecha_hasta": "2026-12-16",
+        "pagina_pdf": 3
+      },
+      "condiciones_de_uso": [
+        "Referencia del calendario general 2026; no confirma una mesa individual ni la atención de cada servicio."
+      ],
+      "fuentes": [
+        "calendario"
+      ],
+      "revisado_el": "2026-10-31"
+    },
+    {
+      "id": "cal-cierre-actividades",
+      "seccion": "calendario",
+      "titulo": "Cierre de actividades",
+      "sedes_en_demo": [],
+      "periodo_publicado": "2026",
+      "estado": "publicado",
+      "validacion_institucional": false,
+      "datos": {
+        "fecha_desde": "2026-12-31",
+        "fecha_hasta": "2026-12-31",
+        "pagina_pdf": 3
+      },
+      "condiciones_de_uso": [
+        "Referencia del calendario general 2026; no confirma una mesa individual ni la atención de cada servicio."
+      ],
+      "fuentes": [
+        "calendario"
+      ],
+      "revisado_el": "2026-10-31"
+    },
+    {
+      "id": "cal-inmaculada",
+      "seccion": "calendario",
+      "titulo": "Feriado de la Inmaculada Concepción",
+      "sedes_en_demo": [],
+      "periodo_publicado": "2026",
+      "estado": "publicado",
+      "validacion_institucional": false,
+      "datos": {
+        "fecha_desde": "2026-12-08",
+        "fecha_hasta": "2026-12-08",
+        "pagina_pdf": 7
+      },
+      "condiciones_de_uso": [
+        "Referencia del calendario general 2026; no confirma una mesa individual ni la atención de cada servicio."
+      ],
+      "fuentes": [
+        "calendario"
+      ],
+      "revisado_el": "2026-10-31"
+    },
+    {
+      "id": "cal-navidad",
+      "seccion": "calendario",
+      "titulo": "Feriado de Navidad",
+      "sedes_en_demo": [],
+      "periodo_publicado": "2026",
+      "estado": "publicado",
+      "validacion_institucional": false,
+      "datos": {
+        "fecha_desde": "2026-12-25",
+        "fecha_hasta": "2026-12-25",
+        "pagina_pdf": 7
+      },
+      "condiciones_de_uso": [
+        "Referencia del calendario general 2026; no confirma una mesa individual ni la atención de cada servicio."
+      ],
+      "fuentes": [
+        "calendario"
+      ],
+      "revisado_el": "2026-10-31"
+    }
+  ],
+  "semantica": {
+    "null": "Dato no confirmado en esta base; no equivale a cero, gratuidad ni inexistencia.",
+    "publicado": "Dato encontrado en fuente oficial; no significa validación operativa por UNSTA.",
+    "referencia_publicada": "Importe publicado para un período o edición; requiere aclarar su alcance.",
+    "inicio_publicado_pasado": "La fecha anunciada ya pasó al corte; no prueba que el curso haya comenzado, terminado o cerrado inscripciones.",
+    "sin_periodo_confirmado": "Dato publicado sin año o cohorte identificable; no presentarlo como vigente.",
+    "requiere_confirmacion": "Hay ambigüedad o discrepancia que impide confirmar el procedimiento.",
+    "sin_dato_confirmado": "Vacío explícito del recorte; se necesita una fuente o validación adicional."
+  }
+}

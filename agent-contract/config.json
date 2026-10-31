@@ -1,0 +1,11 @@
+{
+  "contract_version": "0.1.0",
+  "api_base_url": "https://unsta-api.example.invalid",
+  "model": "gpt-4.1-mini",
+  "timezone": "America/Argentina/Tucuman",
+  "knowledge_version": "1.0.0",
+  "max_iterations": 6,
+  "workflow_timeout_seconds": 120,
+  "request_timeout_ms": 15000,
+  "summary_every_messages": 6
+}

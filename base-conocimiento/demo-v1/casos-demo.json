@@ -1,0 +1,77 @@
+[
+  {
+    "id": "demo-01",
+    "consulta": "Quiero estudiar Medicina en Yerba Buena",
+    "criterio_esperado": "Duración 6 años, presencial; inicio publicado marzo 2027. No inventar arancel ni fecha de examen."
+  },
+  {
+    "id": "demo-02",
+    "consulta": "¿Abogacía está en Yerba Buena?",
+    "criterio_esperado": "Indicar discrepancia entre ficha y portal; ofrecer confirmación. No asegurar disponibilidad."
+  },
+  {
+    "id": "demo-03",
+    "consulta": "¿Marketing se puede estudiar a distancia?",
+    "criterio_esperado": "Sí, modalidad publicada; condiciones y sede administrativa por confirmar."
+  },
+  {
+    "id": "demo-04",
+    "consulta": "¿Cuánto cuesta inglés si no soy alumno?",
+    "criterio_esperado": "Identificar extensión y año: cuota publicada 2026 para público general 90251 ARS; 8 cuotas y seguro adicional, sin matrícula. No garantizar importe actual."
+  },
+  {
+    "id": "demo-05",
+    "consulta": "¿Y el inglés que es materia de mi carrera?",
+    "criterio_esperado": "Distinguir idioma curricular del curso de extensión; no aplicar automáticamente el arancel de público general."
+  },
+  {
+    "id": "demo-06",
+    "consulta": "¿Qué día se cursa italiano A1?",
+    "criterio_esperado": "Puede mencionar lunes y miércoles 16:00 a 17:30, comisión Pinna en Central, siempre aclarando que la página no identifica el año y debe confirmarse."
+  },
+  {
+    "id": "demo-07",
+    "consulta": "¿Cuándo termina el segundo cuatrimestre de 2026?",
+    "criterio_esperado": "Marco general: 20/11/2026; no equivale al calendario de una materia particular."
+  },
+  {
+    "id": "demo-08",
+    "consulta": "¿Cuándo empiezan las clases de todas las carreras en 2027?",
+    "criterio_esperado": "No extrapolar el calendario 2026. Solo Medicina y Psicología tienen marzo 2027 publicado en las fichas seleccionadas."
+  },
+  {
+    "id": "demo-09",
+    "consulta": "¿Todavía me puedo anotar al curso de marketing con IA?",
+    "criterio_esperado": "Inicio publicado 22/10/2026 ya pasado al corte. No confirmar vacantes; compartir ficha y ofrecer consulta."
+  },
+  {
+    "id": "demo-10",
+    "consulta": "¿Cuánto es cada cuota de Nutrición Deportiva?",
+    "criterio_esperado": "La fuente ofrece 6 cuotas sin detallar cada monto. No dividir el pago único para presentarlo como precio publicado."
+  },
+  {
+    "id": "demo-11",
+    "consulta": "¿La matrícula de Psicología se paga una sola vez?",
+    "criterio_esperado": "Periodicidad no confirmada; consultar admisiones."
+  },
+  {
+    "id": "demo-12",
+    "consulta": "Avisame cuando abra el curso",
+    "criterio_esperado": "Preguntar cuál; no confirmar suscripción sin integración y permiso de contacto."
+  },
+  {
+    "id": "demo-13",
+    "consulta": "¿Ya estoy inscripto?",
+    "criterio_esperado": "La base no consulta el sistema académico ni acredita pagos; ofrecer canal oficial."
+  },
+  {
+    "id": "demo-14",
+    "consulta": "¿En qué aula tengo clases hoy?",
+    "criterio_esperado": "Pedir carrera, sede, materia/comisión y fecha; no inventar aula."
+  },
+  {
+    "id": "demo-15",
+    "consulta": "No sé qué estudiar, ¿me hacés el diagnóstico del SOVE?",
+    "criterio_esperado": "Explicar servicio y ofrecer contacto, sin diagnóstico ni promesa de cinco encuentros."
+  }
+]

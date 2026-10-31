@@ -1,0 +1,133 @@
+{
+  "name": "UNSTA · 02 Errores demo",
+  "active": false,
+  "nodes": [
+    {
+      "id": "6917f5c1ea87cb6a282ef8d158863cb6",
+      "name": "Error Trigger",
+      "type": "n8n-nodes-base.errorTrigger",
+      "typeVersion": 1,
+      "position": [
+        0,
+        0
+      ],
+      "parameters": {}
+    },
+    {
+      "id": "a8b4ca2891deafb98fc20857542b8825",
+      "name": "Configuracion UNSTA",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        220,
+        0
+      ],
+      "parameters": {
+        "mode": "runOnceForAllItems",
+        "jsCode": "const config = {\n  \"contract_version\": \"0.1.0\",\n  \"api_base_url\": \"https://unsta-api.example.invalid\",\n  \"model\": \"gpt-4.1-mini\",\n  \"timezone\": \"America/Argentina/Tucuman\",\n  \"knowledge_version\": \"1.0.0\",\n  \"max_iterations\": 6,\n  \"workflow_timeout_seconds\": 120,\n  \"request_timeout_ms\": 15000,\n  \"summary_every_messages\": 6,\n  \"knowledge_hash\": \"3ec6325b9ac1720730c84c596c86363668e5fd5b036ee5d84274bb05d6fb10c9\"\n};\nreturn [{json: (function validateConfig(config) {\n  // No URL global dependency: Code-node sandboxes differ between n8n versions.\n  const match = typeof config.api_base_url === 'string' &&\n    config.api_base_url.match(/^https:\\/\\/([a-z0-9](?:[a-z0-9.-]*[a-z0-9])?)(:\\d{1,5})?\\/?$/i);\n  // Reject known legacy/other-service hosts, while allowing a dedicated UNSTA host.\n  // This origin is operator configuration, never taken from webhook/user input.\n  if (!match || match[1].endsWith('.invalid') ||\n      ['inmobiliarialyc.com.ar', 'api.inmobiliarialyc.com.ar', 'n8n.inmobiliarialyc.com.ar', 'evoapi.inmobiliarialyc.com.ar'].includes(match[1].toLowerCase())) {\n    throw new Error('CONFIGURAR_BACKEND_UNSTA: se requiere origen HTTPS propio de UNSTA');\n  }\n  return { ...config, api_base_url: config.api_base_url.replace(/\\/$/, '') };\n})(config)}];"
+      },
+      "notes": "Origen del backend UNSTA. El placeholder .invalid bloquea la ejecución hasta configurar. No recibe URLs del webhook.",
+      "notesInFlow": true
+    },
+    {
+      "id": "8b1945f3f6b2aeb5ab04f201007be6f0",
+      "name": "normalizar_error",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        440,
+        0
+      ],
+      "parameters": {
+        "mode": "runOnceForAllItems",
+        "jsCode": "return [{json:(function normalizeError(input) {\n  const data = input && typeof input === 'object' ? input : {};\n  const execution = data.execution ?? {};\n  const trigger = data.trigger ?? {};\n  // Do not forward raw messages, stacks, URLs, request bodies or arbitrary node names.\n  // IDs allow the backend to correlate the execution registered at claim time.\n  const identifier = value => typeof value === 'string' && /^[a-zA-Z0-9_-]{1,100}$/.test(value) ? value : null;\n  const known = new Set(['reclamar_turno','obtener_contexto','Agente UNSTA','finalizar_turno','cancelar_turno',\n    'Resumir conversacion','guardar_resumen','reclamar_evento','procesar_apertura',\n    'consultar_conocimiento','ver_propuesta','actualizar_contacto','registrar_interes','gestionar_aviso','derivar_a_area']);\n  const rawNode = execution.lastNodeExecuted ?? trigger.error?.node?.name;\n  return {\n    workflow_id: identifier(data.workflow?.id),\n    execution_id: identifier(String(execution.id ?? '')),\n    node: known.has(rawNode) ? rawNode : 'no_identificado',\n    code: data.trigger ? 'N8N_TRIGGER_FAILURE' : 'N8N_EXECUTION_FAILURE',\n    mensaje: 'Falló una ejecución de UNSTA. Revisar el turno correlacionado o la ejecución en n8n.'\n  };\n})($('Error Trigger').first().json)}];"
+      }
+    },
+    {
+      "id": "0c1af227cea5f06ba3da27c3bc062f4e",
+      "name": "reportar_incidente",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        660,
+        0
+      ],
+      "parameters": {
+        "method": "POST",
+        "url": "={{ $('Configuracion UNSTA').first().json.api_base_url + '/v1/agent/incidents' }}",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{ JSON.stringify($json) }}",
+        "options": {
+          "timeout": 15000
+        }
+      },
+      "notes": "Asignar credencial Header Auth propia de UNSTA (Authorization: Bearer <secreto>). No usar credenciales de Lamelas."
+    },
+    {
+      "id": "c873345bf777d08229dfcdbce7e0493f",
+      "name": "Leer antes de importar",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        0,
+        -340
+      ],
+      "parameters": {
+        "content": "## UNSTA · Demo v0.1.0\nReporte interno mínimo, sin texto de errores, credenciales, notas o conversaciones.\n\nConfigurar backend y credenciales UNSTA. No publicar antes de conectar el backend.\nConsultar docs/importar-n8n.md. Los IDs de workflows son nuevos al importar.",
+        "height": 240,
+        "width": 540
+      }
+    }
+  ],
+  "connections": {
+    "Error Trigger": {
+      "main": [
+        [
+          {
+            "node": "Configuracion UNSTA",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Configuracion UNSTA": {
+      "main": [
+        [
+          {
+            "node": "normalizar_error",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "normalizar_error": {
+      "main": [
+        [
+          {
+            "node": "reportar_incidente",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "pinData": {},
+  "settings": {
+    "executionOrder": "v1",
+    "timezone": "America/Argentina/Tucuman",
+    "executionTimeout": 120,
+    "saveDataSuccessExecution": "none",
+    "saveDataErrorExecution": "none",
+    "saveExecutionProgress": false,
+    "saveManualExecutions": false
+  },
+  "meta": {
+    "templateCredsSetupCompleted": false
+  }
+}

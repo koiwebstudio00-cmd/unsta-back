@@ -1,0 +1,47 @@
+{
+  "name": "unsta-backend",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "tsx watch src/server.ts",
+    "start": "node dist/src/server.js",
+    "build": "node scripts/build.mjs",
+    "test": "npm run test:contract && npm run test:api",
+    "db:generate": "prisma generate",
+    "db:migrate": "node --import tsx scripts/migrate.ts",
+    "invite": "node dist/scripts/invite.js",
+    "typecheck": "tsc --noEmit",
+    "test:api": "node --import tsx scripts/test.ts",
+    "test:contract": "node --test agent-contract/test/*.test.mjs",
+    "workflows:build": "node agent-contract/build-n8n.mjs",
+    "workflows:check": "node agent-contract/verify-n8n.mjs",
+    "check": "npm run typecheck && npm run workflows:check && npm test",
+    "demo:setup": "node scripts/setup-local.mjs",
+    "db:migrate:prod": "node dist/scripts/migrate.js",
+    "format": "prettier --write \"{src,scripts,test}/**/*.{ts,mjs}\""
+  },
+  "dependencies": {
+    "@prisma/client": "6.10.1",
+    "ajv": "8.20.0",
+    "ajv-formats": "3.0.1",
+    "dotenv": "16.6.1",
+    "express": "5.3.0",
+    "express-rate-limit": "8.7.2",
+    "helmet": "8.1.0",
+    "zod": "4.6.7",
+    "prisma": "6.10.1"
+  },
+  "devDependencies": {
+    "@types/express": "5.0.3",
+    "@types/node": "24.10.0",
+    "@types/supertest": "6.0.3",
+    "supertest": "7.1.4",
+    "tsx": "4.20.6",
+    "typescript": "5.9.3",
+    "prettier": "3.9.10"
+  },
+  "engines": {
+    "node": ">=22"
+  }
+}

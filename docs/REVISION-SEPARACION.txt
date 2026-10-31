@@ -1,0 +1,147 @@
+REVISIÓN PARA SEPARAR FRONTEND Y BACKEND — UNSTA
+31/10/2026 · Alcance: análisis del repositorio actual y plan de cambios. No se movió código ni se modificaron servicios, datos, credenciales o workflows publicados.
+
+1. RESULTADO
+La separación es viable conservando la aplicación actual. El resultado propuesto son dos repositorios autónomos: unsta-frontend y unsta-backend. Cada uno tendrá package.json, package-lock.json, instalación, pruebas, documentación y despliegue propios.
+El frontend ya consume la API por HTTP. No importa código de negocio del backend durante la ejecución del panel. La dependencia directa encontrada está en un script de auditoría que debe trasladarse al backend.
+No hacen falta un tercer repositorio compartido, submódulos, enlaces entre carpetas ni publicar una librería npm para realizar esta separación.
+
+2. DISTRIBUCIÓN EXACTA
+unsta-frontend/
+  src/                 desde apps/panel/src; interfaz, rutas Next de sesión/proxy
+  public/              logo y recursos del panel
+  test/                pruebas de cliente y proxy
+  components.json      configuración shadcn
+  next.config.ts       corregida para la raíz propia
+  postcss.config.mjs
+  tsconfig.json
+  next-env.d.ts        generado según flujo de Next
+  AGENTS.md            instrucciones de Next existentes
+  package.json + package-lock.json propios
+  .env.example + .gitignore + .dockerignore
+  Dockerfile + README + documentación de panel/despliegue
+
+unsta-backend/
+  src/                 desde apps/api/src
+  scripts/             desde apps/api/scripts; sumar auditorías de base de datos
+  prisma/              esquema y migraciones existentes, sin alterarlas
+  test/                pruebas actuales del backend
+  agent-contract/      prompt, herramientas, runtime, generador, fixtures y pruebas
+  base-conocimiento/   única copia canónica del conocimiento
+  n8n/                 JSON generados y manifest
+  deploy/              configuración/guía Evolution; no forma parte de la imagen de la API
+  compose.yaml         PostgreSQL local; conservar identidad de volumen
+  tsconfig.json + configuración de compilación de producción
+  package.json + package-lock.json propios
+  .env.example + .gitignore + .dockerignore
+  Dockerfile + README + documentación de API/agente/despliegue
+
+Documentación: panel-local al frontend; backend-local, contrato-api-agente, importar-n8n, conocimiento y plan del agente al backend. Actualizar referencias y comandos vigentes.
+Las evidencias históricas de QA no son dependencias ejecutables. Conservar el original como archivo local; incorporar a los repos solo informes/fixtures pertinentes y revisados. Las capturas y JSON existentes incluyen conversaciones y datos de contacto: no copiar indiscriminadamente toda la carpeta docs al primer commit.
+
+3. CAMBIOS OBLIGATORIOS PARA INDEPENDENCIA
+
+A. Instalación y comandos
+Evidencia: package.json raíz usa workspaces y comandos npm -w. Solo hay un lockfile raíz.
+- Convertir cada package.json en raíz autónoma, eliminando la necesidad de ejecutar comandos desde un padre.
+- Trasladar workflows:build, workflows:check, pruebas de contrato, setup e invitaciones al backend.
+- Agregar test y format al frontend. Su test necesita tsx, hoy declarado solamente en apps/api/package.json y resuelto gracias al monorepo.
+- Declarar herramientas de formato en cada proyecto que las use.
+- Generar dos lockfiles preservando las versiones resueltas existentes; no aprovechar la separación para actualizar paquetes.
+- Validar npm ci en carpetas aisladas sin node_modules del repositorio anterior.
+
+B. Rutas externas del backend
+Evidencias:
+  apps/api/src/agent.ts: importa runtime.mjs y lee tools.json desde ../../../agent-contract.
+  apps/api/src/knowledge.ts: importa ../../../agent-contract/knowledge.mjs.
+  apps/api/test/backend.test.ts: importa ../../../agent-contract/runtime.mjs.
+  apps/api/tsconfig.json: incluye ../../agent-contract/*.mjs.
+  apps/api/src/config.ts: carga ../../../.env.local.
+  apps/api/scripts/setup-local.mjs: escribe ../../../.env.local.
+  apps/api/scripts/invite.ts: escribe ../../../.local/.
+Cambiar todas esas rutas a recursos dentro de unsta-backend. Resolver también su ubicación al ejecutar desde la salida compilada, no únicamente desde src.
+Conservar agent-contract, n8n y base-conocimiento como carpetas hermanas en la nueva raíz mantiene coherentes las rutas internas del generador y knowledge.mjs.
+
+C. Dependencia directa panel → base de datos
+Evidencia: apps/panel/scripts/verify-data.ts importa ../../api/src/db.js.
+Mover ese script a scripts/audit/ del backend y ajustar el import. Es una auditoría de una muestra histórica, no una prueba genérica del frontend.
+Los tres docs/*/auditar.ts también importan ../../apps/api/src/db.js: trasladarlos y ajustar rutas si se conservan como herramientas; de lo contrario, archivarlos como evidencia histórica.
+Resultado exigido: frontend sin Prisma, DATABASE_URL ni imports al repositorio backend, incluso en scripts y typecheck.
+
+D. Configuración de Next
+Evidencia: apps/panel/next.config.ts fija turbopack.root dos niveles por encima de la aplicación.
+Eliminar ese supuesto de monorepo o apuntarlo a la raíz propia. Mantener los alias @/* y components.json, que ya son internos.
+Trasladar logo, icon.png, estilos, fuentes, componentes y pruebas junto con el panel.
+
+E. Variables y archivos locales
+Frontend: API_URL, APP_ORIGIN, COOKIE_SECURE.
+Backend: DATABASE_URL, MIGRATION_DATABASE_URL, credenciales de PostgreSQL, AGENT_SERVICE_KEY, N8N_WEBHOOK_KEY, URLs de n8n, HOST, PORT, PANEL_ORIGIN, DISPATCH_ENABLED, UNSTA_WORKSPACE_ID.
+Mantener las claves actuales y el workspace actual al probar la separación. Crear ejemplos sin valores privados y copiar configuración local por separado del contenido versionable.
+OPEN_AI_KEY existe en el entorno raíz pero no encontré referencias de uso en el código inspeccionado. Documentar ese hecho; la credencial del modelo se configura en n8n. No trasladarla al frontend.
+Preservar las exclusiones actuales de .env.local, .local, node_modules y .next; agregar dist y artefactos de pruebas en cada repositorio según corresponda.
+
+4. CONEXIÓN ENTRE LOS DOS PROYECTOS
+Navegador → servidor Next del frontend → API del backend → PostgreSQL/n8n.
+Conservar las rutas Next /api/auth/login y /api/demo/[...path]: gestionan cookies y reenvían solicitudes, no contienen la lógica de CRM ni ejecutan Prisma.
+La separación de Git no requiere convertir el panel en un sitio estático ni cambiar a llamadas directas desde el navegador a otro dominio.
+API_URL se usa solo del lado servidor del frontend. APP_ORIGIN debe coincidir exactamente con PANEL_ORIGIN. En HTTPS, habilitar COOKIE_SECURE.
+El proxy actual reenvía la sesión, Origin y CSRF al backend: conservar y probar este comportamiento, incluyendo login, logout y expiración.
+Mantener los endpoints /v1/demo y /v1/agent y sus formatos actuales. Los tipos del panel ya son locales (src/lib/types.ts y demand.ts). Documentar los formatos HTTP y cubrir compatibilidad con fixtures/pruebas; no introducir un paquete compartido obligatorio.
+
+5. DESPLIEGUE: PROBLEMAS REALES QUE CONVIENE RESOLVER CON LA SEPARACIÓN
+Estos puntos son adicionales al movimiento de archivos, pero necesarios para entregar repos utilizables en Dokploy.
+
+A. API
+apps/api/package.json llama build a tsc --noEmit: hoy comprueba tipos, no genera un ejecutable JavaScript. start ejecuta TypeScript con tsx, que está en devDependencies. Una imagen que instale solo dependencias de producción no puede usar ese start tal como está.
+Propuesta: separar typecheck de build, compilar src y runtime necesario a dist y arrancar con Node. Incluir explícitamente tools.json, conocimiento y cualquier archivo leído en tiempo de ejecución. El build debe preservar las relaciones de rutas o resolverlas desde una raíz controlada.
+Mantener las migraciones como un paso explícito del despliegue, con prisma y su usuario de migración disponibles en la etapa/herramienta adecuada. El proceso normal usa el rol restringido actual.
+No cambiar a la vez el modelo de datos, el mecanismo de turnos ni la lógica del agente.
+
+B. Frontend
+Los scripts actuales fijan --hostname localhost --port 3000. El contenedor debe escuchar en 0.0.0.0 y admitir el puerto configurado.
+Preparar Dockerfile propio; Next standalone es una opción soportada por la documentación local instalada. Incluir public y .next/static en la imagen final, además de la salida standalone. La interfaz requiere un servidor Next porque usa rutas de sesión/proxy.
+El build carga fuentes con next/font/google: verificar ese build en el entorno de despliegue y su acceso a las fuentes, conservando el estilo actual.
+
+C. Infraestructura actual
+No existen Dockerfiles para API/panel ni pipelines de CI en el repositorio inspeccionado. compose.yaml raíz levanta solo PostgreSQL; deploy/evolution-dokploy es de otro servicio.
+Preparar un despliegue por repositorio con contexto raíz propio en Dokploy. Backend más PostgreSQL y frontend como servicios independientes; n8n y Evolution mantienen sus servicios actuales.
+No separar el worker en un tercer proyecto: hoy startWorker se inicia dentro del servidor de la API. Puede mantenerse así en esta etapa.
+No usar localhost desde un contenedor para acceder a otro: configurar API_URL/DATABASE_URL con el nombre de servicio alcanzable o el dominio correspondiente.
+
+D. Bloqueo de dominio en n8n
+agent-contract/runtime.mjs, validateConfig, rechaza inmobiliarialyc.com.ar y TODOS sus subdominios. Hay una prueba que exige ese rechazo y la guía lo documenta.
+Si el backend UNSTA se publica bajo ese dominio, el workflow lo rechazará aunque el despliegue esté correcto. Sustituir esa restricción general por una política que permita el origen UNSTA configurado y mantenga HTTPS, rechazo de URLs arbitrarias y protección contra reutilizar el endpoint de Lamelas. Actualizar sus pruebas y JSON generados.
+La configuración local agent-contract/config.json mantiene un placeholder .invalid. Al adoptar una URL pública estable, habrá que actualizarla y coordinarla con la configuración activa de n8n. Mover repositorios manteniendo la URL actual no obliga a reimportar workflows.
+La guía de Evolution y el prefijo evoapi corresponden a Evolution, no al dominio del backend UNSTA.
+
+6. CONSERVACIÓN DE DATOS Y CONTINUIDAD
+No se necesita ninguna migración de esquema por cambiar de repositorio.
+Conservar las migraciones Prisma byte por byte, la base existente, el rol restringido y UNSTA_WORKSPACE_ID. No ejecutar reset ni crear otra base vacía como parte de la separación.
+compose.yaml declara name: unsta-demo y el volumen unsta_pg_data. Mantener la identidad del proyecto/volumen al moverlo, o referenciar explícitamente el volumen existente; cambiarla sin control puede hacer que parezca que se perdieron los datos al arrancar un volumen nuevo.
+Antes del cambio de procesos: respaldo verificable de PostgreSQL y configuración. Detener la API anterior antes de activar la nueva con despacho habilitado, para evitar dos procesos de prueba sobre la misma cola.
+Para rollback, conservar el directorio original y su configuración hasta terminar la aceptación. Si cambian dominios del frontend, considerar que las cookies del navegador están asociadas al host anterior y probar el nuevo acceso.
+
+7. ORDEN DE IMPLEMENTACIÓN
+1) Registrar estado de servicios/datos, guardar copia recuperable y preparar dos directorios con Git independiente.
+2) Copiar los archivos según la distribución; mantener el original operativo mientras se ajustan las copias.
+3) Corregir rutas, scripts, dependencias, entornos y generación Prisma. Crear lockfiles independientes sin actualizaciones funcionales.
+4) Preparar compilaciones e imágenes autocontenidas y documentación de cada repositorio.
+5) Ejecutar las pruebas de cada proyecto desde una instalación limpia. Verificar que no hay imports, file: dependencies, symlinks ni rutas que salgan del repositorio.
+6) Cambiar los procesos locales a los repos nuevos manteniendo puertos, base, claves y endpoints existentes. Un solo worker activo.
+7) Probar el recorrido completo y comparar contactos, conversaciones e intereses antes/después.
+8) Dejar cada repositorio listo para conectar a su propio servicio Dokploy. Aplicar dominios estables y cambio n8n como paso de despliegue, una vez definidos.
+
+8. CRITERIOS DE ACEPTACIÓN
+- Clonar solo frontend permite npm ci, test, typecheck y build. Para compilar no requiere una copia del backend ni acceso a su base; para operar usa API_URL.
+- Clonar solo backend permite generar Prisma, validar tipos, ejecutar pruebas, generar/verificar workflows y compilar sin una copia del frontend.
+- Cada imagen arranca con sus propios archivos y configuración; se comprueban assets, conocimiento, tools.json y arranque de Prisma.
+- Regresión: las suites actuales pasan en su repositorio correspondiente. Referencia de la última validación: 33 API y 7 panel; las pruebas de contrato/workflows también deben ejecutarse en backend.
+- Recorrido: acceso compartido, mensaje y respuesta n8n, captura de teléfono e interés de catálogo, toma humana, pipeline, demanda, tareas, aviso simulado y cancelación.
+- Cambiar un lead desde un navegador se refleja en otro; preservar todos los datos anteriores.
+- n8n sigue autenticando y llamando al backend correcto; no publicar JSON con .invalid ni credenciales embebidas.
+
+9. ESTADO DE GIT Y ALCANCE DE ESTA REVISIÓN
+El repositorio actual no tiene archivos tracked ni commits (sin HEAD) ni remotos configurados. Hay que crear los commits iniciales de los dos proyectos; no hay historial de commits que dividir en este checkout.
+Se inspeccionaron manifiestos/lockfile, imports, configuración, scripts, pruebas, sesiones/proxy, arranque, worker, esquema/migraciones, generador n8n, conocimiento, despliegue y documentación. Se buscaron referencias de rutas en el árbol fuente y documentos.
+Una comprobación de coincidencias exactas de secretos configurados, excluyendo los archivos de entorno/locales y dependencias, revisó 188 archivos de texto y no encontró coincidencias. No constituye una auditoría exhaustiva de todas las formas de secretos ni de datos personales.
+No se realizaron instalaciones limpias, despliegues ni nuevas pruebas integradas en esta revisión: esos pasos validarán la separación cuando se implemente. Los hallazgos anteriores describen código/configuración existente; no se afirma que los repos separados ya estén creados.

@@ -1,0 +1,50 @@
+SEPARACIÓN DE REPOSITORIOS UNSTA — 31/10/2026
+
+Resultado: frontend y backend son repositorios Git independientes en /Users/dev0/koi/clients/unsta. La carpeta contenedora no tiene package.json, lockfile ni Git compartidos. El directorio original /Users/dev0/Documents/ChatGPT/unsta se conserva como respaldo, con sus procesos detenidos.
+
+Cambios realizados:
+- Rutas, configuración y scripts del backend ajustados a su nueva raíz.
+- API compilada a JavaScript; arranque con Node sin tsx. Conocimiento, herramientas y migraciones incluidos en dist.
+- Frontend Next standalone con assets y arranque propio; eliminada raíz de monorepo.
+- Script de auditoría PostgreSQL trasladado del frontend al backend.
+- Dependencias/lockfiles y herramientas de prueba propias. npm ci ejecutado desde cada repositorio, sin copiar ni enlazar node_modules anterior.
+- Versiones directas preservadas y fijadas al lock original. npm completó seis entradas transitivas opcionales WASI de Tailwind en el lock del frontend; no se actualizaron dependencias directas.
+- Dockerfiles, .dockerignore, ejemplos de entorno y READMEs propios.
+- Validación de origen n8n permite un subdominio dedicado UNSTA y conserva el bloqueo de los hosts de otros servicios conocidos. Solo JSON locales regenerados; no se publicaron workflows desde el agente durante esta separación.
+- Conocimiento, esquema y migraciones originales conservados sin cambios.
+- Secretos, respaldos, invitaciones y capturas fuera de Git y de las imágenes.
+
+Validación técnica:
+- Backend: typecheck aprobado; 34 pruebas de contrato/workflows + 33 de API aprobadas; 3 workflows reproducibles; build JavaScript aprobado.
+- Frontend: 7 pruebas aprobadas; build Next y comprobación TypeScript aprobados.
+- Imagen backend construida desde su propio contexto. Arranque contra unsta_demo_test con despacho apagado, health 200, Prisma CLI disponible y tsx ausente.
+- Imagen frontend final construida desde su propio contexto. Sin API disponible, login 200, dos CSS 200, icono y logo 200. Contenedores de smoke test detenidos y removidos automáticamente.
+- Sin dependencias file:, workspaces, enlaces de paquetes ni imports relativos hacia el otro repositorio.
+
+Conservación de datos:
+- Se creó pg_dump de formato custom y se comprobó lectura de su índice antes del cambio.
+- Antes/después del cambio de procesos: 9 contactos, 9 conversaciones, 105 mensajes y 5 intereses. Las huellas de IDs de las cuatro tablas coincidieron exactamente.
+- Sesión del navegador conservada y espacio institucional compartido intacto.
+- Se mantuvieron base, volumen, claves, UUID de espacio y puertos locales.
+
+Recorrido desde el navegador:
+- Inicio con KPIs/demanda, acceso del ranking al CRM, teléfono y propuesta de catálogo visibles.
+- Cambio de etapa de un contacto QA y Deshacer comprobados; etapa original restaurada.
+- Una consulta nueva sobre modalidad/arancel de Social Media, enviada desde el panel al backend nuevo.
+- Primer intento aceptado por n8n sin callback: el túnel anterior estaba apagado. La revisión automática rechazó abrir uno nuevo; se pidió autorización y el usuario indicó que él mismo levantó el túnel y configuró la URL en n8n.
+- Reintento explícito desde el panel completado. Ejecución n8n 10012; respuesta virtual/ARS 130.000 con fuente y límites de edición; teléfono QA preservado; un solo interés del contacto (sin duplicados).
+- Respuesta persiste al recargar. Totales finales: 9 contactos, 9 conversaciones, 107 mensajes y 5 intereses. Los dos mensajes adicionales son consulta/respuesta QA; no se crearon contactos nuevos.
+
+Evidencia privada:
+backend/.local/separacion-2026-10-31 contiene dump, índice, huellas antes/después, agent-proof.json y chat.png. No se versiona.
+
+Operación:
+- Backend activo desde backend/dist/src/server.js en puerto 4100.
+- Frontend activo desde frontend/.next/standalone/server.js en puerto 3000.
+- En cada repositorio: npm ci para instalar; npm run build y npm start para producción; npm run dev para desarrollo.
+- No arrancar simultáneamente la API del directorio anterior contra la misma base.
+- El túnel sigue siendo temporal y administrado por el usuario; si cambia, actualizar URL en n8n. El origen .invalid del generador local se conserva como plantilla hasta fijar URL de despliegue: no reemplazar workflows activos con ese placeholder.
+- No se crearon repositorios remotos ni se desplegó en VPS. Cada repo tiene su Dockerfile y documentación para vincular su propio servicio en Dokploy.
+- Evolution continúa como servicio separado; no se instaló ni cambió por esta tarea.
+
+Alcance de pruebas: las suites automatizadas cubren sesiones, captura, control humano, avisos y aislamiento. En navegador esta separación verificó sesión existente, lectura CRM/demanda, cambio/reversión de etapa y conversación real vía n8n. No se afirma una nueva prueba manual de todos los escenarios de admisiones o avisos.

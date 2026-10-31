@@ -1,0 +1,30 @@
+BASE DE CONOCIMIENTO UNSTA PARA DEMO
+Versión 1.0.0 - 31 de octubre de 2026
+
+Foco acordado: Sede Central y Campus Yerba Buena. Se agregan dos propuestas virtuales para demostrar consultas por cursos y próximas ediciones.
+
+ARCHIVOS
+- unsta-demo.txt: versión legible de toda la base, con fuentes y condiciones junto a cada registro.
+- unsta-demo.json: mismos hechos en formato estructurado; archivo canónico para integración. Precios numéricos en ARS, fechas ISO y valores null para datos desconocidos.
+- instrucciones-demo.txt: comportamiento propuesto para el asistente. Mantener separado del conocimiento institucional.
+- casos-demo.json: 15 consultas y criterios de aceptación. No son respuestas generadas ni una evaluación ya ejecutada del modelo.
+- fuentes/calendario-unsta-2026.pdf: copia de la resolución oficial consultada. Tablas verificadas visualmente en páginas 2, 3 y 7.
+
+CONTENIDO
+6 carreras: Medicina, Psicología, Abogacía, Contador Público, Marketing e Ingeniería en Informática.
+5 propuestas de cursos: Inglés A1, Portugués A1, Italiano A1, Social Media Marketing y Automatización con IA, Diplomatura en Nutrición Deportiva.
+Información institucional, dos sedes, contactos, ingreso, documentación, SOVE, beneficios, horarios publicados y selección del calendario 2026.
+Aranceles reales publicados de idiomas y de las dos propuestas virtuales. No se agregaron importes ficticios.
+
+LÍMITES QUE AFECTAN LA DEMO
+No hay valores confirmados de cuotas/matrícula de grado, horarios de carreras por comisión, aulas, calendario general 2027 ni estado individual de inscripción.
+Los horarios de idiomas carecen de año en la página consultada. Los cursos virtuales tienen fechas iniciales anteriores al corte; sus aperturas futuras y vacantes no están confirmadas.
+La ficha de Nutrición Deportiva tiene inconsistencias de duración y horas. Abogacía presenta discrepancia sobre Yerba Buena. La entrega de documentación necesita validación operativa.
+
+CARGA AL AGENTE
+Elegir TXT o JSON, no ambos. Al fragmentar, conservar siempre título, fuentes, período, estado y condiciones. Cargar instrucciones-demo.txt como configuración separada y explícita. Los casos de prueba no deben ingresar como hechos al buscador.
+Los IDs de arancel_ref y horario_ref apuntan a registros de la misma base; resolverlos para responder. Un registro encontrado no habilita ignorar sus restricciones.
+Antes de probar con público real: UNSTA debe validar información, responsables y vigencia. La base por sí sola no integra WhatsApp, registra personas ni envía mensajes.
+
+MANTENIMIENTO
+Actualizar primero JSON y regenerar la copia TXT conservando paridad. Registrar la fecha de cada nueva revisión. La fecha de consulta de una página no prueba su vigencia operativa.

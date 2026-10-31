@@ -1,0 +1,618 @@
+BASE DE CONOCIMIENTO UNSTA PARA DEMO
+Versión 1.0.0 | Corte: 31/10/2026 | Español Argentina
+Foco: Sede Central y Campus Yerba Buena. Incluye dos propuestas virtuales.
+Selección parcial. No constituye catálogo completo ni validación institucional.
+Datos reales publicados; sin importes ficticios. Fechas 2026 no aplican a 2027.
+Cada registro debe conservar sus condiciones y fuentes al cargarse al agente.
+Las instrucciones de comportamiento están en instrucciones-demo.txt.
+
+INSTITUCION
+============================================================
+
+Universidad del Norte Santo Tomás de Aquino [institucion]
+Estado: publicado
+Período: No especificado
+Sigla: UNSTA
+Descripcion: Universidad de tradición dominicana, con origen en Tucumán. Ofrece formación universitaria y actividades de extensión.
+Reconocimiento institucional publicado: 6 de agosto de 1965
+Web: https://www.unsta.edu.ar/
+Alcance demo: Selección de información para Sede Central y Campus Yerba Buena, más dos propuestas virtuales. No representa toda la oferta ni todas las sedes.
+Fuentes:
+- Historia institucional: https://www.unsta.edu.ar/institucional-unsta/
+- Sitio institucional y contactos: https://www.unsta.edu.ar/
+
+Sede Central [sede-central]
+Estado: publicado
+Período: No especificado
+Sedes del recorte: Sede Central
+Direccion: 9 de Julio 165, San Miguel de Tucumán
+Telefono: 0381 410 1141
+Correo: informes@unsta.edu.ar
+Fuentes:
+- Sitio institucional y contactos: https://www.unsta.edu.ar/
+
+Campus Yerba Buena [sede-yerba-buena]
+Estado: publicado
+Período: No especificado
+Sedes del recorte: Campus Yerba Buena
+Direccion: Av. Presidente Perón 2085, Yerba Buena
+Telefono: 0381 410 1198
+Correo: informes@unsta.edu.ar
+Fuentes:
+- Sitio institucional y contactos: https://www.unsta.edu.ar/
+
+CONTACTOS
+============================================================
+
+Información general e ingreso [contacto-general]
+Estado: publicado
+Período: No especificado
+Whatsapp: https://wa.me/5493816201120
+Correo: informes@unsta.edu.ar
+Preinscripcion: https://preinscripcion.unsta.edu.ar/
+Portal ingreso: https://ingreso.unsta.edu.ar/
+Condiciones de uso:
+- Contactos publicados; no se probaron llamadas ni mensajes.
+Fuentes:
+- Sitio institucional y contactos: https://www.unsta.edu.ar/
+- Ingreso y sedes de las carreras: https://ingreso.unsta.edu.ar/
+
+Atención a alumnos [atencion-alumnos]
+Estado: publicado
+Período: No especificado
+Sedes del recorte: Sede Central, Campus Yerba Buena
+Correo: infoalumnos@unsta.edu.ar
+Whatsapp numero: +54 9 381 416 3816
+Telefono publicado: 4101130
+Horario publicado: Lunes a viernes de 08:00 a 20:00, en las sedes.
+Temas: Documentación, inscripciones, equivalencias, cambios de carrera o sede, becas, claves de autogestión y seguimiento de trámites.
+Condiciones de uso:
+- Es horario de atención del servicio, no horario de clases ni garantía de atención en feriados.
+Fuentes:
+- Servicio de atención a alumnos: https://www.unsta.edu.ar/alumnos-unsta/
+
+SERVICIOS
+============================================================
+
+Orientación vocacional [sove]
+Estado: publicado
+Período: No especificado
+Sedes del recorte: Sede Central, Campus Yerba Buena
+Servicio: Servicio de Orientación Vocacional y Educativa (SOVE)
+Descripcion: Acompañamiento para explorar estudios y proyectos profesionales, incluida la reorientación vocacional.
+Destinatarios: Estudiantes de los últimos años de secundaria, ingresantes, estudiantes UNSTA y personas que buscan orientación.
+Correo: orientacionvocacional@unsta.edu.ar
+Whatsapp publicado: https://wa.me/5493812067003
+Informacion: https://www.unsta.edu.ar/sove/orientacionvocacional/
+Cantidad encuentros: No confirmado
+Arancel: No confirmado
+Proxima apertura: No confirmado
+Condiciones de uso:
+- No confirmar cinco encuentros, diagnóstico, costo ni fecha sin validación del área. Los importes cero o mensajes de éxito del HTML del formulario no acreditan gratuidad ni una inscripción.
+Fuentes:
+- Orientación y reorientación vocacional: https://www.unsta.edu.ar/sove/orientacionvocacional/
+
+Becas y beneficios arancelarios [beneficios]
+Estado: publicado
+Período: 2026
+Canal solicitud: Autogestión Alumnos, sección Beneficios Arancelarios.
+Correo: beneficiosarancelarios@unsta.edu.ar
+Periodos 2026:
+  - 2026-02-02 a 2026-03-06
+  - 2026-08-03 a 2026-08-28
+Condiciones de uso:
+- Ambos períodos ya finalizaron al corte de esta base. No prometer porcentajes, elegibilidad, concesión ni fechas 2027.
+Fuentes:
+- Beneficios arancelarios: https://www.unsta.edu.ar/beneficios-arancelarios-unsta/
+
+INGRESO
+============================================================
+
+Proceso general de ingreso [ingreso-general]
+Estado: publicado
+Período: 2027
+Convocatoria portal: Ingreso 2027
+Pasos:
+  - Elegir sede y completar la preinscripción en el portal oficial.
+  - Abonar la matrícula correspondiente mediante las opciones habilitadas en el sistema.
+  - Completar la presentación de documentación indicada por admisiones.
+Preinscripcion: https://preinscripcion.unsta.edu.ar/
+Documentacion: https://ingreso.unsta.edu.ar/documentacion-de-ingreso-unsta/
+Condiciones de uso:
+- Preinscripción no equivale a inscripción confirmada. El portal anuncia ingreso, pero no confirma vacantes individuales.
+Fuentes:
+- Ingreso y sedes de las carreras: https://ingreso.unsta.edu.ar/
+- Documentación de ingreso: https://ingreso.unsta.edu.ar/documentacion-de-ingreso-unsta/
+
+Documentación de ingreso [documentacion-general]
+Estado: requiere_confirmacion
+Período: No especificado
+Requisitos basicos publicados:
+  - Preinscripción y ficha de inscripción.
+  - Título secundario o constancia de título en trámite.
+  - DNI.
+Otros requisitos publicados: La página también enumera fotografías y acta de nacimiento.
+Forma de entrega: El sitio combina referencias a originales y copias, presentación en sede y formulario con turno.
+Condiciones de uso:
+- Confirmar lista y entrega según carrera y cohorte. No existe en esta base una guía validada de carga documental en la app. Casos de extranjeros y equivalencias requieren atención específica.
+Fuentes:
+- Documentación de ingreso: https://ingreso.unsta.edu.ar/documentacion-de-ingreso-unsta/
+
+CARRERAS
+============================================================
+
+Medicina [carrera-medicina]
+Estado: publicado
+Período: Inicio marzo 2027
+Sedes del recorte: Campus Yerba Buena
+Duracion anios: 6
+Modalidades publicadas:
+  - Presencial
+Perfil: Formación médica general con orientación familiar y comunitaria.
+Inicio publicado: 2027-03
+Web carrera: https://www.unsta.edu.ar/salud/medicina/
+Preinscripcion: https://preinscripcion.unsta.edu.ar/
+Arancel cuota: No confirmado
+Arancel matricula: No confirmado
+Horario clases: No confirmado
+Condiciones de uso:
+- Incluye nivelación y examen de ingreso. El cronograma específico y el derecho de examen deben confirmarse.
+- Sedes limitadas al recorte de la demo. Aranceles, horarios y vacantes no confirmados.
+Fuentes:
+- Medicina: https://www.unsta.edu.ar/salud/medicina/
+- Ingreso y sedes de las carreras: https://ingreso.unsta.edu.ar/
+
+Licenciatura en Psicología [carrera-psicologia]
+Estado: publicado
+Período: Inicio marzo 2027
+Sedes del recorte: Campus Yerba Buena
+Duracion anios: 5
+Modalidades publicadas:
+  - Presencial
+Perfil: Formación para el trabajo psicológico en ámbitos clínicos, educativos, comunitarios y organizacionales.
+Inicio publicado: 2027-03
+Web carrera: https://www.unsta.edu.ar/salud/psicologia/
+Preinscripcion: https://preinscripcion.unsta.edu.ar/
+Arancel cuota: No confirmado
+Arancel matricula: No confirmado
+Horario clases: No confirmado
+Condiciones de uso:
+- Sedes limitadas al recorte de la demo. Aranceles, horarios y vacantes no confirmados.
+Fuentes:
+- Licenciatura en Psicología: https://www.unsta.edu.ar/salud/psicologia/
+- Ingreso y sedes de las carreras: https://ingreso.unsta.edu.ar/
+
+Abogacía [carrera-abogacia]
+Estado: publicado
+Período: No especificado
+Sedes del recorte: Sede Central
+Duracion anios: 5
+Modalidades publicadas:
+  - Presencial
+Perfil: Formación jurídica para asesoramiento, defensa y resolución de conflictos.
+Inicio publicado: No confirmado
+Web carrera: https://www.unsta.edu.ar/juridicas/abogacia/
+Preinscripcion: https://preinscripcion.unsta.edu.ar/
+Arancel cuota: No confirmado
+Arancel matricula: No confirmado
+Horario clases: No confirmado
+Condiciones de uso:
+- La ficha individual menciona Yerba Buena, pero el portal de ingreso no la lista para esta carrera. No ofrecer Yerba Buena sin confirmación.
+- Sedes limitadas al recorte de la demo. Aranceles, horarios y vacantes no confirmados.
+Fuentes:
+- Abogacía: https://www.unsta.edu.ar/juridicas/abogacia/
+- Ingreso y sedes de las carreras: https://ingreso.unsta.edu.ar/
+
+Contador Público [carrera-contador]
+Estado: publicado
+Período: No especificado
+Sedes del recorte: Sede Central, Campus Yerba Buena
+Duracion anios: 4
+Modalidades publicadas:
+  - Presencial
+Perfil: Formación en contabilidad, información económica y asesoramiento administrativo contable.
+Inicio publicado: No confirmado
+Web carrera: https://www.unsta.edu.ar/economia/contador-publico/
+Preinscripcion: https://preinscripcion.unsta.edu.ar/
+Arancel cuota: No confirmado
+Arancel matricula: No confirmado
+Horario clases: No confirmado
+Condiciones de uso:
+- Sedes limitadas al recorte de la demo. Aranceles, horarios y vacantes no confirmados.
+Fuentes:
+- Contador Público: https://www.unsta.edu.ar/economia/contador-publico/
+- Ingreso y sedes de las carreras: https://ingreso.unsta.edu.ar/
+
+Licenciatura en Marketing [carrera-marketing]
+Estado: publicado
+Período: No especificado
+Sedes del recorte: Sede Central
+Duracion anios: 4
+Modalidades publicadas:
+  - Presencial
+  - A distancia
+Perfil: Formación en estrategias comerciales, marketing y relación con los públicos.
+Inicio publicado: No confirmado
+Web carrera: https://www.unsta.edu.ar/economia/licenciatura-en-marketing/
+Preinscripcion: https://preinscripcion.unsta.edu.ar/
+Arancel cuota: No confirmado
+Arancel matricula: No confirmado
+Horario clases: No confirmado
+Condiciones de uso:
+- La opción a distancia está publicada; no asignarla automáticamente a una sede física ni prometer condiciones de cursado.
+- Sedes limitadas al recorte de la demo. Aranceles, horarios y vacantes no confirmados.
+Fuentes:
+- Licenciatura en Marketing: https://www.unsta.edu.ar/economia/licenciatura-en-marketing/
+- Ingreso y sedes de las carreras: https://ingreso.unsta.edu.ar/
+
+Ingeniería en Informática [carrera-informatica]
+Estado: publicado
+Período: No especificado
+Sedes del recorte: Campus Yerba Buena
+Duracion anios: 5
+Modalidades publicadas:
+  - Presencial
+Perfil: Formación para desarrollar software y conducir proyectos tecnológicos.
+Inicio publicado: No confirmado
+Web carrera: https://www.unsta.edu.ar/ingenieria/ingenieria-informatica/
+Preinscripcion: https://preinscripcion.unsta.edu.ar/
+Arancel cuota: No confirmado
+Arancel matricula: No confirmado
+Horario clases: No confirmado
+Condiciones de uso:
+- Sedes limitadas al recorte de la demo. Aranceles, horarios y vacantes no confirmados.
+Fuentes:
+- Ingeniería en Informática: https://www.unsta.edu.ar/ingenieria/ingenieria-informatica/
+- Ingreso y sedes de las carreras: https://ingreso.unsta.edu.ar/
+
+CURSOS
+============================================================
+
+Cursos del Centro de Idiomas [idiomas-general]
+Estado: publicado
+Período: No especificado
+Descripcion: Cursos para comunidad universitaria y público general. A1 corresponde a nivel principiante.
+Duracion general publicada: En su mayoría anuales, de marzo a noviembre, con 120 horas cátedra.
+Correo: idiomas@unsta.edu.ar
+Inscripcion general: Preinscripción y selección de idioma y comisión en Autogestión.
+Idioma curricular: Si integra el plan de la carrera, el sitio indica que su cursada está incluida en la cuota universitaria.
+Condiciones de uso:
+- Distinguir idioma curricular de curso de extensión. Confirmar próxima edición y entrega de documentación. La página contiene instrucciones digitales y referencias a fotocopias.
+Fuentes:
+- Centro de Idiomas y aranceles 2026: https://www.unsta.edu.ar/cicm/
+
+Inglés A1 [curso-ingles-a1]
+Estado: publicado
+Período: No especificado
+Sedes del recorte: Sede Central
+Nivel: Principiante
+Web: https://www.unsta.edu.ar/cicm/
+Arancel ref: aranceles-idiomas
+Horario ref: horario-ingles-a1
+Proxima apertura: No confirmado
+Condiciones de uso:
+- Oferta publicada; apertura y vacantes actuales requieren confirmación.
+Fuentes:
+- Centro de Idiomas y aranceles 2026: https://www.unsta.edu.ar/cicm/
+- Horarios publicados de idiomas: https://www.unsta.edu.ar/cicm/horarios-cicm/
+
+Portugués A1 [curso-portugues-a1]
+Estado: publicado
+Período: No especificado
+Sedes del recorte: Sede Central
+Nivel: Principiante
+Web: https://www.unsta.edu.ar/cicm/
+Arancel ref: aranceles-idiomas
+Horario ref: horario-portugues-a1
+Proxima apertura: No confirmado
+Condiciones de uso:
+- Oferta publicada; apertura y vacantes actuales requieren confirmación.
+Fuentes:
+- Centro de Idiomas y aranceles 2026: https://www.unsta.edu.ar/cicm/
+- Horarios publicados de idiomas: https://www.unsta.edu.ar/cicm/horarios-cicm/
+
+Italiano A1 [curso-italiano-a1]
+Estado: publicado
+Período: No especificado
+Sedes del recorte: Sede Central
+Nivel: Principiante
+Web: https://www.unsta.edu.ar/cicm/
+Arancel ref: aranceles-idiomas
+Horario ref: horario-italiano-a1
+Proxima apertura: No confirmado
+Condiciones de uso:
+- Oferta publicada; apertura y vacantes actuales requieren confirmación.
+Fuentes:
+- Centro de Idiomas y aranceles 2026: https://www.unsta.edu.ar/cicm/
+- Horarios publicados de idiomas: https://www.unsta.edu.ar/cicm/horarios-cicm/
+
+Social Media Marketing y Automatización con IA [curso-social-media]
+Estado: inicio_publicado_pasado
+Período: Edición con inicio publicado 22/10/2026
+Modalidad: Virtual
+Inicio publicado: 2026-10-22
+Contenidos: Redes sociales, contenidos, publicidad, métricas y gestión de comunidades.
+Web: https://eadistancia.unsta.edu.ar/social-media-marketing-y-automatizacion-con-ia/
+Arancel ref: arancel-social-media
+Horario clases: No confirmado
+Proxima apertura: No confirmado
+Condiciones de uso:
+- La fecha ya pasó. No afirmar que admite nuevas inscripciones ni prometer próxima edición. Propuesta virtual, sin atribuirle sede de cursado física.
+Fuentes:
+- Social Media Marketing y Automatización con IA: https://eadistancia.unsta.edu.ar/social-media-marketing-y-automatizacion-con-ia/
+
+Diplomatura en Nutrición Deportiva sexta cohorte [diplomatura-nutricion-deportiva]
+Estado: inicio_publicado_pasado
+Período: Sexta cohorte 2026-2027
+Modalidad: 100% virtual
+Inicio publicado: 2026-10-02
+Carga horaria publicada: 150
+Duracion publicada: 6 meses
+Destinatarios: Licenciados en Nutrición o equivalentes con carreras de al menos 4 años; alumnos del último año; técnicos en Nutrición o equivalentes de al menos 3 años.
+Cursado: Material asincrónico y encuentros sincrónicos mensuales.
+Correo: diplomatura.deporte@unsta.edu.ar
+Web: https://eadistancia.unsta.edu.ar/nutricion-deportiva/
+Arancel ref: arancel-nutricion-deportiva
+Horario clases: No confirmado
+Proxima apertura: No confirmado
+Condiciones de uso:
+- La fuente declara 6 meses, pero fecha el cierre el 02/05/2027 desde el 02/10/2026. Su desglose horario tampoco suma las 150 horas declaradas. Confirmar duración y cierre. Fecha inicial pasada; vacantes no verificadas.
+Fuentes:
+- Diplomatura en Nutrición Deportiva sexta cohorte: https://eadistancia.unsta.edu.ar/nutricion-deportiva/
+
+ARANCELES
+============================================================
+
+Idiomas de extensión en Sede Central [aranceles-idiomas]
+Estado: referencia_publicada
+Período: 2026
+Sedes del recorte: Sede Central
+Moneda: ARS
+Concepto: Valor publicado de cada cuota
+Cantidad cuotas: 8
+Importes por categoria:
+  Publico general: 90251
+  Alumno unsta u otra universidad: 84756
+  Egresado unsta: 68397
+  Docente unsta: 30500
+  Empleado unsta: 30500
+  Jubilado o pensionado: 44212
+Matricula publicada: 0
+Seguro obligatorio: Adicional; importe no publicado en esta base.
+Derecho examen: Incluido según la página.
+Condiciones de uso:
+- Informar como valores publicados para 2026, sujetos a confirmación. No proyectar a 2027 ni a otros programas. No calcular un total final sin seguro.
+Fuentes:
+- Centro de Idiomas y aranceles 2026: https://www.unsta.edu.ar/cicm/
+
+Arancel del curso de Social Media Marketing [arancel-social-media]
+Estado: referencia_publicada
+Período: Edición con inicio publicado 22/10/2026
+Moneda: ARS
+Categoria: Público general
+Importe pago unico: 130000
+Matricula: No confirmado
+Plan cuotas: No confirmado
+Condiciones de uso:
+- Precio de la edición publicada, no de una próxima apertura. La ausencia de matrícula informada no significa matrícula gratuita.
+Fuentes:
+- Social Media Marketing y Automatización con IA: https://eadistancia.unsta.edu.ar/social-media-marketing-y-automatizacion-con-ia/
+
+Arancel de Nutrición Deportiva sexta cohorte [arancel-nutricion-deportiva]
+Estado: referencia_publicada
+Período: Sexta cohorte 2026-2027
+Moneda: ARS
+Pago unico publico general: 1116000
+Pago unico alumnos egresados docentes unsta: 1004400
+Alternativa publicada: 6 cuotas; sin importe individual explícito.
+Matricula publicada: 0
+Condiciones de uso:
+- Confirmar condiciones actuales con el área. No dividir el pago único para afirmar el valor de cada cuota. Estas condiciones no aplican a otras propuestas.
+Fuentes:
+- Diplomatura en Nutrición Deportiva sexta cohorte: https://eadistancia.unsta.edu.ar/nutricion-deportiva/
+
+Cuotas y matrícula de carreras de grado [aranceles-carreras]
+Estado: sin_dato_confirmado
+Período: No especificado
+Importes verificados: No confirmado
+Periodicidad matricula: No confirmado
+Cantidad cuotas: No confirmado
+Mora intereses generales: No confirmado
+Contacto confirmacion: Información general: informes@unsta.edu.ar / WhatsApp +54 9 381 620 1120.
+Condiciones de uso:
+- No inventar importes ni asegurar que la matrícula se paga una sola vez. El contacto general no es un número directo verificado de Tesorería.
+Fuentes:
+- Ingreso y sedes de las carreras: https://ingreso.unsta.edu.ar/
+
+HORARIOS
+============================================================
+
+Horario publicado de Inglés A1 [horario-ingles-a1]
+Estado: sin_periodo_confirmado
+Período: No especificado
+Sedes del recorte: Sede Central
+Comision: Comisión a cargo de Eugenia Lobo de Lobo
+Bloques:
+  -
+    Dias:
+      - lunes
+    Desde: 09:30
+    Hasta: 12:30
+Aula: No confirmado
+Zona horaria: America/Argentina/Tucuman
+Condiciones de uso:
+- La página no identifica el ciclo lectivo. Es un ejemplo publicado de comisión, no un horario vigente confirmado ni la lista completa. Confirmar antes de asistir.
+Fuentes:
+- Horarios publicados de idiomas: https://www.unsta.edu.ar/cicm/horarios-cicm/
+
+Horario publicado de Portugués A1 [horario-portugues-a1]
+Estado: sin_periodo_confirmado
+Período: No especificado
+Sedes del recorte: Sede Central
+Comision: Mussi 1
+Bloques:
+  -
+    Dias:
+      - miércoles
+    Desde: 18:20
+    Hasta: 21:30
+Aula: No confirmado
+Zona horaria: America/Argentina/Tucuman
+Condiciones de uso:
+- La página no identifica el ciclo lectivo. Es un ejemplo publicado de comisión, no un horario vigente confirmado ni la lista completa. Confirmar antes de asistir.
+Fuentes:
+- Horarios publicados de idiomas: https://www.unsta.edu.ar/cicm/horarios-cicm/
+
+Horario publicado de Italiano A1 [horario-italiano-a1]
+Estado: sin_periodo_confirmado
+Período: No especificado
+Sedes del recorte: Sede Central
+Comision: Pinna
+Bloques:
+  -
+    Dias:
+      - lunes
+      - miércoles
+    Desde: 16:00
+    Hasta: 17:30
+Aula: No confirmado
+Zona horaria: America/Argentina/Tucuman
+Condiciones de uso:
+- La página no identifica el ciclo lectivo. Es un ejemplo publicado de comisión, no un horario vigente confirmado ni la lista completa. Confirmar antes de asistir.
+Fuentes:
+- Horarios publicados de idiomas: https://www.unsta.edu.ar/cicm/horarios-cicm/
+
+Horarios de carreras y aulas [horarios-carreras]
+Estado: sin_dato_confirmado
+Período: No especificado
+Horarios por comision: No confirmado
+Aulas: No confirmado
+Datos para consultar:
+  - Carrera
+  - Sede
+  - Año o materia
+  - Comisión
+  - Fecha de la clase
+Condiciones de uso:
+- Las fichas enlazan novedades y horarios externos, pero sus contenidos actuales no forman parte de esta base. Derivar a la facultad o atención a alumnos.
+Fuentes:
+- Contador Público: https://www.unsta.edu.ar/economia/contador-publico/
+- Abogacía: https://www.unsta.edu.ar/juridicas/abogacia/
+- Servicio de atención a alumnos: https://www.unsta.edu.ar/alumnos-unsta/
+
+CALENDARIO
+============================================================
+
+Alcance del calendario 2026 [calendario-marco]
+Estado: publicado
+Período: 2026
+Resolucion: RR 029-2026
+Paginas referencia:
+  - 2
+  - 3
+  - 7
+Alcance: Marco académico administrativo general. Las facultades organizan sus cronogramas dentro de ese marco.
+Calendario 2027: No confirmado
+Condiciones de uso:
+- No extrapolar fechas a 2027, ni usar este calendario como horario de una materia. Revisar modificaciones posteriores antes de uso operativo.
+Fuentes:
+- Calendario académico administrativo 2026 RR 029-2026: https://www.unsta.edu.ar/wp-content/uploads/2026/04/RR-Rect20260029-1.pdf
+
+Primer cuatrimestre [cal-primer-cuatrimestre]
+Estado: publicado
+Período: 2026
+Fecha desde: 2026-03-16
+Fecha hasta: 2026-06-19
+Pagina pdf: 2
+Condiciones de uso:
+- Referencia del calendario general 2026; no confirma una mesa individual ni la atención de cada servicio.
+Fuentes:
+- Calendario académico administrativo 2026 RR 029-2026: https://www.unsta.edu.ar/wp-content/uploads/2026/04/RR-Rect20260029-1.pdf
+
+Turno de finales junio y julio [cal-finales-junio-julio]
+Estado: publicado
+Período: 2026
+Fecha desde: 2026-06-22
+Fecha hasta: 2026-07-03
+Pagina pdf: 3
+Condiciones de uso:
+- Referencia del calendario general 2026; no confirma una mesa individual ni la atención de cada servicio.
+Fuentes:
+- Calendario académico administrativo 2026 RR 029-2026: https://www.unsta.edu.ar/wp-content/uploads/2026/04/RR-Rect20260029-1.pdf
+
+Receso académico administrativo de julio [cal-receso-julio]
+Estado: publicado
+Período: 2026
+Fecha desde: 2026-07-13
+Fecha hasta: 2026-07-24
+Pagina pdf: 3
+Condiciones de uso:
+- Referencia del calendario general 2026; no confirma una mesa individual ni la atención de cada servicio.
+Fuentes:
+- Calendario académico administrativo 2026 RR 029-2026: https://www.unsta.edu.ar/wp-content/uploads/2026/04/RR-Rect20260029-1.pdf
+
+Turno de finales julio y agosto [cal-finales-julio-agosto]
+Estado: publicado
+Período: 2026
+Fecha desde: 2026-07-27
+Fecha hasta: 2026-08-14
+Pagina pdf: 3
+Condiciones de uso:
+- Referencia del calendario general 2026; no confirma una mesa individual ni la atención de cada servicio.
+Fuentes:
+- Calendario académico administrativo 2026 RR 029-2026: https://www.unsta.edu.ar/wp-content/uploads/2026/04/RR-Rect20260029-1.pdf
+
+Segundo cuatrimestre [cal-segundo-cuatrimestre]
+Estado: publicado
+Período: 2026
+Fecha desde: 2026-08-18
+Fecha hasta: 2026-11-20
+Pagina pdf: 3
+Condiciones de uso:
+- Referencia del calendario general 2026; no confirma una mesa individual ni la atención de cada servicio.
+Fuentes:
+- Calendario académico administrativo 2026 RR 029-2026: https://www.unsta.edu.ar/wp-content/uploads/2026/04/RR-Rect20260029-1.pdf
+
+Turno de finales noviembre y diciembre [cal-finales-noviembre-diciembre]
+Estado: publicado
+Período: 2026
+Fecha desde: 2026-11-24
+Fecha hasta: 2026-12-16
+Pagina pdf: 3
+Condiciones de uso:
+- Referencia del calendario general 2026; no confirma una mesa individual ni la atención de cada servicio.
+Fuentes:
+- Calendario académico administrativo 2026 RR 029-2026: https://www.unsta.edu.ar/wp-content/uploads/2026/04/RR-Rect20260029-1.pdf
+
+Cierre de actividades [cal-cierre-actividades]
+Estado: publicado
+Período: 2026
+Fecha desde: 2026-12-31
+Fecha hasta: 2026-12-31
+Pagina pdf: 3
+Condiciones de uso:
+- Referencia del calendario general 2026; no confirma una mesa individual ni la atención de cada servicio.
+Fuentes:
+- Calendario académico administrativo 2026 RR 029-2026: https://www.unsta.edu.ar/wp-content/uploads/2026/04/RR-Rect20260029-1.pdf
+
+Feriado de la Inmaculada Concepción [cal-inmaculada]
+Estado: publicado
+Período: 2026
+Fecha desde: 2026-12-08
+Fecha hasta: 2026-12-08
+Pagina pdf: 7
+Condiciones de uso:
+- Referencia del calendario general 2026; no confirma una mesa individual ni la atención de cada servicio.
+Fuentes:
+- Calendario académico administrativo 2026 RR 029-2026: https://www.unsta.edu.ar/wp-content/uploads/2026/04/RR-Rect20260029-1.pdf
+
+Feriado de Navidad [cal-navidad]
+Estado: publicado
+Período: 2026
+Fecha desde: 2026-12-25
+Fecha hasta: 2026-12-25
+Pagina pdf: 7
+Condiciones de uso:
+- Referencia del calendario general 2026; no confirma una mesa individual ni la atención de cada servicio.
+Fuentes:
+- Calendario académico administrativo 2026 RR 029-2026: https://www.unsta.edu.ar/wp-content/uploads/2026/04/RR-Rect20260029-1.pdf

@@ -1,0 +1,369 @@
+{
+  "name": "UNSTA · 03 Apertura simulada",
+  "active": false,
+  "nodes": [
+    {
+      "id": "a5b45b4109fc6f9cc002ff1d006a42db",
+      "name": "Entrada",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2.1,
+      "position": [
+        0,
+        0
+      ],
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "unsta-demo-apertura-v1",
+        "authentication": "headerAuth",
+        "responseMode": "responseNode",
+        "options": {}
+      },
+      "webhookId": "e00b2882a49c242295f1c37e3116b9b7",
+      "notes": "Asignar Header Auth UNSTA Entradas: X-UNSTA-Webhook-Key. Solo invoca el backend, nunca el navegador."
+    },
+    {
+      "id": "851ca75485baabd1cdace275a5ac6f26",
+      "name": "validar_entrada",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        220,
+        0
+      ],
+      "parameters": {
+        "mode": "runOnceForAllItems",
+        "jsCode": "return [{json: (function validateEntry(input, kind) {\n  const body = input?.body;\n  const field = kind === 'event' ? 'event_id' : 'turn_id';\n  if (!body || typeof body !== 'object' || Array.isArray(body) ||\n      Object.keys(body).some(key => key !== field) ||\n      typeof body[field] !== 'string' ||\n      !/^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(body[field])) {\n    return { valid: false, error: 'Entrada inválida', field };\n  }\n  return { valid: true, [field]: body[field] };\n})($json, 'event')}];"
+      }
+    },
+    {
+      "id": "4f361ec39a4f890a4c7ce97ad331f2bf",
+      "name": "entrada_valida",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        440,
+        0
+      ],
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "a94ec4f10ef2f82f",
+              "leftValue": "={{ $json.valid === true }}",
+              "rightValue": "",
+              "operator": {
+                "type": "boolean",
+                "operation": "true",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      }
+    },
+    {
+      "id": "499794c8490b394ab4fd4799e5fb9ce3",
+      "name": "rechazar_entrada",
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.1,
+      "position": [
+        660,
+        220
+      ],
+      "parameters": {
+        "respondWith": "json",
+        "responseBody": "{\"accepted\":false,\"error\":\"Entrada inválida\"}",
+        "options": {
+          "responseCode": 400
+        }
+      }
+    },
+    {
+      "id": "1afa7c46bc4efe066feb1e0a9c9fe6c1",
+      "name": "Configuracion UNSTA",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        660,
+        0
+      ],
+      "parameters": {
+        "mode": "runOnceForAllItems",
+        "jsCode": "const config = {\n  \"contract_version\": \"0.1.0\",\n  \"api_base_url\": \"https://unsta-api.example.invalid\",\n  \"model\": \"gpt-4.1-mini\",\n  \"timezone\": \"America/Argentina/Tucuman\",\n  \"knowledge_version\": \"1.0.0\",\n  \"max_iterations\": 6,\n  \"workflow_timeout_seconds\": 120,\n  \"request_timeout_ms\": 15000,\n  \"summary_every_messages\": 6,\n  \"knowledge_hash\": \"3ec6325b9ac1720730c84c596c86363668e5fd5b036ee5d84274bb05d6fb10c9\"\n};\nreturn [{json: (function validateConfig(config) {\n  // No URL global dependency: Code-node sandboxes differ between n8n versions.\n  const match = typeof config.api_base_url === 'string' &&\n    config.api_base_url.match(/^https:\\/\\/([a-z0-9](?:[a-z0-9.-]*[a-z0-9])?)(:\\d{1,5})?\\/?$/i);\n  // Reject known legacy/other-service hosts, while allowing a dedicated UNSTA host.\n  // This origin is operator configuration, never taken from webhook/user input.\n  if (!match || match[1].endsWith('.invalid') ||\n      ['inmobiliarialyc.com.ar', 'api.inmobiliarialyc.com.ar', 'n8n.inmobiliarialyc.com.ar', 'evoapi.inmobiliarialyc.com.ar'].includes(match[1].toLowerCase())) {\n    throw new Error('CONFIGURAR_BACKEND_UNSTA: se requiere origen HTTPS propio de UNSTA');\n  }\n  return { ...config, api_base_url: config.api_base_url.replace(/\\/$/, '') };\n})(config)}];"
+      },
+      "notes": "Origen del backend UNSTA. El placeholder .invalid bloquea la ejecución hasta configurar. No recibe URLs del webhook.",
+      "notesInFlow": true
+    },
+    {
+      "id": "be8392f4b1619783d5fc1557d587d2d9",
+      "name": "aceptar_entrada",
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.1,
+      "position": [
+        880,
+        0
+      ],
+      "parameters": {
+        "respondWith": "json",
+        "responseBody": "={{ JSON.stringify({accepted:true,event_id:$('validar_entrada').first().json.event_id}) }}",
+        "options": {
+          "responseCode": 202
+        }
+      }
+    },
+    {
+      "id": "57067b39b8394c525968cdd5c58769fc",
+      "name": "reclamar_evento",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        1100,
+        0
+      ],
+      "parameters": {
+        "method": "POST",
+        "url": "={{ $('Configuracion UNSTA').first().json.api_base_url + '/v1/agent/events/' + $('validar_entrada').first().json.event_id + '/claim' }}",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{ JSON.stringify({execution_id:String($execution.id),workflow_id:String($workflow.id),contract_version:$('Configuracion UNSTA').first().json.contract_version}) }}",
+        "options": {
+          "timeout": 15000
+        }
+      },
+      "notes": "Asignar credencial Header Auth propia de UNSTA (Authorization: Bearer <secreto>). No usar credenciales de Lamelas."
+    },
+    {
+      "id": "38f335fefbbc86a4162601debf3c64a6",
+      "name": "validar_claim",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1320,
+        0
+      ],
+      "parameters": {
+        "mode": "runOnceForAllItems",
+        "jsCode": "return [{json: (function validateClaim(input, entry, kind) {\n  const field = kind === 'event' ? 'event_id' : 'turn_id';\n  if (!input || typeof input.claimed !== 'boolean' || input[field] !== entry[field]) {\n    throw new Error('CLAIM_INVALIDO');\n  }\n  if (!input.claimed) return { claimed: false, [field]: entry[field] };\n  if (typeof input.attempt_id !== 'string' || !input.attempt_id ||\n      typeof input.attempt_token !== 'string' || input.attempt_token.length < 16) {\n    throw new Error('CLAIM_INVALIDO');\n  }\n  return { claimed: true, [field]: entry[field], attempt_id: input.attempt_id, attempt_token: input.attempt_token };\n})($json, $('validar_entrada').first().json, 'event')}];"
+      }
+    },
+    {
+      "id": "d8686a59fabce6a16b385b8059353dbd",
+      "name": "claim_adquirido",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        1540,
+        0
+      ],
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "97ec87cb074a0fb0",
+              "leftValue": "={{ $json.claimed === true }}",
+              "rightValue": "",
+              "operator": {
+                "type": "boolean",
+                "operation": "true",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      }
+    },
+    {
+      "id": "1445610a6ca24d971b265ed185e8c818",
+      "name": "ya_procesado_o_no_disponible",
+      "type": "n8n-nodes-base.noOp",
+      "typeVersion": 1,
+      "position": [
+        1760,
+        240
+      ],
+      "parameters": {}
+    },
+    {
+      "id": "c671e856fcf1592d301b78f33590344e",
+      "name": "procesar_apertura",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        1760,
+        0
+      ],
+      "parameters": {
+        "method": "POST",
+        "url": "={{ $('Configuracion UNSTA').first().json.api_base_url + '/v1/agent/events/' + $('validar_claim').first().json.event_id + '/process' }}",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "X-UNSTA-Attempt-Token",
+              "value": "={{ $('validar_claim').first().json.attempt_token }}"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{ JSON.stringify({attempt_id:$('validar_claim').first().json.attempt_id}) }}",
+        "options": {
+          "timeout": 15000
+        }
+      },
+      "notes": "Asignar credencial Header Auth propia de UNSTA (Authorization: Bearer <secreto>). No usar credenciales de Lamelas."
+    },
+    {
+      "id": "84a8e81b24c2ad8dd1314e3aa01f84d1",
+      "name": "Leer antes de importar",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        0,
+        -340
+      ],
+      "parameters": {
+        "content": "## UNSTA · Demo v0.1.0\nProcesa un evento autorizado y genera avisos demo internos; no envía correo ni WhatsApp.\n\nConfigurar backend y credenciales UNSTA. No publicar antes de conectar el backend.\nConsultar docs/importar-n8n.md. Los IDs de workflows son nuevos al importar.",
+        "height": 240,
+        "width": 540
+      }
+    }
+  ],
+  "connections": {
+    "Entrada": {
+      "main": [
+        [
+          {
+            "node": "validar_entrada",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "validar_entrada": {
+      "main": [
+        [
+          {
+            "node": "entrada_valida",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "entrada_valida": {
+      "main": [
+        [
+          {
+            "node": "Configuracion UNSTA",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "rechazar_entrada",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Configuracion UNSTA": {
+      "main": [
+        [
+          {
+            "node": "aceptar_entrada",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "aceptar_entrada": {
+      "main": [
+        [
+          {
+            "node": "reclamar_evento",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "reclamar_evento": {
+      "main": [
+        [
+          {
+            "node": "validar_claim",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "validar_claim": {
+      "main": [
+        [
+          {
+            "node": "claim_adquirido",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "claim_adquirido": {
+      "main": [
+        [
+          {
+            "node": "procesar_apertura",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "ya_procesado_o_no_disponible",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "pinData": {},
+  "settings": {
+    "executionOrder": "v1",
+    "timezone": "America/Argentina/Tucuman",
+    "executionTimeout": 120,
+    "saveDataSuccessExecution": "none",
+    "saveDataErrorExecution": "none",
+    "saveExecutionProgress": false,
+    "saveManualExecutions": false
+  },
+  "meta": {
+    "templateCredsSetupCompleted": false
+  }
+}

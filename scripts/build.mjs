@@ -1,0 +1,11 @@
+import { rmSync, mkdirSync, cpSync } from "node:fs";
+import { spawnSync } from "node:child_process";
+import { createRequire } from "node:module";
+const require = createRequire(import.meta.url);
+rmSync("dist", { recursive: true, force: true });
+const result = spawnSync(process.execPath, [require.resolve("typescript/bin/tsc"), "-p", "tsconfig.build.json"], { stdio: "inherit" });
+if (result.status !== 0) process.exit(result.status ?? 1);
+mkdirSync("dist/agent-contract", { recursive: true });
+cpSync("agent-contract/tools.json", "dist/agent-contract/tools.json");
+cpSync("base-conocimiento", "dist/base-conocimiento", { recursive: true });
+cpSync("prisma", "dist/prisma", { recursive: true });

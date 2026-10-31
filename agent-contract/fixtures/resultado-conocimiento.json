@@ -1,0 +1,51 @@
+{
+  "ok": true,
+  "data": {
+    "knowledge_version": "1.0.0",
+    "knowledge_hash": "3ec6325b9ac1720730c84c596c86363668e5fd5b036ee5d84274bb05d6fb10c9",
+    "registros": [
+      {
+        "id": "carrera-psicologia",
+        "seccion": "carreras",
+        "titulo": "Licenciatura en Psicología",
+        "sedes_en_demo": [
+          "yerba_buena"
+        ],
+        "periodo_publicado": "Inicio marzo 2027",
+        "estado": "publicado",
+        "validacion_institucional": false,
+        "datos": {
+          "duracion_anios": 5,
+          "modalidades_publicadas": [
+            "Presencial"
+          ],
+          "perfil": "Formación para el trabajo psicológico en ámbitos clínicos, educativos, comunitarios y organizacionales.",
+          "inicio_publicado": "2027-03",
+          "web_carrera": "https://www.unsta.edu.ar/salud/psicologia/",
+          "preinscripcion": "https://preinscripcion.unsta.edu.ar/",
+          "arancel_cuota": null,
+          "arancel_matricula": null,
+          "horario_clases": null
+        },
+        "condiciones_de_uso": [
+          "Sedes limitadas al recorte de la demo. Aranceles, horarios y vacantes no confirmados."
+        ],
+        "fuentes": [
+          {
+            "id": "psicologia",
+            "titulo": "Licenciatura en Psicología",
+            "url": "https://www.unsta.edu.ar/salud/psicologia/",
+            "consultada_el": "2026-10-31"
+          },
+          {
+            "id": "ingreso",
+            "titulo": "Ingreso y sedes de las carreras",
+            "url": "https://ingreso.unsta.edu.ar/",
+            "consultada_el": "2026-10-31"
+          }
+        ],
+        "revisado_el": "2026-10-31"
+      }
+    ]
+  }
+}

@@ -1,0 +1,19 @@
+name: unsta-demo
+services:
+  postgres:
+    image: postgres:17.7-alpine
+    environment:
+      POSTGRES_DB: unsta_demo
+      POSTGRES_USER: unsta_owner
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?Ejecutar npm run demo:setup}
+    ports:
+      - "127.0.0.1:55432:5432"
+    volumes:
+      - unsta_pg_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U unsta_owner -d unsta_demo"]
+      interval: 3s
+      timeout: 3s
+      retries: 15
+volumes:
+  unsta_pg_data:

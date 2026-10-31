@@ -1,0 +1,94 @@
+EVOLUTION API EN DOKPLOY — UNSTA
+Preparado el 31/10/2026. Instalación nueva en el VPS Linux que ya aloja n8n.
+Estado: archivos preparados y Compose validado; todavía no desplegado en tu VPS.
+
+1. ELEGIR SUBDOMINIO
+Usaremos evoapi.inmobiliarialyc.com.ar: prefijo evoapi elegido por vos y mismo dominio que n8n.
+Si lo querías en otro dominio, cambiá el host y EVOLUTION_SERVER_URL antes de desplegar.
+En el proveedor DNS de inmobiliarialyc.com.ar creá un registro:
+  Tipo: A
+  Nombre: evoapi
+  Valor: IP pública de tu VPS
+  TTL: automático
+No crees un registro A con la IP local 127.0.0.1.
+Si usás Cloudflare, inicialmente dejalo en Solo DNS para verificar HTTPS sin otra capa intermedia.
+No cambies el dominio ni el servicio de n8n.
+
+2. CREAR EL SERVICIO
+En Dokploy, abrí un proyecto (o creá uno llamado UNSTA).
+En su entorno creá un servicio Docker Compose llamado evolution-unsta.
+Elegí el proveedor Raw/editor de Compose y pegá TODO el archivo compose.yaml de esta carpeta. Guardá.
+Esta configuración usa Docker Compose y la red existente dokploy-network, sin activar Isolated Deployments.
+No agrega puertos públicos para PostgreSQL ni Redis; la API se publica con el dominio de Dokploy.
+
+3. CONFIGURAR ENVIRONMENT
+En tu terminal ejecutá dos veces, por separado:
+  openssl rand -hex 32
+Guardá ambos valores en tu gestor de contraseñas. No los pegues en el chat.
+En la sección Environment del servicio pegá el contenido de env.example y reemplazá:
+  EVOLUTION_SERVER_URL: URL HTTPS completa del subdominio, sin / al final.
+  EVOLUTION_API_KEY: primer valor aleatorio; será la clave para entrar al Manager y usar la API.
+  EVOLUTION_DB_PASSWORD: segundo valor aleatorio; contraseña exclusiva de esta base.
+Guardá. El Compose inyecta explícitamente estas variables a los contenedores.
+No uses la clave de OpenAI, la de n8n ni AGENT_SERVICE_KEY del backend UNSTA.
+La contraseña hexadecimal evita caracteres que deban codificarse en la URI de PostgreSQL.
+
+4. AGREGAR EL DOMINIO
+En Domains → Add Domain del mismo servicio:
+  Host: evoapi.inmobiliarialyc.com.ar (solo el nombre, sin https://).
+  Service: evolution-api.
+  Container Port: 8080.
+  Path: /.
+  HTTPS: activado.
+  Certificate: Let's Encrypt.
+Guardá. Si tu versión pide un puerto externo, el acceso público es HTTPS/443; 8080 es el puerto interno.
+En Preview Compose comprobá que evolution-api conserva evolution_internal y dokploy-network.
+PostgreSQL y Redis deben seguir conectados a evolution_internal.
+
+5. DEPLOY
+Presioná Deploy. Esperá a que PostgreSQL y Redis estén healthy y evolution-api esté running.
+En los logs de evolution-api, el primer inicio ejecuta las migraciones de su propia base.
+Abrí https://evoapi.inmobiliarialyc.com.ar/ : debe responder JSON con status 200 y version 2.3.7.
+Abrí https://evoapi.inmobiliarialyc.com.ar/manager : debe aparecer el administrador.
+Ingresá la URL de la API y EVOLUTION_API_KEY en el Manager, si los solicita.
+No hace falta otro contenedor de Manager para esta versión: el código 2.3.7 sirve /manager.
+
+6. COMPROBAR DESDE N8N
+Podés crear un workflow temporal de prueba con Manual Trigger → HTTP Request:
+  Method: GET
+  URL: https://evoapi.inmobiliarialyc.com.ar/instance/fetchInstances
+  Authentication: Generic Credential Type → Header Auth
+  Name: apikey
+  Value: el valor de EVOLUTION_API_KEY (sin Bearer).
+Ejecutá el nodo: una instalación nueva debe devolver 200 y una lista vacía.
+Esto comprueba conexión y autenticación sin enviar mensajes ni vincular un teléfono.
+No cambies la credencial back-unsta: esta es una credencial nueva de Evolution.
+
+7. PRÓXIMO PASO: WHATSAPP Y EL AGENTE
+Instalar Evolution no conecta automáticamente los workflows actuales del panel.
+Después configuraremos una instancia de prueba, el número/QR y un adaptador de entrada y salida:
+WhatsApp → Evolution → webhook n8n → backend/agente UNSTA → Evolution → WhatsApp.
+El adaptador debe conservar ID de mensaje, número y conversación; evitar duplicados y mensajes propios; respetar la toma humana del chat.
+Para probar el QR usá un número de prueba; no conectes todavía el número universitario que usa WiseCX.
+El método QR usa WhatsApp Web mediante Baileys; una integración institucional con Cloud API requiere su propia configuración de Meta.
+
+SI FALLA
+- 502/504: revisá logs de evolution-api, puerto 8080 y redes en Preview Compose.
+- Certificado pendiente: confirmá DNS hacia este VPS y acceso a 80/443, que usa Dokploy/Traefik.
+- Error de conexión a PostgreSQL/Redis: revisá que ambos estén healthy y compartan evolution_internal con la API.
+- Password authentication failed tras cambiar una clave: PostgreSQL conserva su clave inicial en el volumen. Editar Environment no cambia la contraseña de una base ya creada. No borres el volumen para arreglarlo; revisamos la configuración.
+- 401 en n8n/Manager: revisá que la credencial use el header apikey y la misma clave definida en Environment.
+- No QR: primero verificá API/Manager. La conexión con WhatsApp se diagnostica después de instalar.
+
+DATOS PERSISTENTES
+Hay tres volúmenes propios: evolution_postgres, evolution_redis y evolution_instances.
+Dokploy les asigna un prefijo de proyecto. Conservá esos volúmenes y configurá backups antes de usar datos reales.
+Una actualización debe mantener los volúmenes y una copia previa; no cambies la etiqueta a latest de forma automática.
+
+REFERENCIAS CONSULTADAS
+Release fijada: https://github.com/evolution-foundation/evolution-api/releases/tag/2.3.7
+Imagen verificada: https://hub.docker.com/r/evoapicloud/evolution-api/tags?name=v2.3.7
+Variables oficiales: https://github.com/evolution-foundation/evolution-api/blob/2.3.7/.env.example
+Manager en esta versión: https://github.com/evolution-foundation/evolution-api/blob/2.3.7/src/api/routes/index.router.ts
+Compose Dokploy: https://docs.dokploy.com/docs/core/docker-compose
+Dominios Dokploy: https://docs.dokploy.com/docs/core/docker-compose/domains

@@ -1,0 +1,271 @@
+{
+  "version": "0.1.0",
+  "tools": [
+    {
+      "name": "consultar_conocimiento",
+      "description": "Busca evidencia UNSTA con fuentes, período y condiciones. Consultá cada tema por separado. Para un curso/carrera preferí ver_propuesta con su ID real. Un resultado vacío exige intentar una consulta simple sin filtros antes de declarar falta de datos; no confirma vacantes.",
+      "write": false,
+      "inputSchema": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "consulta": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 500
+          },
+          "categoria": {
+            "type": "string",
+            "maxLength": 80,
+            "description": "Categoría opcional: institucion, contactos, servicios, ingreso, carreras, cursos, aranceles, horarios o calendario. Dejar vacío si no es necesaria."
+          },
+          "propuesta_id": {
+            "type": "string",
+            "maxLength": 100,
+            "description": "ID exacto del catálogo del contexto, por ejemplo curso-ingles-a1. No inventar IDs ni usar el título como ID."
+          },
+          "sede": {
+            "type": "string",
+            "enum": [
+              "central",
+              "yerba_buena"
+            ]
+          },
+          "periodo": {
+            "type": "string",
+            "maxLength": 80
+          }
+        },
+        "required": [
+          "consulta"
+        ]
+      }
+    },
+    {
+      "name": "ver_propuesta",
+      "description": "Recupera una propuesta por ID real del catálogo o una búsqueda, junto con arancel_ref y horario_ref. Respeta las restricciones de cada registro, incluso cuando contradigan una respuesta afirmativa.",
+      "write": false,
+      "inputSchema": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "propuesta_id": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 100,
+            "description": "ID exacto del catálogo del contexto, por ejemplo curso-ingles-a1. No inventar IDs ni usar el título como ID."
+          }
+        },
+        "required": [
+          "propuesta_id"
+        ]
+      }
+    },
+    {
+      "name": "actualizar_contacto",
+      "description": "Guarda en la demo campos declarados por esta persona. Requiere ID de mensaje de usuario como evidencia. No sobreescribe correcciones manuales. No usa nombre o email para unir personas.",
+      "write": true,
+      "inputSchema": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "nombre": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 200
+          },
+          "email": {
+            "type": "string",
+            "format": "email",
+            "maxLength": 254
+          },
+          "telefono": {
+            "type": "string",
+            "minLength": 6,
+            "maxLength": 40
+          },
+          "condicion": {
+            "type": "string",
+            "enum": [
+              "ingresante",
+              "alumno",
+              "otro"
+            ]
+          },
+          "mensaje_evidencia_id": {
+            "type": "string",
+            "format": "uuid"
+          }
+        },
+        "required": [
+          "mensaje_evidencia_id"
+        ],
+        "anyOf": [
+          {
+            "required": [
+              "nombre"
+            ]
+          },
+          {
+            "required": [
+              "email"
+            ]
+          },
+          {
+            "required": [
+              "telefono"
+            ]
+          },
+          {
+            "required": [
+              "condicion"
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "name": "registrar_interes",
+      "description": "Crea o actualiza un interés sin borrar otros. Usá propuesta_id del catálogo o propuesta_libre si está fuera del recorte; solo una de las dos. Sede y modalidad únicamente si fueron declaradas. Una consulta de alumno no obliga a crear interés. Preinscripción declarada necesita evidencia; no acredita inscripción.",
+      "write": true,
+      "inputSchema": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "propuesta_id": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 100,
+            "description": "ID exacto del catálogo del contexto, por ejemplo curso-ingles-a1. No inventar IDs ni usar el título como ID."
+          },
+          "propuesta_libre": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 200
+          },
+          "sede": {
+            "type": "string",
+            "enum": [
+              "central",
+              "yerba_buena"
+            ]
+          },
+          "modalidad": {
+            "type": "string",
+            "maxLength": 80
+          },
+          "periodo": {
+            "type": "string",
+            "maxLength": 80
+          },
+          "preinscripcion_declarada": {
+            "type": "boolean"
+          },
+          "mensaje_evidencia_id": {
+            "type": "string",
+            "format": "uuid"
+          }
+        },
+        "required": [
+          "mensaje_evidencia_id"
+        ],
+        "oneOf": [
+          {
+            "required": [
+              "propuesta_id"
+            ],
+            "not": {
+              "required": [
+                "propuesta_libre"
+              ]
+            }
+          },
+          {
+            "required": [
+              "propuesta_libre"
+            ],
+            "not": {
+              "required": [
+                "propuesta_id"
+              ]
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "gestionar_aviso",
+      "description": "Ejecutá crear cuando el usuario ya autorizó un aviso simulado en este panel para un curso identificado, o confirmó la pregunta inmediatamente anterior. No pidas otra confirmación. Ejecutá cancelar si lo solicita. Requiere ID real del curso y mensaje de usuario como evidencia. No envía WhatsApp/email; confirmá solo con ok:true.",
+      "write": true,
+      "inputSchema": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "accion": {
+            "type": "string",
+            "enum": [
+              "crear",
+              "cancelar"
+            ]
+          },
+          "propuesta_id": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 100,
+            "description": "ID exacto del catálogo del contexto, por ejemplo curso-ingles-a1. No inventar IDs ni usar el título como ID."
+          },
+          "mensaje_evidencia_id": {
+            "type": "string",
+            "format": "uuid"
+          }
+        },
+        "required": [
+          "accion",
+          "propuesta_id",
+          "mensaje_evidencia_id"
+        ]
+      }
+    },
+    {
+      "name": "derivar_a_area",
+      "description": "Deriva al equipo DE LA DEMO ante pedido humano, falta de información confiable o gestión individual. Crea caso aunque no haya operador conectado, sin prometer plazos. No exigir nombre/contacto. Tras éxito detené las herramientas; el sistema confirma el pase.",
+      "write": true,
+      "inputSchema": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "area": {
+            "type": "string",
+            "enum": [
+              "admisiones",
+              "alumnos",
+              "idiomas",
+              "orientacion_vocacional",
+              "tesoreria"
+            ]
+          },
+          "motivo": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 300
+          },
+          "resumen": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 1500
+          },
+          "mensaje_evidencia_id": {
+            "type": "string",
+            "format": "uuid"
+          }
+        },
+        "required": [
+          "area",
+          "motivo",
+          "resumen",
+          "mensaje_evidencia_id"
+        ]
+      }
+    }
+  ]
+}

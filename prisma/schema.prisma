@@ -1,0 +1,227 @@
+generator client {
+  provider = "prisma-client-js"
+}
+datasource db {
+  provider = "postgresql"
+  url = env("DATABASE_URL")
+}
+model Workspace {
+ id String @id @default(uuid()) @db.Uuid
+ name String
+ createdAt DateTime @default(now())
+}
+model Invite {
+ id String @id @default(uuid()) @db.Uuid
+ tokenHash String @unique
+ workspaceId String @db.Uuid
+ email String
+ expiresAt DateTime
+ usedAt DateTime?
+}
+model Session {
+ id String @id @default(uuid()) @db.Uuid
+ tokenHash String @unique
+ csrfHash String
+ workspaceId String @db.Uuid
+ email String
+ expiresAt DateTime
+ createdAt DateTime @default(now())
+}
+model Dispatch {
+ id String @id @default(uuid()) @db.Uuid
+ workspaceId String @db.Uuid
+ entityId String @unique @db.Uuid
+ kind String
+ status String @default("pending")
+ attempts Int @default(0)
+ availableAt DateTime @default(now())
+ leaseUntil DateTime?
+ leaseId String?
+ lastCode String?
+ createdAt DateTime @default(now())
+ @@index([status, availableAt])
+}
+model Knowledge {
+ version String @id
+ hash String
+ document Json
+ createdAt DateTime @default(now())
+}
+model Contact {
+ id String @id @default(uuid()) @db.Uuid
+ workspaceId String @db.Uuid
+ fields Json @default("{}")
+ pipelineStage String @default("nuevo")
+ protectedFields String[] @default([])
+ createdAt DateTime @default(now())
+ updatedAt DateTime @updatedAt
+ @@unique([workspaceId,id])
+}
+model Conversation {
+ id String @id @default(uuid()) @db.Uuid
+ workspaceId String @db.Uuid
+ contactId String @db.Uuid
+ mode String @default("bot")
+ controlVersion Int @default(1)
+ sequence Int @default(0)
+ summary Json @default("{}")
+ summaryThrough Int @default(0)
+ createdAt DateTime @default(now())
+ updatedAt DateTime @updatedAt
+ @@unique([workspaceId,id])
+ @@index([workspaceId,contactId])
+}
+model Message {
+ id String @id @default(uuid()) @db.Uuid
+ workspaceId String @db.Uuid
+ conversationId String @db.Uuid
+ role String
+ text String
+ sequence Int
+ clientMessageId String?
+ turnId String? @unique @db.Uuid
+ recordIds String[] @default([])
+ createdAt DateTime @default(now())
+ @@unique([workspaceId,id])
+ @@unique([conversationId,sequence])
+ @@unique([conversationId,clientMessageId])
+}
+model Turn {
+ id String @id @default(uuid()) @db.Uuid
+ workspaceId String @db.Uuid
+ conversationId String @db.Uuid
+ messageId String @unique @db.Uuid
+ status String @default("encolado")
+ attemptId String? @db.Uuid
+ tokenHash String?
+ leaseUntil DateTime?
+ summaryUntil DateTime?
+ attempts Int @default(0)
+ controlVersion Int @default(1)
+ knowledgeVersion String
+ knowledgeHash String
+ context Json?
+ recordIds String[] @default([])
+ executionId String?
+ workflowId String?
+ handoffId String? @db.Uuid
+ completionHash String?
+ result Json?
+ failureCode String?
+ createdAt DateTime @default(now())
+ @@unique([workspaceId,id])
+ @@index([conversationId,status,createdAt])
+}
+model Interest {
+ id String @id @default(uuid()) @db.Uuid
+ workspaceId String @db.Uuid
+ contactId String @db.Uuid
+ identity String
+ data Json
+ stage String @default("nuevo")
+ evidenceId String @db.Uuid
+ protectedFields Boolean @default(false)
+ createdAt DateTime @default(now())
+ updatedAt DateTime @updatedAt
+ @@unique([workspaceId,id])
+ @@unique([contactId,identity])
+}
+model AttentionCase {
+ id String @id @default(uuid()) @db.Uuid
+ workspaceId String @db.Uuid
+ conversationId String @db.Uuid
+ turnId String @db.Uuid
+ attemptId String @db.Uuid
+ area String
+ reason String
+ summary String
+ status String @default("pendiente")
+ createdAt DateTime @default(now())
+ @@unique([workspaceId,id])
+}
+model ToolCall {
+ id String @id @default(uuid()) @db.Uuid
+ workspaceId String @db.Uuid
+ turnId String @db.Uuid
+ name String
+ argumentHash String
+ result Json
+ createdAt DateTime @default(now())
+ @@unique([turnId,name,argumentHash])
+}
+model Note {
+ id String @id @default(uuid()) @db.Uuid
+ workspaceId String @db.Uuid
+ contactId String @db.Uuid
+ text String
+ author String
+ createdAt DateTime @default(now())
+}
+model Task {
+ id String @id @default(uuid()) @db.Uuid
+ workspaceId String @db.Uuid
+ contactId String @db.Uuid
+ text String
+ dueAt DateTime
+ status String @default("pendiente")
+ createdAt DateTime @default(now())
+ @@unique([workspaceId,id])
+}
+model Subscription {
+ id String @id @default(uuid()) @db.Uuid
+ workspaceId String @db.Uuid
+ contactId String @db.Uuid
+ proposalId String
+ status String @default("activa")
+ evidenceId String @db.Uuid
+ createdAt DateTime @default(now())
+ updatedAt DateTime @updatedAt
+ @@unique([contactId,proposalId])
+ @@unique([workspaceId,id])
+}
+model OpeningEvent {
+ id String @id @default(uuid()) @db.Uuid
+ workspaceId String @db.Uuid
+ proposalId String
+ description String
+ simulated Boolean @default(true)
+ status String @default("encolado")
+ attemptId String? @db.Uuid
+ tokenHash String?
+ leaseUntil DateTime?
+ attempts Int @default(0)
+ executionId String?
+ workflowId String?
+ result Json?
+ createdAt DateTime @default(now())
+ @@unique([workspaceId,id])
+}
+model Notice {
+ id String @id @default(uuid()) @db.Uuid
+ workspaceId String @db.Uuid
+ contactId String @db.Uuid
+ eventId String @db.Uuid
+ subscriptionId String @db.Uuid
+ text String
+ simulated Boolean @default(true)
+ createdAt DateTime @default(now())
+ @@unique([eventId,subscriptionId])
+}
+model Audit {
+ id String @id @default(uuid()) @db.Uuid
+ workspaceId String @db.Uuid
+ kind String
+ entityId String
+ actor String
+ data Json
+ createdAt DateTime @default(now())
+}
+model Incident {
+ id String @id @default(uuid()) @db.Uuid
+ dedupeKey String @unique
+ executionId String?
+ workflowId String?
+ node String
+ code String
+ createdAt DateTime @default(now())
+}

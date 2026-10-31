@@ -1,0 +1,28 @@
+{
+  "contract_version": "0.1.0",
+  "knowledge": {
+    "version": "1.0.0",
+    "sha256": "3ec6325b9ac1720730c84c596c86363668e5fd5b036ee5d84274bb05d6fb10c9",
+    "path": "base-conocimiento/demo-v1/unsta-demo.json"
+  },
+  "prompt_sha256": "3e600138af91988ad5c50cbc160e85e783880833d7200f08e4b3347a33e63861",
+  "tools_sha256": "6133df6e748fea8e39bb54db28d5ee7ad593e3bdaa2114b97e58b80b7f8c7271",
+  "n8n_instance_target": "https://n8n.inmobiliarialyc.com.ar/",
+  "imported": false,
+  "live_tested": false,
+  "files": [
+    {
+      "path": "n8n/unsta-demo-conversacion.json",
+      "sha256": "085884b3a8d955d8d19efe5ec07601ed6b7b87b1f07de10ceeca2c564859d363"
+    },
+    {
+      "path": "n8n/unsta-demo-errores.json",
+      "sha256": "0d7d23aa5f48191ccfe9fe14f7a0656d69ca4b022806f985e0561076fea0363a"
+    },
+    {
+      "path": "n8n/unsta-demo-apertura.json",
+      "sha256": "3a56a10a3364e0a09fe889208175d01655b410207cff9e209c8c963b096401ea"
+    }
+  ],
+  "compatibility": "Node versions taken from the reviewed Lamelas workflows; Basic LLM Chain 1.7 replaces the tool-less summary agent. Verify instance version on manual import."
+}

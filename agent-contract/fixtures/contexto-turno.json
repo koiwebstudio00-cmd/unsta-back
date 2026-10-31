@@ -1,0 +1,80 @@
+{
+  "turn_id": "11111111-1111-4111-8111-111111111111",
+  "attempt_id": "33333333-3333-4333-8333-333333333333",
+  "conversation": {
+    "id": "44444444-4444-4444-8444-444444444444",
+    "mode": "bot",
+    "control_version": 1
+  },
+  "knowledge_version": "1.0.0",
+  "knowledge_hash": "3ec6325b9ac1720730c84c596c86363668e5fd5b036ee5d84274bb05d6fb10c9",
+  "context_sequence": 1,
+  "current_message": {
+    "id": "22222222-2222-4222-8222-222222222222",
+    "role": "user",
+    "text": "Quiero estudiar Psicología en Yerba Buena",
+    "sequence": 1
+  },
+  "messages": [],
+  "contact": {},
+  "interests": [],
+  "catalog": [
+    {
+      "id": "carrera-medicina",
+      "titulo": "Medicina",
+      "seccion": "carreras"
+    },
+    {
+      "id": "carrera-psicologia",
+      "titulo": "Licenciatura en Psicología",
+      "seccion": "carreras"
+    },
+    {
+      "id": "carrera-abogacia",
+      "titulo": "Abogacía",
+      "seccion": "carreras"
+    },
+    {
+      "id": "carrera-contador",
+      "titulo": "Contador Público",
+      "seccion": "carreras"
+    },
+    {
+      "id": "carrera-marketing",
+      "titulo": "Licenciatura en Marketing",
+      "seccion": "carreras"
+    },
+    {
+      "id": "carrera-informatica",
+      "titulo": "Ingeniería en Informática",
+      "seccion": "carreras"
+    },
+    {
+      "id": "curso-ingles-a1",
+      "titulo": "Inglés A1",
+      "seccion": "cursos"
+    },
+    {
+      "id": "curso-portugues-a1",
+      "titulo": "Portugués A1",
+      "seccion": "cursos"
+    },
+    {
+      "id": "curso-italiano-a1",
+      "titulo": "Italiano A1",
+      "seccion": "cursos"
+    },
+    {
+      "id": "curso-social-media",
+      "titulo": "Social Media Marketing y Automatización con IA",
+      "seccion": "cursos"
+    },
+    {
+      "id": "diplomatura-nutricion-deportiva",
+      "titulo": "Diplomatura en Nutrición Deportiva sexta cohorte",
+      "seccion": "cursos"
+    }
+  ],
+  "summary": {},
+  "summary_due": false
+}
