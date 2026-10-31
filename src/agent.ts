@@ -304,7 +304,7 @@ export const claimTurn = async (
       })),
       catalog: proposals,
       summary: c.summary,
-      summary_due: current.sequence - c.summaryThrough >= 6,
+      summary_due: current.sequence > c.summaryThrough,
     };
     await tx.turn.update({
       where: { id },
@@ -802,9 +802,10 @@ export const saveSummary = async (id: string, secret: string, data: any) =>
       where: { id: t.conversationId },
     });
     const ctx = t.context as any;
+    // A completed snapshot remains useful after handoff/take. Authenticate the
+    // original attempt and advance monotonically; never change human control.
     if (
-      data.control_version !== c.controlVersion ||
-      c.controlVersion !== t.controlVersion ||
+      data.control_version !== t.controlVersion ||
       data.through_sequence !== ctx.summary_through_sequence ||
       data.through_sequence <= c.summaryThrough
     )

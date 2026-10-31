@@ -7,5 +7,5 @@
   "max_iterations": 6,
   "workflow_timeout_seconds": 120,
   "request_timeout_ms": 15000,
-  "summary_every_messages": 6
+  "summary_every_messages": 1
 }

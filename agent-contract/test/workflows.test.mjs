@@ -94,10 +94,10 @@ test('fallo o JSON inválido del resumen no reintenta respuesta ni guarda resume
   assert.equal(r.visits.filter(x=>x==='finalizar_turno').length,1);
  }
 });
-test('derivación confirmada usa mensaje canónico y evita resumen post-handoff',()=>{
+test('derivación confirmada usa mensaje canónico y actualiza resumen post-handoff',()=>{
  const agent={output:'mensaje arbitrario',intermediateSteps:[{action:{tool:'derivar_a_area'},observation:{ok:true,data:{turn_id:turn,attempt_id:attempt.attempt_id,caso:{id:'case-test',estado:'pendiente'},conversation:{id:'conv-test',mode:'esperando_humano',control_version:2}}}}]};
  const r=simulate('conversacion',{context:{...baseContext,summary_due:true},agent});
- assert.equal(r.outputs.preparar_respuesta.handoff_id,'case-test');assert.ok(!r.visits.includes('Resumir conversacion'));
+ assert.equal(r.outputs.preparar_respuesta.handoff_id,'case-test');assert.ok(r.visits.includes('Resumir conversacion'));
 });
 test('6 herramientas fijan URL, token e intento fuera del control del modelo',()=>{
  const w=getWorkflow('conversacion');

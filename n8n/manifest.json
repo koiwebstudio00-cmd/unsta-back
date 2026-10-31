@@ -13,15 +13,15 @@
   "files": [
     {
       "path": "n8n/unsta-demo-conversacion.json",
-      "sha256": "085884b3a8d955d8d19efe5ec07601ed6b7b87b1f07de10ceeca2c564859d363"
+      "sha256": "8b32c0cdd78ec0bf033117e4868c4bb143b4a353037a26e23a572329575ecb44"
     },
     {
       "path": "n8n/unsta-demo-errores.json",
-      "sha256": "0d7d23aa5f48191ccfe9fe14f7a0656d69ca4b022806f985e0561076fea0363a"
+      "sha256": "734c7ce1f08815a951a5dbeec858ae3666879ffe838a61dbd7ab3ecda0005187"
     },
     {
       "path": "n8n/unsta-demo-apertura.json",
-      "sha256": "3a56a10a3364e0a09fe889208175d01655b410207cff9e209c8c963b096401ea"
+      "sha256": "86dd9a342559978b8c263b4720d173a832f8c3efe92488578b7ce39c6ac97e6b"
     }
   ],
   "compatibility": "Node versions taken from the reviewed Lamelas workflows; Basic LLM Chain 1.7 replaces the tool-less summary agent. Verify instance version on manual import."

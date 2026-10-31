@@ -1262,3 +1262,21 @@ test("demanda y detalle incluyen más de 200 contactos sin truncar ni desalinear
     205,
   );
 });
+
+
+test("el resumen se solicita desde el primer turno y puede llegar después de tomar el lead", async () => {
+  const who = a;
+  const x = await create(who), c = await claim(x.turn.id);
+  const context = (await service("get", `/turns/${x.turn.id}/context`, undefined, c).expect(200)).body;
+  assert.equal(context.summary_due, true);
+  await service("post", `/turns/${x.turn.id}/complete`, completion(x,c), c).expect(200);
+  await mutation(who,"post", `/conversations/${x.conversation.id}/control`, {action:"take"}).expect(200);
+  const result = await service("put", `/turns/${x.turn.id}/summary`, {
+    attempt_id:c.attempt_id, control_version:1, through_sequence:1,
+    resumen:{intereses:["Psicología"], proximo_paso:"El equipo debe responder las dudas pendientes"}
+  },c).expect(200);
+  assert.equal(result.body.saved,true);
+  const detail = (await who.agent.get(`/v1/demo/conversations/${x.conversation.id}`).expect(200)).body;
+  assert.equal(detail.conversation.mode,"humano");
+  assert.deepEqual(detail.conversation.summary.intereses,["Psicología"]);
+});

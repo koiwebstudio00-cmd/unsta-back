@@ -1,0 +1,13 @@
+Resumen automático del lead — 31/10/2026
+
+Implementado: se solicita tras cada respuesta publicada del asistente, desde el primer turno; incluye derivaciones. El resumen conserva intereses, dudas y próximos pasos, e integra correcciones posteriores. La ficha consulta los datos periódicamente e indica si hay consultas posteriores al resumen.
+
+Seguridad: intento autenticado, turno completado, ventana temporal y horizonte exacto; solo se acepta un horizonte posterior al guardado. Tomar el lead no invalida un resumen ya en generación ni reactiva al bot.
+
+Pruebas: typecheck, verificación de workflows, 34 pruebas de contrato y 34 de API; build y 7 pruebas frontend. Todo aprobado. Caso agregado: resumen desde primer turno y escritura después de toma humana sin modificar el modo humano.
+
+QA en panel: conversación 45aaa49e-9743-4358-a6de-84bbb9fde818, QA Resumen automático. Consulta por Psicología, necesidad de horarios/aranceles, corrección de horario laboral, derivación, toma por equipo. Resumen actualizado sin recarga y corrección preservada. Primera ejecución 10019 falló por espacios agregados en el editor de expresión de n8n; se corrigió el valor exacto, se publicó y se verificaron las siguientes respuestas y derivación.
+
+Publicado workflow UNSTA 01; configuración de URL y credenciales conservada. JSON importable regenerado localmente.
+
+Alcance: actualización después de cada respuesta de IA, incluida su derivación. No genera nuevos resúmenes durante atención exclusivamente humana. Si falla el modelo, conserva el resumen previo y muestra que existen consultas posteriores; no duplica respuestas. No se recalcularon conversaciones históricas inactivas.

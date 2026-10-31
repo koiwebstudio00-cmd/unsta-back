@@ -126,7 +126,7 @@ function conversation() {
   }
   code(w,'preparar_respuesta',`return [{json: ${run(runtime.prepareResponse,`$json, ${ctx}`)}}];`,2740,0);
   http(w,'finalizar_turno','POST',`'/v1/agent/turns/' + ${claim}.turn_id + '/complete'`,'$json',2960,0,{scoped:true});
-  gate(w,'resumen_necesario',`$json.published === true && ${ctx}.summary_due === true && !${from('preparar_respuesta')}.handoff_id`,3180,0);
+  gate(w,'resumen_necesario',`$json.published === true && ${ctx}.summary_due === true`,3180,0);
   noop(w,'fin',3400,220);
   node(w,'Resumir conversacion','@n8n/n8n-nodes-langchain.chainLlm',1.7,{
     promptType:'define',text:expression(`JSON.stringify({contexto:JSON.parse(${ctx}.prompt_input),respuesta_publicada:${from('preparar_respuesta')}.texto})`),
