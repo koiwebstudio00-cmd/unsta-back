@@ -1,27 +1,27 @@
 {
   "contract_version": "0.1.0",
   "knowledge": {
-    "version": "1.0.0",
-    "sha256": "3ec6325b9ac1720730c84c596c86363668e5fd5b036ee5d84274bb05d6fb10c9",
+    "version": "1.1.0",
+    "sha256": "76c191c7d05521ab6b2c8428be9668b382feb2fb4e9efa75b0ea1ab2126558bd",
     "path": "base-conocimiento/demo-v1/unsta-demo.json"
   },
-  "prompt_sha256": "3e600138af91988ad5c50cbc160e85e783880833d7200f08e4b3347a33e63861",
-  "tools_sha256": "6133df6e748fea8e39bb54db28d5ee7ad593e3bdaa2114b97e58b80b7f8c7271",
+  "prompt_sha256": "fb12758c32e59c480ae0102be4b01c7cc049b845e3c2351c6136b9279a86ca4a",
+  "tools_sha256": "12e4ae3b8df08917155fdcec3c32f2f08b0eceac7772c4287a097fd68c743403",
   "n8n_instance_target": "https://n8n.inmobiliarialyc.com.ar/",
   "imported": false,
   "live_tested": false,
   "files": [
     {
       "path": "n8n/unsta-demo-conversacion.json",
-      "sha256": "8b32c0cdd78ec0bf033117e4868c4bb143b4a353037a26e23a572329575ecb44"
+      "sha256": "83ddd15b6e8b70ab98d4322d647b2b123116356a08c25edbd11ad23b05efea22"
     },
     {
       "path": "n8n/unsta-demo-errores.json",
-      "sha256": "734c7ce1f08815a951a5dbeec858ae3666879ffe838a61dbd7ab3ecda0005187"
+      "sha256": "a36a7878e1bdcd4c86edb85a7de976ded16b0290da4beae49ce3e10e3fb280b1"
     },
     {
       "path": "n8n/unsta-demo-apertura.json",
-      "sha256": "86dd9a342559978b8c263b4720d173a832f8c3efe92488578b7ce39c6ac97e6b"
+      "sha256": "10679811e6ef8e60a865c31dddb7115368b73e8d45435e24ca23c77a792a1ff7"
     }
   ],
   "compatibility": "Node versions taken from the reviewed Lamelas workflows; Basic LLM Chain 1.7 replaces the tool-less summary agent. Verify instance version on manual import."

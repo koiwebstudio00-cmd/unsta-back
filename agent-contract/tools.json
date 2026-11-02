@@ -126,7 +126,7 @@
     },
     {
       "name": "registrar_interes",
-      "description": "Crea o actualiza un interés sin borrar otros. Usá propuesta_id del catálogo o propuesta_libre si está fuera del recorte; solo una de las dos. Sede y modalidad únicamente si fueron declaradas. Una consulta de alumno no obliga a crear interés. Preinscripción declarada necesita evidencia; no acredita inscripción.",
+      "description": "Crea o actualiza un interés con evidencia, sin borrar otros. Una intención explícita o una consulta concreta sobre duración, materias, aranceles o ingreso puede indicar interés exploratorio. Resolvé referencias solo contra una propuesta inequívoca del intercambio inmediato. Menciones aisladas, datos de terceros y consultas administrativas de alumnos no bastan. Usá propuesta_id del catálogo o propuesta_libre si está fuera del recorte; solo una. Sede y modalidad únicamente si fueron declaradas. Preinscripción declarada necesita evidencia; no acredita inscripción. El backend actualiza la etapa general respetando correcciones manuales.",
       "write": true,
       "inputSchema": {
         "type": "object",

@@ -11,6 +11,14 @@ export function catalogMatches(
   value: string,
 ): Array<{ id: string; titulo: string }> {
   const q = words(value);
+  if (q === "ia")
+    return proposals.filter(
+      (p: { id: string }) => p.id === "carrera-inteligencia-artificial",
+    );
+  if (q === "psico")
+    return proposals.filter(
+      (p: { id: string }) => p.id === "carrera-psicologia",
+    );
   if (q.length < 3) return [];
   const exact = proposals.filter(
     (p: { id: string; titulo: string }) =>
@@ -96,4 +104,54 @@ export function declaredInterests(text: string): Array<Record<string, string>> {
     result.push(data);
   }
   return result;
+}
+
+export function mentionedProposals(text: string) {
+  const body = ` ${words(text)} `;
+  return proposals.filter((p: { id: string; titulo: string }) => {
+    const aliases = [
+      words(p.titulo),
+      words(p.id.replace(/^(carrera|curso|diplomatura)-/, "")),
+      ...(p.id === "carrera-inteligencia-artificial" ? ["ia"] : []),
+      ...(p.id === "carrera-psicologia" ? ["psico"] : []),
+    ];
+    return aliases.some(
+      (alias) =>
+        body.includes(` ${alias} `) && catalogMatches(alias).length === 1,
+    );
+  });
+}
+
+// A concrete admissions question is evidence of exploratory interest, not of
+// enrollment. Resolve implicit references only against one immediate proposal.
+export function evaluatedInterests(
+  text: string,
+  previousAssistant = "",
+): Array<Record<string, string>> {
+  const n = words(text);
+  if (
+    /\b(no|nunca|tampoco|ejemplo|dice|dijo|soy alumno|soy alumna|soy estudiante|mi hijo|mi hija|mi hermano|mi hermana|para mi hijo|para mi hija)\b/.test(
+      n,
+    )
+  )
+    return [];
+  const explicit = declaredInterests(text);
+  if (explicit.length) return explicit;
+  if (
+    /[¿?]/.test(text) &&
+    /^(?:me interesa|me gustaria|quiero estudiar)\b/.test(n)
+  )
+    return [];
+  if (
+    !/\b(me interesa|me gustaria|quiero estudiar|quiero cursar|quiero inscribirme|quisiera estudiar|cuanto dura|cuantos anos|cuanto cuesta|aranceles|plan de estudios|requisitos|como (?:me inscribo|ingreso)|que materias|que se estudia)\b/.test(
+      n,
+    )
+  )
+    return [];
+  const mentioned = mentionedProposals(text);
+  const candidates = mentioned.length
+    ? mentioned
+    : mentionedProposals(previousAssistant);
+  if (candidates.length !== 1) return [];
+  return [{ propuesta_id: candidates[0].id }];
 }

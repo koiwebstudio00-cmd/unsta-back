@@ -1,8 +1,8 @@
 {
   "ok": true,
   "data": {
-    "knowledge_version": "1.0.0",
-    "knowledge_hash": "3ec6325b9ac1720730c84c596c86363668e5fd5b036ee5d84274bb05d6fb10c9",
+    "knowledge_version": "1.1.0",
+    "knowledge_hash": "76c191c7d05521ab6b2c8428be9668b382feb2fb4e9efa75b0ea1ab2126558bd",
     "registros": [
       {
         "id": "carrera-psicologia",

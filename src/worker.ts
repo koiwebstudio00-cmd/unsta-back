@@ -1,6 +1,7 @@
 import { randomUUID } from "node:crypto";
 import { db, scoped, firstPendingTurn } from "./db.js";
 import { config } from "./config.js";
+import { runLeadFollowups } from "./lead-followup.js";
 // Durable outbox. Network calls occur after committing a lease; no overlapping
 // tick per process, and lease compare-and-set protects concurrent workers.
 export async function recoverExpired(now = new Date()) {
@@ -200,7 +201,10 @@ export function startWorker() {
     if (stopped) return;
     try {
       await recoverExpired();
-      if (config.DISPATCH_ENABLED === "true") await dispatchOnce();
+      if (config.DISPATCH_ENABLED === "true") {
+        await dispatchOnce();
+        await runLeadFollowups();
+      }
     } catch {
       console.error(JSON.stringify({ code: "WORKER_FAILURE" }));
     }

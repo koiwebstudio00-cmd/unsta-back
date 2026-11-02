@@ -167,6 +167,20 @@ model Task {
  createdAt DateTime @default(now())
  @@unique([workspaceId,id])
 }
+model LeadFollowup {
+ id String @id @default(uuid()) @db.Uuid
+ workspaceId String @db.Uuid
+ contactId String @unique @db.Uuid
+ conversationId String @db.Uuid
+ messageId String @db.Uuid
+ status String @default("awaiting_response")
+ sentCount Int @default(0)
+ dueAt DateTime?
+ reason String?
+ createdAt DateTime @default(now())
+ updatedAt DateTime @updatedAt
+ @@index([workspaceId,status,dueAt])
+}
 model Subscription {
  id String @id @default(uuid()) @db.Uuid
  workspaceId String @db.Uuid

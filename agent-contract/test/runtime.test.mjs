@@ -31,7 +31,7 @@ test('contexto evita notas y tokens en prompt, fecha real y catálogo',()=>{
  const result=prepareContext({...input,attempt_token:'DO_NOT_SEND',internal_notes:'DO_NOT_SEND',contact:{nombre:'Ana',internal_notes:'DO_NOT_SEND'}},claim,config,'2026-11-02T15:00:00Z');
  assert.ok(!result.prompt_input.includes('DO_NOT_SEND'));
  assert.ok(result.prompt_input.includes('2026-11-02'));
- assert.equal(JSON.parse(result.prompt_input).catalogo.length,11);
+ assert.equal(JSON.parse(result.prompt_input).catalogo.length,12);
 });
 test('cambio a humano detiene agente y versión equivocada de KB falla',()=>{
  assert.equal(prepareContext({...input,conversation:{...input.conversation,mode:'humano'}},claim,config,'now').can_run,false);
@@ -71,8 +71,21 @@ test('error de ejecución/trigger no filtra secretos ni mensajes de usuario',()=
  for(const input of [null,{execution:{id:'123',url:'https://secret.test/?token=DO_NOT_SEND',error:{message:'DO_NOT_SEND',stack:'DO_NOT_SEND'},lastNodeExecuted:'Agente UNSTA'},workflow:{id:'wf-1'}},{trigger:{error:{message:'DO_NOT_SEND',node:{name:'DO_NOT_SEND'}}},workflow:{id:'wf-2'}}])assert.ok(!JSON.stringify(normalizeError(input)).includes('DO_NOT_SEND'));
  assert.equal(normalizeError({trigger:{}}).code,'N8N_TRIGGER_FAILURE');
 });
-test('base: 39 registros, 18 fuentes y catálogo acotado de 11 propuestas',()=>{
- assert.equal(kb.records.size,39);assert.equal(kb.sources.size,18);assert.equal(catalog(kb).length,11);
+test('base: 40 registros, 19 fuentes y catálogo acotado de 12 propuestas',()=>{
+ assert.equal(kb.records.size,40);assert.equal(kb.sources.size,19);assert.equal(catalog(kb).length,12);
+});
+
+test('consultas de ingreso recuperan requisitos confirmados y límites de casos especiales',()=>{
+ for(const consulta of ['requisitos de inscripción documentos fotos DNI','ingreso mayores de 25 sin secundario','documentación extranjeros','equivalencias universidad institutos arancel']) {
+  const r=searchKnowledge(kb,{consulta}).data.registros[0];
+  assert.equal(r.id,'documentacion-general');
+  assert.equal(r.validacion_institucional,true);
+  assert.equal(r.estado,'confirmado');
+  assert.equal(r.fuentes[0].url,'https://ingreso.unsta.edu.ar/documentacion-de-ingreso-unsta/');
+  assert.match(r.datos.equivalencias_institutos_superiores.arancel,/20%/);
+  assert.ok(r.condiciones_de_uso.some(c=>c.includes('numeración')&&c.includes('ambigua')));
+  assert.ok(r.condiciones_de_uso.some(c=>c.includes('Preinscripción no equivale')));
+ }
 });
 test('recuperación expande precios y horarios manteniendo restricciones y fuentes',()=>{
  const result=getRecords(kb,['curso-ingles-a1']);
@@ -86,6 +99,25 @@ test('búsqueda conserva discrepancias de sede y alias, no inventa propuesta',()
  const result=searchKnowledge(kb,{consulta:'Abogacía',sede:'yerba_buena'}).data.registros;
  assert.ok(result.some(r=>r.id==='carrera-abogacia'&&r.condiciones_de_uso.some(c=>c.includes('Yerba Buena'))));
  assert.equal(searchKnowledge(kb,{consulta:'zzzzzzzzzzzz'}).data.registros.length,0);
+});
+
+test('fichas ampliadas recuperan planes por año y distinguen IA de Informática',()=>{
+ const result=searchKnowledge(kb,{consulta:'quiero estudiar IA'}).data.registros;
+ assert.equal(result[0].id,'carrera-inteligencia-artificial');
+ assert.equal(result[0].datos.inicio_publicado,null);
+ assert.match(result[0].datos.plan_resumido_por_anio['4'],/redes neuronales/);
+ for(const [id,years] of [['inteligencia-artificial',5],['informatica',5],['contador',4],['abogacia',5],['medicina',6],['psicologia',5]]) {
+  const r=getRecords(kb,['carrera-'+id]).data.registros[0];
+  assert.equal(Object.keys(r.datos.plan_resumido_por_anio).length,years);
+  assert.equal(r.datos.ingreso_general_ref,'documentacion-general');
+  assert.ok(r.fuentes.some(s=>s.url===r.datos.web_carrera));
+  assert.equal(r.datos.arancel_cuota,null);
+ }
+ const medical=getRecords(kb,['carrera-medicina']).data.registros[0].datos;
+ assert.match(medical.ingreso_especifico.costo,/derecho de examen/);
+ assert.equal(medical.ingreso_especifico.importe_derecho_examen,null);
+ assert.equal(medical.ingreso_especifico.fecha_examen,null);
+ assert.equal(getRecords(kb,['carrera-abogacia']).data.registros[0].datos.orientaciones_ultimo_anio.magistratura.includes('constitucional'),true);
 });
 
 test('búsqueda tolera categorías del modelo e IDs incorrectos sin perder fuentes relacionadas',()=>{
@@ -107,7 +139,7 @@ test('dirección Central y calendario general conservan contexto y límites de c
  assert.equal(searchKnowledge(kb,{consulta:'Dónde queda la sede Central'}).data.registros[0].id,'sede-central');
  const result=searchKnowledge(kb,{consulta:'fecha inicio todas las carreras 2027'}).data.registros;
  assert.ok(result.some(x=>x.id==='calendario-marco'));
- assert.equal(result.filter(x=>x.seccion==='carreras').length,6);
+ assert.equal(result.filter(x=>x.seccion==='carreras').length,7);
  assert.ok(getRecords(kb,['cal-segundo-cuatrimestre']).data.registros.some(x=>x.id==='calendario-marco'));
 });
 

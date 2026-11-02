@@ -2,6 +2,20 @@
 
 API HTTP, CRM, sesiones, PostgreSQL/Prisma y coordinación con n8n. Repositorio independiente: no requiere código ni dependencias del frontend.
 
+## Entrega del 2 de noviembre de 2026
+
+Incluye conocimiento 1.1.0, respuestas conversacionales, captura de interés con evidencia, seguimientos contextuales a las 2/4 horas y cierre por silencio a las 6 horas, con persistencia y protección de decisiones manuales. También incorpora una corrección para crear el espacio institucional de forma segura ante accesos concurrentes.
+
+Preparación del próximo despliegue (no ejecutado como parte de esta entrega):
+
+1. Respaldar PostgreSQL y conservar las variables privadas y `UNSTA_WORKSPACE_ID`. El push del código no transporta la base local ni sus cuentas.
+2. Construir esta versión y ejecutar `npm run db:migrate:prod` antes de iniciar el servicio. Debe aplicarse `202611020001_lead_followups`; no resetear la base ni recrear su volumen.
+3. Configurar un origen HTTPS estable del backend, `PANEL_ORIGIN` igual al dominio del frontend y cookies seguras. Validar `/health` y el login.
+4. Revisar los tres workflows y sus credenciales en n8n. El JSON versionado contiene un origen `.invalid` deliberado: no sustituir el flujo activo con ese placeholder. Mantener versión/hash del conocimiento coincidentes.
+5. Habilitar `DISPATCH_ENABLED` cuando el recorrido esté conectado. Verificar una consulta, su respuesta, el interés y la programación del seguimiento desde el panel. Los seguimientos siguen siendo mensajes internos, sin WhatsApp/email.
+
+Validación local: `npm run check` y `npm run build`. Las pruebas de API usan exclusivamente `unsta_demo_test`; el ciclo temporal se comprueba con reloj simulado. El frontend documenta y exporta el alcance funcional desde su página Proyecto.
+
 ## Instalación local nueva
 
 Node 24 y Docker para PostgreSQL. Ejecutar desde esta raíz:
@@ -52,7 +66,7 @@ Las pruebas de API exigen PostgreSQL local y nunca vacían `unsta_demo`. Para CI
 - `AGENT_SERVICE_KEY`: credencial que usa n8n para llamar a esta API.
 - `N8N_WEBHOOK_KEY`: credencial de los webhooks de entrada a n8n.
 - `N8N_CONVERSATION_URL`, `N8N_OPENING_URL`: URLs de producción de los workflows.
-- `DISPATCH_ENABLED`: habilita despachos a n8n. Mantener false hasta configurar el recorrido.
+- `DISPATCH_ENABLED`: habilita despachos a n8n y seguimientos automáticos. Mantener false hasta configurar el recorrido.
 - `UNSTA_WORKSPACE_ID`: espacio institucional compartido; conservar el UUID que tiene los datos.
 - `HOST`, `PORT`: escucha de la API; contenedores usan 0.0.0.0 y 4100.
 
@@ -69,6 +83,10 @@ Asignar un dominio HTTPS propio del backend para que n8n y el servidor Next pued
 El Compose de esta carpeta es para desarrollo local y conserva `name: unsta-demo` y su volumen. No cambiar esa identidad ni ejecutar `down -v`: contiene los datos actuales.
 
 ## n8n y conocimiento
+
+Estado documental al 2 de noviembre de 2026: conocimiento **1.1.0**, con **40 registros**, **19 fuentes** y **12 propuestas** (7 carreras y 5 cursos/diplomaturas). Incluye Medicina, Psicología, Abogacía, Contador Público, Marketing, Informática e Inteligencia Artificial; requisitos de ingreso y equivalencias; cursos, servicios, contactos, aranceles/horarios publicados y calendario 2026. Seis carreras tienen fichas ampliadas y planes resumidos por año. Se conservan campos desconocidos, condiciones y discrepancias.
+
+La base operativa persiste cuentas/sesiones, contactos, mensajes, intereses, resúmenes, notas, tareas, derivaciones, avisos, ciclos automáticos y auditoría. No se publican datos personales en documentación. El frontend ofrece una descripción editorial exportable desde **Proyecto**, junto a **Demo**; el contenido se mantiene en su propio repositorio, sin imports entre proyectos.
 
 `agent-contract/` es la fuente de prompts, herramientas, validaciones y generador; `n8n/` contiene los tres workflows derivados; `base-conocimiento/` conserva el conocimiento canónico y sus casos.
 
@@ -108,3 +126,22 @@ Todas las cuentas creadas acceden al espacio institucional `UNSTA_WORKSPACE_ID`.
 Las sesiones conservan cookies HttpOnly, comprobación de origen y CSRF. El endpoint de login limita los intentos y devuelve un error genérico para email inexistente o contraseña incorrecta. El endpoint anterior de invitaciones permanece por compatibilidad, pero el frontend ya no lo utiliza.
 
 Alcance actual: cuentas con acceso compartido al CRM; no hay roles diferenciados, SSO ni recuperación/cambio de contraseña autoservicio. La página de solicitud también sirve como contacto de ayuda.
+
+## Interés y seguimientos automáticos
+
+Las declaraciones de interés y preguntas concretas de admisión (duración, materias, aranceles, ingreso) pueden registrar una propuesta con el mensaje del interesado como evidencia. No se capturan menciones aisladas, preguntas ambiguas entre propuestas ni consultas administrativas de alumnos. El interés respaldado actualiza el lead a `informado` (Contactados). La preinscripción requiere declaración explícita y nunca acredita inscripción.
+
+El worker del backend, habilitado con `DISPATCH_ENABLED=true`, administra un ciclo persistente `LeadFollowup` por contacto. Programa seguimientos para todos los leads después de publicar una respuesta correctamente, incluso si solo saludaron o hicieron una consulta general. No se incorporan chats históricos automáticamente. Los mensajes se guardan en el chat del panel; no hay entrega externa ni integración de WhatsApp/email en este proceso.
+
+El contenido se adapta al tema más reciente: saludo, consulta general, carrera, aranceles, horarios, ingreso, plan de estudios o modalidad/sede. Las continuaciones breves recuperan el tema anterior y los cambios de tema tienen prioridad. El segundo mensaje tiene otro texto. Se usan mensajes breves sin inventar importes, horarios ni datos académicos; el seguimiento no atribuye al lead una intención de inscribirse. Las consultas de alumnos, negativas y cierres explícitos no activan mensajes comerciales.
+
+- Primer mensaje: dos horas desde el último mensaje del lead. Si la respuesta inicial demoró más de dos horas, se concede un intervalo completo desde esa respuesta.
+- Segundo mensaje: dos horas después del primer seguimiento efectivamente publicado.
+- Cierre: dos horas después del segundo, si sigue sin respuesta, se marca `sin_interes` con motivo `no_reply_after_two_followups`. No se interpreta el silencio como un rechazo declarado.
+- Un nuevo mensaje cancela el plazo anterior y reinicia el contador. Si el ciclo había cerrado por silencio, reactiva el lead. No reabre una negativa fijada manualmente ni un pedido de no contacto.
+- Atención humana, derivación, cierre de chat, cambio manual de etapa y preinscripción detienen el ciclo. Las correcciones manuales de etapa no se sobrescriben. Un pedido de no recibir mensajes deshabilita seguimientos posteriores para ese contacto.
+- No hay filtro de horario: los intervalos son corridos. Tras una caída se procesa un paso por ciclo, dejando dos horas para el siguiente; no se envían mensajes acumulados en ráfaga.
+
+Cada envío y cambio automático queda auditado. El bloqueo por workspace y la escritura transaccional de mensaje/contador evitan duplicados entre workers concurrentes. La nueva tabla tiene RLS forzada y claves compuestas por workspace. `GET /v1/demo/followup` incorpora `automations`; Seguimiento muestra los próximos envíos y cierres. No sustituye las tareas manuales.
+
+Aplicar `npm run db:migrate` y regenerar Prisma antes de iniciar esta versión. Las pruebas con reloj simulado se ejecutan solo sobre `unsta_demo_test` con `npm run test:api`.

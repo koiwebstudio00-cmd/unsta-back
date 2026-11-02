@@ -1,8 +1,8 @@
-> Documento trasladado desde la demo. Para instalación y comandos actuales, consultar primero el README de este repositorio.
+> Actualizado el 2 de noviembre de 2026. Para configuración de despliegue, consultar también el README de este repositorio.
 
 # Backend local de la demo UNSTA
 
-Implementación del 31/10/2026: Express 5 + TypeScript + Prisma 6.10.1 + PostgreSQL 17. Se reutilizan los patrones de Lamelas: backend como fuente de verdad, contexto de espacio en transacción, aislamiento en PostgreSQL, herramientas HTTP y cola persistente. La conversación está conectada a n8n remoto mediante túnel temporal; ver [pendientes actuales](pendientes-demo-2026-10-31.txt).
+Express 5 + TypeScript + Prisma 6.10.1 + PostgreSQL 17. El backend es la fuente de verdad: contexto de espacio en transacción, aislamiento en PostgreSQL, herramientas HTTP, cola persistente y seguimientos automáticos. La conversación se conecta a n8n remoto mediante un origen HTTPS accesible; el túnel temporal local debe mantenerse disponible. Conocimiento actual: 1.1.0, 40 registros, 19 fuentes y 12 propuestas.
 
 ## Arranque
 
@@ -14,6 +14,8 @@ npm run demo:setup
 docker compose --env-file .env.local up -d postgres
 npm run db:generate
 npm run db:migrate
+npm run build
+npm run account:create -- evaluador@example.test
 npm start
 ```
 
@@ -32,12 +34,12 @@ La base está en el volumen `unsta-demo_unsta_pg_data`. No usar `down -v` si se 
 ## Acceso de evaluadores
 
 ```sh
-npm run invite -- evaluador@example.test
+npm run account:create -- evaluador@example.test
 ```
 
-Crea una invitación de un solo uso, válida por 24 horas, al espacio compartido UNSTA definido por `UNSTA_WORKSPACE_ID`. El espacio se crea solo si todavía no existe. Guarda el token en `.local/invite-<workspace>-<invitacion>.local.json`, con permisos restringidos. No envía correo ni imprime el secreto. El [panel local](panel-local.md) ofrece el formulario en `/ingresar`.
+Crea una cuenta persistente en el espacio compartido UNSTA definido por `UNSTA_WORKSPACE_ID`. Guarda las credenciales iniciales en un archivo privado `.local/account-….local.json`; no envía correo ni imprime la contraseña. El frontend ofrece email y contraseña en `/ingresar`. Crear cada cuenta una sola vez y conservar su archivo privado fuera del control de versiones.
 
-`POST /v1/auth/accept-invite`, con `Origin` igual a `PANEL_ORIGIN`, recibe `{ "token": "valor_del_archivo_local" }`. Devuelve cookie `unsta_session` HttpOnly y un `csrf_token`. Las escrituras de `/v1/demo` requieren esa cookie, el mismo `Origin` y `X-CSRF-Token`. La sesión vence a los siete días. Todas las invitaciones comparten el mismo espacio institucional: los miembros ven y gestionan los mismos contactos, conversaciones y seguimientos, incluso desde distintos navegadores. Cada persona conserva su sesión y email propios.
+`POST /v1/auth/login`, con `Origin` igual a `PANEL_ORIGIN`, recibe email y contraseña. Devuelve cookie `unsta_session` HttpOnly y `csrf_token`. Las escrituras de `/v1/demo` requieren esa cookie, el mismo `Origin` y `X-CSRF-Token`. La sesión vence a los siete días. Los miembros comparten contactos, conversaciones y seguimientos, con sesión y email propios. El endpoint de invitaciones se conserva por compatibilidad, pero no es el flujo actual del panel.
 
 ## Rutas para el panel
 
@@ -55,19 +57,20 @@ Prefijo `/v1/demo`, autenticado:
 | `POST /turns/:id/retry` | Reintento manual de turno fallido, solo en modo bot. |
 | `GET /contacts`, `GET /contacts/:id` | Listado y ficha con intereses, notas, tareas y avisos. |
 | `PATCH /contacts/:id` | Corregir campos y protegerlos de la IA. |
+| `PATCH /contacts/:id/stage` | Cambiar etapa general, proteger la decisión manual y detener el ciclo automático activo. |
 | `POST /contacts/:id/notes` | Nota interna `{text}`. |
 | `POST /contacts/:id/tasks` | Tarea `{text, due_at}` con fecha ISO. |
 | `PATCH /tasks/:id` | `{status: completada/cancelada}`. |
 | `PATCH /interests/:id` | Cambiar etapa; `inscripcion_simulada` se mantiene explícita. |
 | `POST /subscriptions/:id/cancel` | Cancelar un aviso. |
 | `POST /openings` | `{proposal_id, description}`; crea un evento ficticio nuevo. |
-| `GET /followup` | Tareas, suscripciones, casos, eventos y avisos. |
+| `GET /followup` | Tareas, suscripciones, casos, eventos, avisos y `automations` con ciclos persistidos, contador, estado y próximo vencimiento. |
 
 Un reenvío del mismo `client_message_id` conserva el mensaje original; el mismo ID con otro texto devuelve conflicto. Cada POST de creación de apertura representa un evento nuevo; el panel debe bloquear doble clic hasta recibir su ID. El procesamiento de ese ID sí es idempotente.
 
 La vista de conversación está limitada a 500 mensajes; contactos a 200 y avisos/suscripciones a lotes acotados. Es un recorte para la demo, no paginación de producción.
 
-## Conectar n8n más adelante
+## Conexión con n8n
 
 Los endpoints de [contrato-api-agente.md](contrato-api-agente.md) están implementados bajo `/v1/agent`. Requieren `Authorization: Bearer <AGENT_SERVICE_KEY>` y, después del claim, `X-UNSTA-Attempt-Token`.
 
@@ -80,7 +83,15 @@ Cuando se importen y configuren los workflows:
 3. Configurar en n8n el mismo `N8N_WEBHOOK_KEY` del backend.
 4. Habilitar `DISPATCH_ENABLED=true` y reiniciar la API.
 
-Por defecto las URLs están vacías y el despacho está apagado. Las pruebas de backend usan transporte falso, no llaman a la instancia de Lamelas. Deshabilitar el despacho pausa envíos nuevos; no revoca una ejecución ya reclamada. Para detener un chat en ejecución, tomarlo/cerrarlo desde su operación de control.
+En instalaciones nuevas las URLs están vacías y el despacho está apagado. Las pruebas automáticas usan transporte falso y `unsta_demo_test`, sin llamar a n8n. `DISPATCH_ENABLED=false` pausa despachos nuevos y procesamiento de seguimientos, pero no revoca una ejecución ya reclamada. Para detener un chat en ejecución, tomarlo/cerrarlo desde su operación de control.
+
+## Seguimientos e interés
+
+Se detecta interés explícito o exploratorio respaldado por mensajes del lead. El estado general pasa a Contactados al detectar interés o publicar una respuesta, salvo protección manual. La preinscripción exige una declaración y no confirma inscripción.
+
+`LeadFollowup` guarda un ciclo por contacto. Tras una respuesta correcta, todos los leads elegibles pueden recibir mensajes contextuales: primero a las 2 horas desde su mensaje, segundo 2 horas después del envío y cierre por falta de respuesta otras 2 horas después. Si la respuesta inicial se demoró más de 2 horas, se concede un intervalo completo desde esa respuesta. Los horarios son corridos y no hay ráfagas al volver de una caída.
+
+Una respuesta reinicia el ciclo; toma humana, derivación, cierre, cambios manuales, preinscripción y pedidos de no contacto lo detienen. Se distinguen saludo, consulta general, carrera, horarios, aranceles, ingreso, plan y modalidad/sede. Los mensajes se guardan dentro del panel, no se envían por WhatsApp/email. El worker exige backend encendido y `DISPATCH_ENABLED=true`; no incorpora chats históricos automáticamente. Ver reglas completas en el README.
 
 ## Persistencia y concurrencia
 

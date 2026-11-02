@@ -14,7 +14,7 @@ export function loadKnowledge(path = new URL('../base-conocimiento/demo-v1/unsta
   return {kb,records,sources,hash:createHash('sha256').update(bytes).digest('hex')};
 }
 const normalize = v => String(v??'').normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase();
-const aliases = {'psico':'psicologia','compu':'informatica','computacion':'informatica','sove':'orientacion vocacional','cuota':'arancel','precio':'arancel','cuanto':'arancel','costos':'arancel','costo':'arancel','tesoreria':'tesoreria','feriados':'calendario'};
+const aliases = {'ia':'inteligencia artificial','psico':'psicologia','compu':'informatica','computacion':'informatica','sove':'orientacion vocacional','cuota':'arancel','precio':'arancel','cuanto':'arancel','costos':'arancel','costo':'arancel','tesoreria':'tesoreria','feriados':'calendario'};
 const stop=new Set('el la los las de del un una en por para que quiero saber estudiar sobre me mi tengo es se cuanto cuesta dia con y a al si no soy'.split(' '));
 // Give the model a locale-safe rendering of monetary facts, alongside their
 // original numeric value and scope. Counts/dates must never become money.

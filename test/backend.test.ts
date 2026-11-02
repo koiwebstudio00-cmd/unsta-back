@@ -9,8 +9,29 @@ import { token, digest } from "../src/common.js";
 import { config } from "../src/config.js";
 import { importKnowledge, knowledge } from "../src/knowledge.js";
 import { recoverExpired, dispatchOnce } from "../src/worker.js";
+import {
+  runLeadFollowups,
+  FOLLOWUP_INTERVAL_MS,
+  composeFollowup,
+} from "../src/lead-followup.js";
 import { prepareContext, prepareResponse } from "../agent-contract/runtime.mjs";
 const app = createApp();
+async function automation(contactId: string, who = a) {
+  return scoped(who.workspaceId, (tx) =>
+    tx.leadFollowup.findUniqueOrThrow({ where: { contactId } }),
+  );
+}
+async function answeredLead(text = "Quiero estudiar IA", who = a) {
+  const x = await create(who, text),
+    c = await claim(x.turn.id);
+  await service(
+    "post",
+    `/turns/${x.turn.id}/complete`,
+    completion(x, c),
+    c,
+  ).expect(200);
+  return x;
+}
 let a: any, b: any;
 const metadata = () => ({
   execution_id: "test-" + randomUUID(),
@@ -102,7 +123,7 @@ function completion(x: any, c: any, extra: any = {}) {
     turn_id: x.turn.id,
     attempt_id: c.attempt_id,
     control_version: 1,
-    knowledge_version: "1.0.0",
+    knowledge_version: knowledge.kb.version,
     record_ids: [],
     handoff_id: null,
     texto: "Respuesta de prueba controlada",
@@ -319,7 +340,7 @@ test("credenciales de servicio e intento no permiten cruzar turnos", async () =>
 test("metadatos de fuentes del panel requieren sesión y conservan condiciones", async () => {
   await request(app).get("/v1/demo/knowledge").expect(401);
   const response = await a.agent.get("/v1/demo/knowledge").expect(200);
-  assert.equal(response.body.records.length, 39);
+  assert.equal(response.body.records.length, 40);
   for (const item of response.body.records) {
     const original = knowledge.records.get(item.id) as any;
     assert.equal(item.title, original.titulo);
@@ -342,14 +363,14 @@ test("conocimiento HTTP conserva hash, aranceles desconocidos y condiciones; com
     ctx,
     c,
     {
-      knowledge_version: "1.0.0",
+      knowledge_version: knowledge.kb.version,
       knowledge_hash: knowledge.hash,
       timezone: "America/Argentina/Tucuman",
     },
     new Date().toISOString(),
   );
   assert.equal(prepared.can_run, true);
-  assert.equal(ctx.catalog.length, 11);
+  assert.equal(ctx.catalog.length, 12);
   const r = await tool(x, c, "ver_propuesta", {
     propuesta_id: "carrera-medicina",
   });
@@ -602,7 +623,7 @@ test("resumen inválido no toca la respuesta; snapshot no pierde mensajes consec
     ctx,
     c2,
     {
-      knowledge_version: "1.0.0",
+      knowledge_version: knowledge.kb.version,
       knowledge_hash: knowledge.hash,
       timezone: "America/Argentina/Tucuman",
     },
@@ -1355,4 +1376,277 @@ test("login de credenciales reutilizable, errores genéricos, origen, sesión y 
   for (let i = 0; i < 5; i++)
     await signIn("login@example.test", "incorrecta").expect(401);
   await signIn("login@example.test", "incorrecta").expect(429);
+});
+
+test("seguimiento durable: dos mensajes a 2/4h y cierre a 6h, sin duplicados concurrentes", async () => {
+  const x = await answeredLead();
+  const first = await automation(x.contact.id);
+  assert.equal(first.status, "scheduled");
+  assert.ok(first.dueAt);
+  assert.equal(
+    (await a.agent.get(`/v1/demo/contacts/${x.contact.id}`)).body.contact
+      .pipelineStage,
+    "informado",
+  );
+  await runLeadFollowups(new Date(first.dueAt!.getTime() - 1));
+  assert.equal((await automation(x.contact.id)).sentCount, 0);
+  await Promise.all([
+    runLeadFollowups(first.dueAt!),
+    runLeadFollowups(first.dueAt!),
+  ]);
+  const second = await automation(x.contact.id);
+  assert.equal(second.sentCount, 1);
+  assert.equal(
+    second.dueAt!.getTime(),
+    first.dueAt!.getTime() + FOLLOWUP_INTERVAL_MS,
+  );
+  assert.equal(
+    (await a.agent.get(`/v1/demo/contacts/${x.contact.id}`)).body.contact
+      .pipelineStage,
+    "seguimiento",
+  );
+  await runLeadFollowups(second.dueAt!);
+  const closing = await automation(x.contact.id);
+  assert.equal(closing.sentCount, 2);
+  assert.equal(
+    (await a.agent.get(`/v1/demo/contacts/${x.contact.id}`)).body.contact
+      .pipelineStage,
+    "seguimiento",
+  );
+  await runLeadFollowups(closing.dueAt!);
+  await runLeadFollowups(closing.dueAt!);
+  assert.equal((await automation(x.contact.id)).status, "exhausted");
+  assert.equal(
+    (await a.agent.get(`/v1/demo/contacts/${x.contact.id}`)).body.contact
+      .pipelineStage,
+    "sin_interes",
+  );
+  const messages = (
+    await a.agent.get(`/v1/demo/conversations/${x.conversation.id}`)
+  ).body.messages;
+  assert.equal(
+    messages.filter((m: any) => m.clientMessageId?.startsWith("followup:"))
+      .length,
+    2,
+  );
+  await scoped(b.workspaceId, async (tx) =>
+    assert.equal(
+      await tx.leadFollowup.findUnique({ where: { contactId: x.contact.id } }),
+      null,
+    ),
+  );
+  const returned = (
+    await mutation(a, "post", `/conversations/${x.conversation.id}/messages`, {
+      text: "Sí, contame los requisitos",
+      client_message_id: randomUUID(),
+    }).expect(202)
+  ).body;
+  assert.equal((await automation(x.contact.id)).sentCount, 0);
+  assert.equal((await automation(x.contact.id)).status, "awaiting_response");
+  assert.equal(
+    (await a.agent.get(`/v1/demo/contacts/${x.contact.id}`)).body.contact
+      .pipelineStage,
+    "informado",
+  );
+  const c = await claim(returned.turn.id);
+  await service(
+    "post",
+    `/turns/${returned.turn.id}/complete`,
+    completion(returned, c),
+    c,
+  ).expect(200);
+  assert.equal((await automation(x.contact.id)).status, "scheduled");
+});
+
+test("un nuevo mensaje cancela el plazo anterior; errores y turnos viejos no arman seguimientos", async () => {
+  const x = await answeredLead();
+  const due = (await automation(x.contact.id)).dueAt!;
+  const sent = (
+    await mutation(a, "post", `/conversations/${x.conversation.id}/messages`, {
+      text: "¿Qué materias tiene?",
+      client_message_id: randomUUID(),
+    }).expect(202)
+  ).body;
+  await runLeadFollowups(due);
+  assert.equal((await automation(x.contact.id)).sentCount, 0);
+  assert.equal((await automation(x.contact.id)).status, "awaiting_response");
+  const c = await claim(sent.turn.id);
+  const next = (
+    await mutation(a, "post", `/conversations/${x.conversation.id}/messages`, {
+      text: "Y cuánto cuesta",
+      client_message_id: randomUUID(),
+    }).expect(202)
+  ).body;
+  await service(
+    "post",
+    `/turns/${sent.turn.id}/complete`,
+    completion(sent, c),
+    c,
+  ).expect(200);
+  assert.equal((await automation(x.contact.id)).messageId, next.message.id);
+  assert.equal((await automation(x.contact.id)).dueAt, null);
+});
+
+test("toma humana, cierre, cambio manual y opt-out cancelan seguimientos", async () => {
+  for (const action of ["take", "close", "stage", "optout"]) {
+    const x = await answeredLead();
+    const due = (await automation(x.contact.id)).dueAt!;
+    if (action === "stage")
+      await mutation(a, "patch", `/contacts/${x.contact.id}/stage`, {
+        stage: "preinscripcion_declarada",
+      }).expect(200);
+    else if (action === "optout")
+      await mutation(
+        a,
+        "post",
+        `/conversations/${x.conversation.id}/messages`,
+        { text: "No me escribas más", client_message_id: randomUUID() },
+      ).expect(202);
+    else
+      await mutation(a, "post", `/conversations/${x.conversation.id}/control`, {
+        action,
+      }).expect(200);
+    await runLeadFollowups(due);
+    assert.equal((await automation(x.contact.id)).sentCount, 0, action);
+    assert.equal((await automation(x.contact.id)).dueAt, null, action);
+    if (action === "optout")
+      assert.equal((await automation(x.contact.id)).status, "opted_out");
+  }
+});
+
+test("caídas largas no producen ráfagas ni un cierre sin dar dos horas al segundo mensaje", async () => {
+  const x = await answeredLead();
+  const late = new Date(
+    (await automation(x.contact.id)).dueAt!.getTime() + 86400000,
+  );
+  await runLeadFollowups(late);
+  await runLeadFollowups(late);
+  const cycle = await automation(x.contact.id);
+  assert.equal(cycle.sentCount, 1);
+  assert.equal(cycle.dueAt!.getTime(), late.getTime() + FOLLOWUP_INTERVAL_MS);
+});
+
+test("interés exploratorio y alias IA actualizan el lead con evidencia, sin capturar menciones ni terceros", async () => {
+  for (const text of [
+    "¿Cuánto dura Medicina?",
+    "¿Qué materias tiene IA?",
+    "Me gustaría estudiar Psicología",
+  ]) {
+    const x = await answeredLead(text);
+    const profile = (await a.agent.get(`/v1/demo/contacts/${x.contact.id}`))
+      .body;
+    assert.equal(profile.contact.pipelineStage, "informado", text);
+    assert.equal(profile.interests.length, 1, text);
+    assert.equal(profile.interests[0].evidenceId, x.message.id);
+    assert.equal((await automation(x.contact.id)).status, "scheduled", text);
+  }
+  for (const text of [
+    "Medicina",
+    "Hola",
+    "Soy alumno de Medicina y necesito ver mis materias",
+    "Mi hija quiere estudiar IA",
+    "No me interesa Medicina",
+    "¿Cuánto dura Medicina o Psicología?",
+  ]) {
+    const x = await answeredLead(text);
+    const profile = (await a.agent.get(`/v1/demo/contacts/${x.contact.id}`))
+      .body;
+    assert.equal(profile.interests.length, 0, text);
+    assert.equal(
+      (await automation(x.contact.id)).status,
+      text.startsWith("Soy alumno") || text.startsWith("No me interesa")
+        ? "cancelled"
+        : "scheduled",
+      text,
+    );
+  }
+});
+
+test("preinscripción comprobada en el mensaje y etapas manuales tienen prioridad sobre automatizaciones", async () => {
+  const x = await create(a, "Ya hice la preinscripción de Medicina");
+  const c = await claim(x.turn.id);
+  assert.equal(
+    (
+      await tool(x, c, "registrar_interes", {
+        propuesta_id: "carrera-medicina",
+        preinscripcion_declarada: true,
+        mensaje_evidencia_id: x.message.id,
+      })
+    ).ok,
+    true,
+  );
+  await service(
+    "post",
+    `/turns/${x.turn.id}/complete`,
+    completion(x, c),
+    c,
+  ).expect(200);
+  assert.equal(
+    (await a.agent.get(`/v1/demo/contacts/${x.contact.id}`)).body.contact
+      .pipelineStage,
+    "preinscripcion_declarada",
+  );
+  assert.notEqual((await automation(x.contact.id)).status, "scheduled");
+  const y = await create(a, "Quiero estudiar IA");
+  await mutation(a, "patch", `/contacts/${y.contact.id}/stage`, {
+    stage: "seguimiento",
+  }).expect(200);
+  const d = await claim(y.turn.id);
+  await service(
+    "post",
+    `/turns/${y.turn.id}/complete`,
+    completion(y, d),
+    d,
+  ).expect(200);
+  assert.equal(
+    (await a.agent.get(`/v1/demo/contacts/${y.contact.id}`)).body.contact
+      .pipelineStage,
+    "seguimiento",
+  );
+  assert.equal((await automation(y.contact.id)).status, "cancelled");
+});
+
+test("los saludos y consultas generales también reciben seguimiento con contenido contextual", async () => {
+  const outputs = [];
+  for (const [text, expected] of [
+    ["Hola", "buscando una carrera"],
+    ["¿Qué horarios tienen?", "horarios"],
+    ["¿Cuánto cuesta Medicina?", "aranceles de Medicina"],
+    ["¿Qué documentación necesito para ingresar?", "ingreso"],
+  ]) {
+    const x = await answeredLead(text);
+    const cycle = await automation(x.contact.id);
+    assert.equal(cycle.status, "scheduled", text);
+    assert.equal(
+      cycle.dueAt!.getTime(),
+      new Date(x.message.createdAt).getTime() + FOLLOWUP_INTERVAL_MS,
+    );
+    await runLeadFollowups(cycle.dueAt!);
+    let cv = (await a.agent.get(`/v1/demo/conversations/${x.conversation.id}`))
+      .body;
+    const first = cv.messages.at(-1).text;
+    assert.ok(first.includes(expected), first);
+    outputs.push(first);
+    await runLeadFollowups((await automation(x.contact.id)).dueAt!);
+    cv = (await a.agent.get(`/v1/demo/conversations/${x.conversation.id}`))
+      .body;
+    assert.notEqual(cv.messages.at(-1).text, first);
+  }
+  assert.equal(new Set(outputs).size, 4);
+  const latest = composeFollowup(
+    ["Y los horarios?", "¿Cuánto cuesta Medicina?"],
+    [],
+    0,
+  );
+  assert.ok(latest.text.includes("horarios de Medicina"));
+  assert.ok(!latest.text.includes("aranceles"));
+  assert.equal(
+    composeFollowup(["Sí, contame", "¿Qué horarios tiene Medicina?"], [], 0)
+      .kind,
+    "horarios",
+  );
+  assert.equal(
+    composeFollowup(["Hola", "¿Cuánto cuesta Medicina?"], ["Medicina"], 0).kind,
+    "saludo",
+  );
 });

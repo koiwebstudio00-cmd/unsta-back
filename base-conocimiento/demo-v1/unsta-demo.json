@@ -2,7 +2,7 @@
   "schema_version": "1.0",
   "id": "unsta-demo-v1",
   "titulo": "Base de conocimiento UNSTA para demo",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "fecha_corte": "2026-10-31",
   "idioma": "es-AR",
   "zona_horaria": "America/Argentina/Tucuman",
@@ -29,13 +29,13 @@
       "id": "ingreso",
       "titulo": "Ingreso y sedes de las carreras",
       "url": "https://ingreso.unsta.edu.ar/",
-      "consultada_el": "2026-10-31"
+      "consultada_el": "2026-11-02"
     },
     {
       "id": "documentacion",
       "titulo": "Documentación de ingreso",
       "url": "https://ingreso.unsta.edu.ar/documentacion-de-ingreso-unsta/",
-      "consultada_el": "2026-10-31"
+      "consultada_el": "2026-11-02"
     },
     {
       "id": "alumnos",
@@ -59,25 +59,25 @@
       "id": "medicina",
       "titulo": "Medicina",
       "url": "https://www.unsta.edu.ar/salud/medicina/",
-      "consultada_el": "2026-10-31"
+      "consultada_el": "2026-11-02"
     },
     {
       "id": "psicologia",
       "titulo": "Licenciatura en Psicología",
       "url": "https://www.unsta.edu.ar/salud/psicologia/",
-      "consultada_el": "2026-10-31"
+      "consultada_el": "2026-11-02"
     },
     {
       "id": "abogacia",
       "titulo": "Abogacía",
       "url": "https://www.unsta.edu.ar/juridicas/abogacia/",
-      "consultada_el": "2026-10-31"
+      "consultada_el": "2026-11-02"
     },
     {
       "id": "contador",
       "titulo": "Contador Público",
       "url": "https://www.unsta.edu.ar/economia/contador-publico/",
-      "consultada_el": "2026-10-31"
+      "consultada_el": "2026-11-02"
     },
     {
       "id": "marketing",
@@ -89,7 +89,7 @@
       "id": "informatica",
       "titulo": "Ingeniería en Informática",
       "url": "https://www.unsta.edu.ar/ingenieria/ingenieria-informatica/",
-      "consultada_el": "2026-10-31"
+      "consultada_el": "2026-11-02"
     },
     {
       "id": "idiomas",
@@ -126,6 +126,12 @@
         7
       ],
       "archivo_local": "fuentes/calendario-unsta-2026.pdf"
+    },
+    {
+      "id": "inteligencia_artificial",
+      "titulo": "Ingeniería en Inteligencia Artificial",
+      "url": "https://www.unsta.edu.ar/ingenieria/ingenieria-en-inteligencia-artificial/",
+      "consultada_el": "2026-11-02"
     }
   ],
   "registros": [
@@ -302,27 +308,49 @@
     {
       "id": "documentacion-general",
       "seccion": "ingreso",
-      "titulo": "Documentación de ingreso",
+      "titulo": "Requisitos y documentación de ingreso, extranjeros y equivalencias",
       "sedes_en_demo": [],
       "periodo_publicado": null,
-      "estado": "requiere_confirmacion",
-      "validacion_institucional": false,
+      "estado": "confirmado",
+      "validacion_institucional": true,
       "datos": {
         "requisitos_basicos_publicados": [
-          "Preinscripción y ficha de inscripción.",
-          "Título secundario o constancia de título en trámite.",
-          "DNI."
+          "Seleccionar sede y realizar preinscripción web; presentar ficha de inscripción.",
+          "Certificado secundario: original y copia, o constancia de trámite.",
+          "DNI: original y copia.",
+          "Dos fotografías carnet 4 × 4, monocromáticas o a color; la página exige corbata a varones.",
+          "Acta de nacimiento legalizada y actualizada."
         ],
-        "otros_requisitos_publicados": "La página también enumera fotografías y acta de nacimiento.",
-        "forma_de_entrega": "El sitio combina referencias a originales y copias, presentación en sede y formulario con turno."
+        "preinscripcion": "https://preinscripcion.unsta.edu.ar/",
+        "forma_de_entrega": "Completar la documentación mediante el formulario enlazado y solicitar turno.",
+        "formulario_documentacion": "https://bit.ly/3g58XXp",
+        "mayores_de_25_sin_secundario_completo": {
+          "marco_publicado": "Ley 24521, artículo 7",
+          "requisitos": "Antecedentes laborales y académicos; evaluación. La página remite además a requisitos básicos 1 y 2."
+        },
+        "extranjeros": {
+          "requisitos": "Certificado secundario con firma consular argentina en origen y legalizaciones de Interior y Educación y Justicia argentinos; pasaporte con visa de estudiante temporario, original y copia. Remite además a requisitos básicos 2 y 3."
+        },
+        "equivalencias_universitarias": {
+          "documentacion": "Certificado parcial y programas legalizados, sellados, foliados y firmados por autoridades máximas de origen.",
+          "condiciones": "Solo materias aprobadas; evaluación docente según programas y planes vigentes. Reconocimiento total o parcial, con examen complementario para el parcial."
+        },
+        "equivalencias_institutos_superiores": {
+          "documentacion": "Certificado parcial o analítico registrado y programas legalizados.",
+          "evaluacion": "Decisión de cada facultad según antecedentes y programas.",
+          "arancel": "20% de la cuota vigente por equivalencias concedidas."
+        }
       },
       "condiciones_de_uso": [
-        "Confirmar lista y entrega según carrera y cohorte. No existe en esta base una guía validada de carga documental en la app. Casos de extranjeros y equivalencias requieren atención específica."
+        "Información confirmada por el responsable del proyecto el 2026-11-02 a partir de la fuente oficial. Informar estos requisitos sin calificarlos como pendientes de confirmación.",
+        "La numeración de requisitos básicos en los apartados especiales es ambigua: conservar la referencia y no deducir documentos ni excepciones. Consultar al área para resolver esa correspondencia.",
+        "El contenido del formulario de entrega no fue verificado: no inventar campos, formatos de archivo ni pasos de carga.",
+        "Preinscripción no equivale a inscripción confirmada. No prometer aprobación de equivalencias ni convertir el porcentaje del arancel en un importe sin conocer la cuota aplicable."
       ],
       "fuentes": [
         "documentacion"
       ],
-      "revisado_el": "2026-10-31"
+      "revisado_el": "2026-11-02"
     },
     {
       "id": "beneficios",
@@ -363,23 +391,50 @@
         "modalidades_publicadas": [
           "Presencial"
         ],
-        "perfil": "Formación médica general con orientación familiar y comunitaria.",
+        "perfil": "Médico general con enfoque familiar, comunitario, humanístico y biopsicosocial.",
         "inicio_publicado": "2027-03",
         "web_carrera": "https://www.unsta.edu.ar/salud/medicina/",
         "preinscripcion": "https://preinscripcion.unsta.edu.ar/",
         "arancel_cuota": null,
         "arancel_matricula": null,
-        "horario_clases": null
+        "horario_clases": null,
+        "resolucion_publicada": "RD Nº 034-19",
+        "sedes_publicadas": [
+          "yerba_buena"
+        ],
+        "diseno_curricular": "Aprendizaje colaborativo por competencias; ejes biológico, conductual, humanístico, social y práctico durante seis años.",
+        "plan_resumido_por_anio": {
+          "1": "Introducción médica y estudio cardiovascular, respiratorio, digestivo, locomotor y cutáneo.",
+          "2": "Sangre e inmunidad, función urinaria, genética y reproducción, endocrinología y nutrición, sistema nervioso y optativas.",
+          "3": "Embarazo, familia, recién nacido, niñez y adolescencia.",
+          "4": "Salud adulta: primeros dos módulos.",
+          "5": "Salud adulta avanzada, envejecimiento, salud mental y optativa.",
+          "6": "Práctica final obligatoria anual: atención general, familiar y comunitaria, emergencias y gestión sanitaria."
+        },
+        "ingreso_especifico": {
+          "nivelacion": "CNA: nivelación académica seguida de examen; cupos limitados.",
+          "costo": "CNA sin cargo adicional al pagar el derecho de examen. Este pago se descuenta de la matrícula inicial al ingresar a Medicina u otra carrera UNSTA.",
+          "importe_derecho_examen": null,
+          "fecha_examen": null,
+          "gestion": "Preinscripción al examen online o consulta presencial en Central o Yerba Buena; esos puntos de atención no determinan sede de cursado."
+        },
+        "contacto_academico_publicado": [
+          "eduardo.barrionuevo@unsta.edu.ar"
+        ],
+        "ingreso_general_ref": "documentacion-general",
+        "inscripcion_publicada": "Elegir sede y preinscribirse; pagar matrícula por Rapipago, Mercado Pago o Tesorería; presentar documentos en el CIU.",
+        "plan_alcance": "Síntesis temática por año; no es transcripción de asignaturas ni acredita correlatividades, carga horaria o una cohorte específica. Consultar la ficha enlazada para el listado completo."
       },
       "condiciones_de_uso": [
         "Incluye nivelación y examen de ingreso. El cronograma específico y el derecho de examen deben confirmarse.",
-        "Sedes limitadas al recorte de la demo. Aranceles, horarios y vacantes no confirmados."
+        "Sedes limitadas al recorte de la demo. Aranceles, horarios y vacantes no confirmados.",
+        "El plan y la resolución se informan tal como se publican; no inferir equivalencias, títulos intermedios, materias adicionales ni vigencia por cohorte. Los contactos académicos son referencias publicadas al día de revisión."
       ],
       "fuentes": [
         "medicina",
         "ingreso"
       ],
-      "revisado_el": "2026-10-31"
+      "revisado_el": "2026-11-02"
     },
     {
       "id": "carrera-psicologia",
@@ -396,22 +451,44 @@
         "modalidades_publicadas": [
           "Presencial"
         ],
-        "perfil": "Formación para el trabajo psicológico en ámbitos clínicos, educativos, comunitarios y organizacionales.",
+        "perfil": "Formación ética y humanista con perspectiva biopsicosocial; integra diversos enfoques científicos para comprender personas y contextos.",
         "inicio_publicado": "2027-03",
         "web_carrera": "https://www.unsta.edu.ar/salud/psicologia/",
         "preinscripcion": "https://preinscripcion.unsta.edu.ar/",
         "arancel_cuota": null,
         "arancel_matricula": null,
-        "horario_clases": null
+        "horario_clases": null,
+        "resolucion_publicada": "RM-ME N° 1391-2017",
+        "sedes_publicadas": [
+          "yerba_buena",
+          "concepcion"
+        ],
+        "ambitos_profesionales": "Clínica, educación, justicia y pericias, comunidad, organizaciones y trabajo; promoción, evaluación, diagnóstico y orientación en salud mental.",
+        "diseno_curricular": "Participación en investigación desde el primer año.",
+        "plan_resumido_por_anio": {
+          "1": "Bases psicológicas, antropología sociocultural, estadística, filosofía, neurociencias, historia disciplinar, informática e inglés.",
+          "2": "Desarrollo y psicología social, antropología filosófica, sociología, salud comunitaria, religión, procesos psíquicos y teología.",
+          "3": "Personalidad y desarrollo, exploración, psicopatología, epistemología, ética teológica, discapacidad e investigación.",
+          "4": "Ámbitos educativo, laboral, jurídico y clínico; exploración avanzada, psicopatología general e infantojuvenil, salud y cognición.",
+          "5": "Métodos, evolución psicológica, orientación vocacional, ética profesional y legislación, recursos humanos, humanismo, escuela inglesa, prácticas y trabajo integrador."
+        },
+        "contacto_academico_publicado": [
+          "mlale@unsta.edu.ar"
+        ],
+        "observaciones_fuente": "El plan denomina una materia Evolución Psicológica; no cambiarla por Evaluación sin confirmación.",
+        "ingreso_general_ref": "documentacion-general",
+        "inscripcion_publicada": "Elegir sede y preinscribirse; pagar matrícula por Rapipago, Mercado Pago o Tesorería; presentar documentos en el CIU.",
+        "plan_alcance": "Síntesis temática por año; no es transcripción de asignaturas ni acredita correlatividades, carga horaria o una cohorte específica. Consultar la ficha enlazada para el listado completo."
       },
       "condiciones_de_uso": [
-        "Sedes limitadas al recorte de la demo. Aranceles, horarios y vacantes no confirmados."
+        "Sedes limitadas al recorte de la demo. Aranceles, horarios y vacantes no confirmados.",
+        "El plan y la resolución se informan tal como se publican; no inferir equivalencias, títulos intermedios, materias adicionales ni vigencia por cohorte. Los contactos académicos son referencias publicadas al día de revisión."
       ],
       "fuentes": [
         "psicologia",
         "ingreso"
       ],
-      "revisado_el": "2026-10-31"
+      "revisado_el": "2026-11-02"
     },
     {
       "id": "carrera-abogacia",
@@ -428,23 +505,47 @@
         "modalidades_publicadas": [
           "Presencial"
         ],
-        "perfil": "Formación jurídica para asesoramiento, defensa y resolución de conflictos.",
+        "perfil": "Formación para defender garantías constitucionales, derechos humanos e independencia judicial; asesorar, patrocinar y resolver controversias con ética y confidencialidad.",
         "inicio_publicado": null,
         "web_carrera": "https://www.unsta.edu.ar/juridicas/abogacia/",
         "preinscripcion": "https://preinscripcion.unsta.edu.ar/",
         "arancel_cuota": null,
         "arancel_matricula": null,
-        "horario_clases": null
+        "horario_clases": null,
+        "resolucion_publicada": "RNº 3401-1",
+        "sedes_publicadas": [
+          "central",
+          "concepcion",
+          "yerba_buena"
+        ],
+        "ambitos_profesionales": "Actuación judicial y extrajudicial, asistencia a tribunales, defensa de personas y métodos alternativos para conflictos.",
+        "plan_resumido_por_anio": {
+          "1": "Humanidades, fundamentos del derecho privado, justicia, historia política, instituciones romanas y sociología jurídica.",
+          "2": "Humanidades, penal, obligaciones, constitucional provincial y municipal, economía política, Estado, informática e inglés jurídico.",
+          "3": "Humanidades, penal, contratos y procesos judiciales, empresas, banca, seguros, derecho internacional y ambiente.",
+          "4": "Humanidades, derechos reales, trabajo y seguridad social, familia y sucesiones, administración, sociedades y derecho eclesiástico.",
+          "5": "Prácticas y seminarios; derecho internacional privado, insolvencia, consumidores y tributación; tres orientaciones."
+        },
+        "orientaciones_ultimo_anio": {
+          "publico": "Elecciones, partidos, finanzas públicas e integración.",
+          "privado": "Daños, transporte y nuevas tecnologías.",
+          "magistratura": "Proceso constitucional, resolución de conflictos y jurisprudencia constitucional."
+        },
+        "observaciones_fuente": "La ficha publica tres sedes; el portal de ingreso omite Yerba Buena. Mantener esa discrepancia.",
+        "ingreso_general_ref": "documentacion-general",
+        "inscripcion_publicada": "Elegir sede y preinscribirse; pagar matrícula por Rapipago, Mercado Pago o Tesorería; presentar documentos en el CIU.",
+        "plan_alcance": "Síntesis temática por año; no es transcripción de asignaturas ni acredita correlatividades, carga horaria o una cohorte específica. Consultar la ficha enlazada para el listado completo."
       },
       "condiciones_de_uso": [
         "La ficha individual menciona Yerba Buena, pero el portal de ingreso no la lista para esta carrera. No ofrecer Yerba Buena sin confirmación.",
-        "Sedes limitadas al recorte de la demo. Aranceles, horarios y vacantes no confirmados."
+        "Sedes limitadas al recorte de la demo. Aranceles, horarios y vacantes no confirmados.",
+        "El plan y la resolución se informan tal como se publican; no inferir equivalencias, títulos intermedios, materias adicionales ni vigencia por cohorte. Los contactos académicos son referencias publicadas al día de revisión."
       ],
       "fuentes": [
         "abogacia",
         "ingreso"
       ],
-      "revisado_el": "2026-10-31"
+      "revisado_el": "2026-11-02"
     },
     {
       "id": "carrera-contador",
@@ -462,22 +563,43 @@
         "modalidades_publicadas": [
           "Presencial"
         ],
-        "perfil": "Formación en contabilidad, información económica y asesoramiento administrativo contable.",
+        "perfil": "Interpreta resultados económicos de organizaciones y los comunica mediante balances e informes para asesorar decisiones contables y administrativas.",
         "inicio_publicado": null,
         "web_carrera": "https://www.unsta.edu.ar/economia/contador-publico/",
         "preinscripcion": "https://preinscripcion.unsta.edu.ar/",
         "arancel_cuota": null,
         "arancel_matricula": null,
-        "horario_clases": null
+        "horario_clases": null,
+        "resolucion_publicada": "RM-MEyD N° 0142-2016",
+        "sedes_publicadas": [
+          "central",
+          "yerba_buena",
+          "concepcion"
+        ],
+        "ambitos_profesionales": "Sector estatal y privado, bancos y entidades financieras, pericias y sindicatura concursal.",
+        "plan_resumido_por_anio": {
+          "1": "Humanidades; matemáticas, contabilidad inicial y superior, derecho público y privado, historia económica y microeconomía.",
+          "2": "Humanidades; derecho privado, estadística, administración, macroeconomía, costos, contabilidad estatal y matemática financiera.",
+          "3": "Humanidades; costos y estados contables, aplicaciones empresariales e informáticas, investigación, sociedades y seguros, impuestos, trabajo y seguridad social.",
+          "4": "Seminario de graduación, práctica profesional, humanidades, finanzas, auditoría, tributación y procesos concursales y judiciales."
+        },
+        "contacto_academico_publicado": [
+          "benjamin.paz@unsta.edu.ar"
+        ],
+        "observaciones_fuente": "Administración II aparece duplicada en segundo año. El nombre de la dirección Central no coincide con el correo publicado; confirmar destinatario. No inferir materias ausentes.",
+        "ingreso_general_ref": "documentacion-general",
+        "inscripcion_publicada": "Elegir sede y preinscribirse; pagar matrícula por Rapipago, Mercado Pago o Tesorería; presentar documentos en el CIU.",
+        "plan_alcance": "Síntesis temática por año; no es transcripción de asignaturas ni acredita correlatividades, carga horaria o una cohorte específica. Consultar la ficha enlazada para el listado completo."
       },
       "condiciones_de_uso": [
-        "Sedes limitadas al recorte de la demo. Aranceles, horarios y vacantes no confirmados."
+        "Sedes limitadas al recorte de la demo. Aranceles, horarios y vacantes no confirmados.",
+        "El plan y la resolución se informan tal como se publican; no inferir equivalencias, títulos intermedios, materias adicionales ni vigencia por cohorte. Los contactos académicos son referencias publicadas al día de revisión."
       ],
       "fuentes": [
         "contador",
         "ingreso"
       ],
-      "revisado_el": "2026-10-31"
+      "revisado_el": "2026-11-02"
     },
     {
       "id": "carrera-marketing",
@@ -528,22 +650,97 @@
         "modalidades_publicadas": [
           "Presencial"
         ],
-        "perfil": "Formación para desarrollar software y conducir proyectos tecnológicos.",
+        "perfil": "Diseña aplicaciones de software y sistemas combinados con hardware, incluyendo modelos de IA, y conduce proyectos tecnológicos.",
         "inicio_publicado": null,
         "web_carrera": "https://www.unsta.edu.ar/ingenieria/ingenieria-informatica/",
         "preinscripcion": "https://preinscripcion.unsta.edu.ar/",
         "arancel_cuota": null,
         "arancel_matricula": null,
-        "horario_clases": null
+        "horario_clases": null,
+        "resolucion_publicada": "RM-MECCYT N°3951-2019-CONEAU No EX-2017-16921986",
+        "sedes_publicadas": [
+          "yerba_buena",
+          "concepcion"
+        ],
+        "ambitos_profesionales": "Sistemas de información, desarrollo web y redes, soluciones inteligentes, dirección de proyectos y coordinación informática de organizaciones.",
+        "diseno_curricular": "Laboratorios científicos y de robótica; proyectos profesionales con clientes reales y estándares internacionales.",
+        "plan_resumido_por_anio": {
+          "1": "Matemática, física, álgebra, introducción informática, representación, programación, idioma y humanidades.",
+          "2": "Matemática y física, programación, datos y estructuras, álgebra discreta, química, electrónica, idioma y humanidades.",
+          "3": "Arquitectura, cálculo numérico, bases de datos, fundamentos teóricos, sistemas y modelos, estadística, optimización, programación y comunicaciones.",
+          "4": "Arquitectura, sistemas de información, ingeniería del software, teleinformática, economía, IA, sistemas operativos, compilación, proyectos y trabajo de campo.",
+          "5": "Ambiente, hardware, software y sistemas de información, auditoría, legislación, seguridad, recursos humanos, seminarios y proyecto integrador."
+        },
+        "contacto_academico_publicado": [
+          "erico@unsta.edu.ar"
+        ],
+        "ingreso_general_ref": "documentacion-general",
+        "inscripcion_publicada": "Elegir sede y preinscribirse; pagar matrícula por Rapipago, Mercado Pago o Tesorería; presentar documentos en el CIU.",
+        "plan_alcance": "Síntesis temática por año; no es transcripción de asignaturas ni acredita correlatividades, carga horaria o una cohorte específica. Consultar la ficha enlazada para el listado completo."
       },
       "condiciones_de_uso": [
-        "Sedes limitadas al recorte de la demo. Aranceles, horarios y vacantes no confirmados."
+        "Sedes limitadas al recorte de la demo. Aranceles, horarios y vacantes no confirmados.",
+        "El plan y la resolución se informan tal como se publican; no inferir equivalencias, títulos intermedios, materias adicionales ni vigencia por cohorte. Los contactos académicos son referencias publicadas al día de revisión."
       ],
       "fuentes": [
         "informatica",
         "ingreso"
       ],
-      "revisado_el": "2026-10-31"
+      "revisado_el": "2026-11-02"
+    },
+    {
+      "id": "carrera-inteligencia-artificial",
+      "seccion": "carreras",
+      "titulo": "Ingeniería en Inteligencia Artificial",
+      "sedes_en_demo": [
+        "yerba_buena"
+      ],
+      "periodo_publicado": null,
+      "estado": "publicado",
+      "validacion_institucional": false,
+      "datos": {
+        "duracion_anios": 5,
+        "modalidades_publicadas": [
+          "Presencial"
+        ],
+        "perfil": "Ingeniería de soluciones inteligentes y automatización, con evaluación del impacto económico, social y ético.",
+        "inicio_publicado": null,
+        "web_carrera": "https://www.unsta.edu.ar/ingenieria/ingenieria-en-inteligencia-artificial/",
+        "preinscripcion": "https://preinscripcion.unsta.edu.ar/",
+        "arancel_cuota": null,
+        "arancel_matricula": null,
+        "horario_clases": null,
+        "resolucion_publicada": "RR 1285-22",
+        "sedes_publicadas": [
+          "yerba_buena"
+        ],
+        "ambitos_profesionales": "Desarrollo de productos, liderazgo de proyectos e investigación; aplicaciones industriales, logísticas, agroindustriales, ambientales y médicas.",
+        "plan_resumido_por_anio": {
+          "1": "Bases matemáticas y físicas, álgebra lineal, programación y datos, representación, introducción a IA, humanidades y taller.",
+          "2": "Matemática y física avanzadas, electrónica digital, estadística, probabilidad, química, humanidades y taller.",
+          "3": "Computadores, bases de datos, cálculo numérico, ingeniería del software, ciencia de datos y grandes volúmenes de información; taller y humanidades.",
+          "4": "Visión artificial, redes neuronales, lenguaje natural, aprendizaje automático y por refuerzo, atributos, bioinformática, humanidades y taller.",
+          "5": "Economía, finanzas, ciberseguridad, ambiente y seguridad laboral, legislación, empresas, seminarios, proyecto integrador y práctica supervisada."
+        },
+        "contacto_academico_publicado": [
+          "erico@unsta.edu.ar",
+          "alejandro.bianchi@unsta.edu.ar"
+        ],
+        "observaciones_fuente": "Coexisten un anuncio de inscripción y la referencia 2025; no acredita inicio ni vacantes actuales. La asociación entre nombre de director y correo es inconsistente.",
+        "ingreso_general_ref": "documentacion-general",
+        "inscripcion_publicada": "Elegir sede y preinscribirse; pagar matrícula por Rapipago, Mercado Pago o Tesorería; presentar documentos en el CIU.",
+        "plan_alcance": "Síntesis temática por año; no es transcripción de asignaturas ni acredita correlatividades, carga horaria o una cohorte específica. Consultar la ficha enlazada para el listado completo."
+      },
+      "condiciones_de_uso": [
+        "Sedes limitadas al recorte de la demo. Aranceles, horarios y vacantes no confirmados.",
+        "El plan y la resolución se informan tal como se publican; no inferir equivalencias, títulos intermedios, materias adicionales ni vigencia por cohorte. Los contactos académicos son referencias publicadas al día de revisión.",
+        "La referencia a 2025 en la ficha de IA no confirma una fecha de inicio actual; no trasladar marzo 2027 de Medicina o Psicología a esta carrera."
+      ],
+      "fuentes": [
+        "inteligencia_artificial",
+        "ingreso"
+      ],
+      "revisado_el": "2026-11-02"
     },
     {
       "id": "idiomas-general",
@@ -1153,5 +1350,6 @@
     "sin_periodo_confirmado": "Dato publicado sin año o cohorte identificable; no presentarlo como vigente.",
     "requiere_confirmacion": "Hay ambigüedad o discrepancia que impide confirmar el procedimiento.",
     "sin_dato_confirmado": "Vacío explícito del recorte; se necesita una fuente o validación adicional."
-  }
+  },
+  "fecha_actualizacion": "2026-11-02"
 }

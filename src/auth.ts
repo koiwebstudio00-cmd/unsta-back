@@ -133,10 +133,13 @@ export function serviceAuth(req: Request, _res: Response, next: NextFunction) {
 export async function newInvite(email: string) {
   const secret = token();
   const workspace = await db.$transaction(async (tx) => {
-    const ws = await tx.workspace.upsert({
+    // Concurrent first invitations must share the workspace without a create race.
+    await tx.workspace.createMany({
+      data: [{ id: config.UNSTA_WORKSPACE_ID, name: "UNSTA" }],
+      skipDuplicates: true,
+    });
+    const ws = await tx.workspace.findUniqueOrThrow({
       where: { id: config.UNSTA_WORKSPACE_ID },
-      create: { id: config.UNSTA_WORKSPACE_ID, name: "UNSTA" },
-      update: {},
     });
     await tx.invite.create({
       data: {

@@ -14,9 +14,14 @@ import {
 } from "./knowledge.js";
 import { append, audit } from "./crm.js";
 import {
+  armFollowup,
+  interestDetected,
+  cancelFollowup,
+} from "./lead-followup.js";
+import {
   catalogMatches,
   declaredContact,
-  declaredInterests,
+  evaluatedInterests,
 } from "./capture.js";
 import { normalizeSummary } from "../agent-contract/runtime.mjs";
 const Ajv = (AjvModule as any).default ?? AjvModule,
@@ -136,6 +141,13 @@ async function saveInterest(
         : {}),
     },
   });
+  await interestDetected(
+    tx,
+    workspaceId,
+    contactId,
+    mensaje_evidencia_id,
+    !!preinscripcion_declarada,
+  );
   return { ok: true, data: { interes: interest, created: !existing } };
 }
 export async function scopeFor(entityId: string, kind: "turn" | "event") {
@@ -244,7 +256,11 @@ export const claimTurn = async (
         );
       }
     }
-    for (const declaredInterest of declaredInterests(current.text)) {
+    const preceding = messages.find((m) => m.sequence < current.sequence);
+    for (const declaredInterest of evaluatedInterests(
+      current.text,
+      preceding?.role === "assistant" ? preceding.text : "",
+    )) {
       const args = { ...declaredInterest, mensaje_evidencia_id: current.id };
       if (!validators.get("registrar_interes")(args)) continue;
       const result = await saveInterest(tx, t.workspaceId, c.contactId, args);
@@ -415,14 +431,28 @@ async function validateEvidence(tx: Tx, t: Turn, name: string, d: any) {
     }
   }
   if (name === "registrar_interes") {
+    const prior = await tx.message.findFirst({
+      where: { conversationId: m.conversationId, sequence: { lt: m.sequence } },
+      orderBy: { sequence: "desc" },
+    });
+    const evaluated = evaluatedInterests(
+      m.text,
+      prior?.role === "assistant" ? prior.text : "",
+    );
+    const supported =
+      d.propuesta_id &&
+      evaluated.some((i) => i.propuesta_id === d.propuesta_id);
     if (
-      !/\b(quiero|me interesa|informacion|estudiar|inscribirme|anotarme|preinscripcion)\b/.test(
+      (!supported &&
+        !/\b(quiero|me interesa|informacion|estudiar|inscribirme|anotarme|preinscripcion)\b/.test(
+          n,
+        )) ||
+      /\b(no quiero|no me interesa|soy alumno|soy alumna|soy estudiante|mi hijo|mi hija|mi hermano|mi hermana)\b/.test(
         n,
-      ) ||
-      /\b(no quiero|no me interesa)\b/.test(n)
+      )
     )
       return error("EVIDENCE", "No hay interés explícito en este mensaje");
-    if (d.propuesta_id && !proposalMention(d.propuesta_id, n))
+    if (d.propuesta_id && !supported && !proposalMention(d.propuesta_id, n))
       return error("EVIDENCE", "La propuesta no aparece en la evidencia");
     if (d.propuesta_libre && !n.includes(normalize(d.propuesta_libre)))
       return error("EVIDENCE", "La propuesta libre no aparece en la evidencia");
@@ -762,6 +792,8 @@ export const completeTurn = async (id: string, secret: string, data: any) =>
       where: { entityId: id },
       data: { status: "done", leaseUntil: null, leaseId: null },
     });
+    if (t.handoffId) await cancelFollowup(tx, c.contactId, "handoff");
+    else await armFollowup(tx, c.contactId, t.messageId);
     return result;
   });
 export const cancelTurn = async (

@@ -3,6 +3,7 @@ import { scoped, asJson, type Tx } from "./db.js";
 import { digest, canonical, fail, publicTurn } from "./common.js";
 import { knowledge, isProposal } from "./knowledge.js";
 import type { Actor } from "./auth.js";
+import { cancelFollowup, receiveLeadMessage } from "./lead-followup.js";
 export async function audit(
   tx: Tx,
   ws: string,
@@ -85,8 +86,12 @@ export const moveLead = (actor: Actor, id: string, stage: string) =>
     const c = await contact(tx, id);
     const result = await tx.contact.update({
       where: { id },
-      data: { pipelineStage: stage },
+      data: {
+        pipelineStage: stage,
+        protectedFields: [...new Set([...c.protectedFields, "pipelineStage"])],
+      },
     });
+    await cancelFollowup(tx, id, "manual_stage");
     await audit(tx, actor.workspaceId, "contact.pipeline", id, actor.email, {
       from: c.pipelineStage,
       to: stage,
@@ -131,6 +136,7 @@ export const sendMessage = (
     const message = await append(tx, actor.workspaceId, id, "user", text, {
       clientMessageId,
     });
+    await receiveLeadMessage(tx, c.contactId, message, c.mode === "bot");
     let turn = null;
     if (c.mode === "bot") {
       turn = await tx.turn.create({
@@ -214,6 +220,7 @@ export const control = (
       where: { id },
       data: { mode, controlVersion: { increment: 1 } },
     });
+    await cancelFollowup(tx, c.contactId, "human_control");
     const running = await tx.turn.findMany({
       where: { conversationId: id, status: { in: ["encolado", "procesando"] } },
     });
@@ -291,6 +298,7 @@ export const changeStage = (actor: Actor, id: string, stage: string) =>
       where: { id },
       data: { stage, protectedFields: true },
     });
+    await cancelFollowup(tx, interest.contactId, "manual_interest_stage");
     await audit(tx, actor.workspaceId, "interest.stage", id, actor.email, {
       stage,
       simulated: stage === "inscripcion_simulada",
@@ -361,6 +369,10 @@ export const createOpening = (
   });
 export const followup = (actor: Actor) =>
   scoped(actor.workspaceId, async (tx) => ({
+    automations: await tx.leadFollowup.findMany({
+      orderBy: { updatedAt: "desc" },
+      take: 200,
+    }),
     tasks: await tx.task.findMany({ orderBy: { dueAt: "asc" }, take: 200 }),
     subscriptions: await tx.subscription.findMany({ take: 500 }),
     events: await tx.openingEvent.findMany({
